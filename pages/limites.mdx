@@ -3,32 +3,22 @@ title: Límites de tasa
 sidebar_label: Límites
 ---
 
-# Límites de tasa
+La API aplica límites de tasa por dirección IP para proteger el servicio y mantener una experiencia consistente para todos los integradores.
 
-La API aplica límites de tasa por dirección IP para proteger el servicio.
+## Endpoints públicos de consulta
 
-## Endpoints autenticados (con API key)
+Los endpoints públicos (`/productos/{licenseKey}`, `/estaciones/{licenseKey}`) están protegidos por una política de tasa por IP. Si superas el límite recibes una respuesta **HTTP 429 (Too Many Requests)**.
 
-Los endpoints públicos de datos (`/productos`, `/estaciones`) usan una política llamada **WorkerPolicy** que limita por IP origen.
-
-## Endpoints de autenticación (no expuestos públicamente)
-
-| Endpoint | Límite por IP |
-|---|---|
-| `POST /auth/login` | 5 por minuto |
-| `POST /auth/register` | 3 por minuto |
-| `POST /auth/forgot-password` | 3 por minuto |
-| `POST /auth/reset-password` | 5 por minuto |
-| `POST /auth/verify-email` | 10 por minuto |
-
-Estos endpoints son internos del panel de administración — no los consumes desde tu integración.
+Los límites concretos se ajustan según el plan contratado y según la carga global del servicio. Si tu integración necesita un volumen consistentemente alto, escríbenos a [soporte@wrestaurantapi.com](mailto:soporte@wrestaurantapi.com) para discutir un plan dedicado con límites personalizados.
 
 ## Qué pasa al exceder el límite
 
-La respuesta es **HTTP 429 (Too Many Requests)**. Espera unos segundos antes de reintentar. La API responde con el encabezado `Retry-After` indicando cuántos segundos esperar.
+La respuesta es `HTTP 429`. La API incluye el encabezado estándar `Retry-After` indicando cuántos segundos debes esperar antes de reintentar.
 
 ## Buenas prácticas
 
-- Implementa **back-off exponencial** ante 429. Empieza con 1s, duplica hasta un máximo de 30s.
-- Cachea respuestas que cambien poco (catálogos de productos, por ejemplo).
-- Si necesitas volumen significativo, escríbenos para discutir un plan dedicado: [soporte@wrestaurantapi.com](mailto:soporte@wrestaurantapi.com).
+- Implementa **back-off exponencial** ante 429. Empieza con 1 segundo, duplica hasta un máximo de 30 segundos.
+- Respeta el encabezado `Retry-After` cuando esté presente; te dice exactamente cuándo el contador se libera.
+- Cachea respuestas que cambien poco — los catálogos de productos y las listas de estaciones son buenos candidatos.
+- Distribuye las llamadas en el tiempo en vez de ejecutarlas en ráfagas: un goteo constante consume menos cuota que picos cortos.
+- Una sola API key por entorno (producción vs. staging) hace más sencillo aislar tráfico ruidoso.

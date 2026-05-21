@@ -3,8 +3,6 @@ title: Autenticación
 sidebar_label: Autenticación
 ---
 
-# Autenticación
-
 Toda llamada a la API pública usa **API keys** vía el encabezado `X-Api-Key`.
 
 ## Formato de la clave
@@ -24,23 +22,24 @@ curl -H "X-Api-Key: wrst_live_Abc123Def456Ghi789Jkl012Mno345Pq" \
   https://wrestaurant-api.inowu.store/api/v0/productos/DS5D2368HCME4O9X
 ```
 
-## Cómo se almacena
+## Cómo obtener una clave
 
-Almacenamos solo el hash SHA-256 de tu clave junto con sus primeros 16 caracteres (prefix) para identificación visual. La clave completa **nunca se guarda** en texto plano y solo se muestra una vez al crearla. Si la pierdes, debes generar una nueva.
+Las API keys se crean desde el panel de administración en [https://app.wrestaurantapi.com](https://app.wrestaurantapi.com), bajo la sección **API Keys**.
 
-## Gestión de claves
-
-- **Crear:** desde el panel de administración (`POST /api/v0/apikeys`, autenticado con JWT).
-- **Listar:** muestra prefijos, fechas de creación y uso reciente (`GET /api/v0/apikeys`).
-- **Revocar:** invalida la clave inmediatamente (`DELETE /api/v0/apikeys/{id}`).
+La clave completa **solo se muestra una vez al crearla**. Cópiala inmediatamente y guárdala en un lugar seguro (gestor de secretos, variable de entorno). Si la pierdes, debes generar una nueva — no podemos recuperarla por ti.
 
 ## Buenas prácticas
 
-- **Nunca** comprometas API keys a un repositorio público. Usa variables de entorno o un gestor de secretos.
-- Rota claves periódicamente (cada 90 días es razonable).
-- Crea una clave por entorno (producción, staging) — facilita la rotación y la auditoría.
-- Revoca de inmediato si sospechas exposición.
+- **Nunca** subas API keys a un repositorio público. Usa variables de entorno o un gestor de secretos.
+- Rota tus claves periódicamente — cada 90 días es razonable.
+- Crea una clave por entorno (producción, staging). Facilita la rotación y la auditoría.
+- Revoca de inmediato desde el panel si sospechas que una clave fue expuesta.
 
-## Límites por clave
+## Errores de autenticación
 
-Cada API key respeta los [límites de tasa](/limites) globales. No hay cuotas por clave individual en el plan actual.
+| Código | Causa |
+|---|---|
+| **401 Unauthorized** | Falta el encabezado `X-Api-Key`, la clave no existe, o fue revocada. |
+| **403 Forbidden** | La clave es válida pero no tiene permiso para esta license key. |
+
+Ver [Errores](/errores) para el modelo completo de respuestas.
