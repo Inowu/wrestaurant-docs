@@ -3,15 +3,34 @@ title: Errores
 sidebar_label: Errores
 ---
 
-Todos los errores devuelven un cuerpo JSON con la estructura [Problem Details (RFC 7807)](https://tools.ietf.org/html/rfc7807):
+Todos los errores devuelven un cuerpo JSON con esta estructura:
 
 ```json
 {
-  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
-  "title": "Bad Request",
   "status": 400,
-  "detail": "Mensaje específico del problema",
-  "traceId": "00-abc123-def456-00"
+  "message": "Descripción legible del problema",
+  "errors": null
+}
+```
+
+## Campos
+
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `status` | `number` | Código HTTP, igual al status de la respuesta. |
+| `message` | `string` | Mensaje descriptivo del error. |
+| `errors` | `object \| null` | En errores de validación (400), un mapa de `campo → [mensajes]`. En el resto de errores es `null`. |
+
+## Ejemplo: error de validación
+
+```json
+{
+  "status": 400,
+  "message": "Uno o más errores de validación ocurrieron.",
+  "errors": {
+    "page": ["El valor debe ser mayor o igual a 1."],
+    "limit": ["El valor debe estar entre 1 y 500."]
+  }
 }
 ```
 
@@ -25,14 +44,14 @@ Todos los errores devuelven un cuerpo JSON con la estructura [Problem Details (R
 | **403** | Forbidden | API key válida pero no autorizada para esta license key |
 | **404** | Not Found | License key no existe o no pertenece a tu cuenta |
 | **408** | Request Timeout | La consulta tardó demasiado en la sucursal |
-| **429** | Too Many Requests | Excedido el [límite de tasa](/limites). Respeta `Retry-After`. |
+| **429** | Too Many Requests | Excedido el [límite de tasa](/limites) |
 | **503** | Service Unavailable | La sucursal está fuera de línea |
-| **500** | Internal Server Error | Algo falló en nuestro lado. Reintenta con back-off y reporta el `traceId`. |
+| **500** | Internal Server Error | Algo falló en nuestro lado. Reintenta con back-off. |
 
 ## Cómo reportar un error
 
 Si encuentras un comportamiento que parece un bug:
 
-1. Captura el `traceId` de la respuesta — nos permite ubicar la solicitud específica.
-2. Anota la fecha/hora exacta y el endpoint llamado.
+1. Anota la fecha/hora exacta y el endpoint llamado.
+2. Captura el cuerpo de la respuesta completa.
 3. Escribe a [soporte@wrestaurantapi.com](mailto:soporte@wrestaurantapi.com) con esa información.
