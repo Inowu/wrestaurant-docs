@@ -1,0 +1,34 @@
+---
+title: Límites de tasa
+sidebar_label: Límites
+---
+
+# Límites de tasa
+
+La API aplica límites de tasa por dirección IP para proteger el servicio.
+
+## Endpoints autenticados (con API key)
+
+Los endpoints públicos de datos (`/productos`, `/estaciones`) usan una política llamada **WorkerPolicy** que limita por IP origen.
+
+## Endpoints de autenticación (no expuestos públicamente)
+
+| Endpoint | Límite por IP |
+|---|---|
+| `POST /auth/login` | 5 por minuto |
+| `POST /auth/register` | 3 por minuto |
+| `POST /auth/forgot-password` | 3 por minuto |
+| `POST /auth/reset-password` | 5 por minuto |
+| `POST /auth/verify-email` | 10 por minuto |
+
+Estos endpoints son internos del panel de administración — no los consumes desde tu integración.
+
+## Qué pasa al exceder el límite
+
+La respuesta es **HTTP 429 (Too Many Requests)**. Espera unos segundos antes de reintentar. La API responde con el encabezado `Retry-After` indicando cuántos segundos esperar.
+
+## Buenas prácticas
+
+- Implementa **back-off exponencial** ante 429. Empieza con 1s, duplica hasta un máximo de 30s.
+- Cachea respuestas que cambien poco (catálogos de productos, por ejemplo).
+- Si necesitas volumen significativo, escríbenos para discutir un plan dedicado: [soporte@wrestaurantapi.com](mailto:soporte@wrestaurantapi.com).

@@ -1,0 +1,40 @@
+---
+title: Workers (agentes locales)
+sidebar_label: Workers
+---
+
+# Workers (agentes locales)
+
+Un **worker** es el agente liviano que instalas en el equipo de la sucursal. Mantiene una conexión persistente (SignalR sobre WebSocket) con el gateway en la nube.
+
+## Por qué un agente local
+
+Soft Restaurant guarda los datos en una base SQL Server local. En vez de exponer esa base a internet (riesgoso), el worker actúa como un *broker* seguro:
+
+1. Tu sucursal mantiene una conexión **saliente** al gateway — sin abrir puertos en tu router.
+2. El gateway recibe tus solicitudes HTTPS desde la nube.
+3. El gateway despacha cada consulta al worker correcto vía SignalR.
+4. El worker ejecuta la consulta SQL contra Soft Restaurant local y devuelve el resultado.
+5. El gateway transmite la respuesta de vuelta al cliente HTTPS original.
+
+## Estado del worker
+
+| Estado | Qué significa |
+|---|---|
+| **Conectado** | Sesión SignalR viva. Puedes hacer consultas. |
+| **Desconectado** | No hay sesión activa. Las consultas devuelven 503. |
+| **No instalado** | La license key existe pero ningún agente se ha registrado todavía. |
+
+El worker envía un *heartbeat* cada 30 segundos. Si no recibimos uno en 30s, lo marcamos como desconectado.
+
+## Versión del agente
+
+Cada worker reporta su versión al conectarse. El gateway selecciona automáticamente la plantilla SQL correcta según la versión de Soft Restaurant y de SQL Server, sin que tú tengas que pensar en compatibilidad.
+
+## Solución de problemas
+
+| Síntoma | Causa probable |
+|---|---|
+| 503 al consultar | Worker desconectado. Verifica que el agente esté corriendo en la sucursal. |
+| 404 con license key válida | Worker aún no instalado o license key incorrecta. |
+| 408 (timeout) | Consulta tomó más de 30 segundos en la base local. Revisa la red local. |

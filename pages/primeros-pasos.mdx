@@ -1,0 +1,44 @@
+---
+title: Primeros pasos
+sidebar_label: Primeros pasos
+---
+
+# Primeros pasos
+
+Esta guía te lleva de cero a tu primera respuesta exitosa en menos de cinco minutos.
+
+## 1. Crea una cuenta y un API key
+
+1. Regístrate en [https://app.wrestaurantapi.com](https://app.wrestaurantapi.com).
+2. En tu panel, ve a **API Keys → Crear nueva**.
+3. **Copia la clave inmediatamente** — solo se muestra una vez. Formato: `wrst_live_` seguido de 32 caracteres alfanuméricos.
+
+## 2. Registra tu sucursal
+
+Cada sucursal con Soft Restaurant necesita instalar el **agente** de W Restaurant para conectarse al gateway. Al hacerlo, recibes una **license key** de 16 caracteres (ejemplo: `DS5D2368HCME4O9X`). Esa license key identifica a cada sucursal en las llamadas al API.
+
+## 3. Haz tu primera llamada
+
+```bash
+curl -H "X-Api-Key: wrst_live_TU_LLAVE_AQUI" \
+  https://wrestaurant-api.inowu.store/api/v0/productos/DS5D2368HCME4O9X?page=1&limit=10
+```
+
+Respuesta esperada:
+
+```json
+{
+  "items": [
+    { "id": "...", "name": "Tacos al pastor", "price": 95.00, ... }
+  ],
+  "page": 1,
+  "limit": 10,
+  "totalCount": 142
+}
+```
+
+## 4. Lo que sigue
+
+- Lee [Autenticación](/autenticacion) para entender el modelo de claves.
+- Revisa [Errores](/errores) para manejar respuestas no exitosas.
+- Consulta la [Referencia API](/api) para ver todos los parámetros.
