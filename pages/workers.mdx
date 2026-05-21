@@ -1,38 +1,30 @@
 ---
-title: Workers (agentes locales)
-sidebar_label: Workers
+title: Sucursales
+sidebar_label: Sucursales
 ---
 
-Un **worker** es el agente liviano que instalas en el equipo de la sucursal. Mantiene una conexión persistente (SignalR sobre WebSocket) con el gateway en la nube.
+Cada **sucursal** que conectes recibe una [license key](/licencias) única. Para que sus datos sean consultables desde nuestra API, debes instalar el componente cliente de W Restaurant en el equipo donde corre Soft Restaurant.
 
-## Por qué un agente local
+## Resumen
 
-Soft Restaurant guarda los datos en una base SQL Server local. En vez de exponer esa base a internet (riesgoso), el worker actúa como un *broker* seguro:
+- Instalas nuestro instalador en el equipo de la sucursal — una sola vez.
+- El equipo se conecta hacia nuestros servidores. **No abres ningún puerto** en tu router.
+- Una vez conectada, la sucursal aparece como **En línea** en tu panel y sus endpoints quedan disponibles.
 
-1. Tu sucursal mantiene una conexión **saliente** al gateway — sin abrir puertos en tu router.
-2. El gateway recibe tus solicitudes HTTPS desde la nube.
-3. El gateway despacha cada consulta al worker correcto vía SignalR.
-4. El worker ejecuta la consulta SQL contra Soft Restaurant local y devuelve el resultado.
-5. El gateway transmite la respuesta de vuelta al cliente HTTPS original.
-
-## Estado del worker
+## Estado de una sucursal
 
 | Estado | Qué significa |
 |---|---|
-| **Conectado** | Sesión SignalR viva. Puedes hacer consultas. |
-| **Desconectado** | No hay sesión activa. Las consultas devuelven 503. |
-| **No instalado** | La license key existe pero ningún agente se ha registrado todavía. |
-
-El worker envía un *heartbeat* cada 30 segundos. Si no recibimos uno en 30s, lo marcamos como desconectado.
-
-## Versión del agente
-
-Cada worker reporta su versión al conectarse. El gateway selecciona automáticamente la plantilla SQL correcta según la versión de Soft Restaurant y de SQL Server, sin que tú tengas que pensar en compatibilidad.
+| **En línea** | La sucursal responde y puedes hacer consultas a sus endpoints. |
+| **Fuera de línea** | La sucursal no responde. Las consultas devuelven 503. |
+| **No instalada** | La license key existe pero todavía no se ha conectado nunca. |
 
 ## Solución de problemas
 
 | Síntoma | Causa probable |
 |---|---|
-| 503 al consultar | Worker desconectado. Verifica que el agente esté corriendo en la sucursal. |
-| 404 con license key válida | Worker aún no instalado o license key incorrecta. |
-| 408 (timeout) | Consulta tomó más de 30 segundos en la base local. Revisa la red local. |
+| `503` al consultar | La sucursal está fuera de línea. Verifica el equipo. |
+| `404` con license key válida | La license key todavía no se ha conectado o es incorrecta. |
+| `408` (timeout) | La consulta tardó demasiado en la sucursal. Revisa la red local del sitio. |
+
+Para soporte con la instalación o conectividad, escríbenos a [soporte@wrestaurantapi.com](mailto:soporte@wrestaurantapi.com).

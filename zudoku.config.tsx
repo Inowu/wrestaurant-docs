@@ -108,6 +108,7 @@ const config: ZudokuConfig = {
       label: "Conceptos",
       icon: "book",
       items: ["autenticacion", "licencias", "workers", "limites", "errores"],
+      // Note: page "workers" renders as "Sucursales" via its frontmatter sidebar_label.
     },
     {
       type: "link",

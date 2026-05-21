@@ -3,7 +3,7 @@ title: Licencias
 sidebar_label: Licencias (license keys)
 ---
 
-Cada **sucursal** que conectes al gateway recibe una **license key** única que identifica a esa instalación de Soft Restaurant.
+Cada **sucursal** que conectes recibe una **license key** única que la identifica en todas las llamadas a la API.
 
 ## Formato
 
@@ -15,9 +15,7 @@ DS5D2368HCME4O9X
 
 ## Cómo se obtiene
 
-1. Instalas el **agente de W Restaurant** en el equipo donde corre Soft Restaurant.
-2. El agente se registra contra el gateway y recibe (o reclama) una license key.
-3. La license key queda asociada a tu cuenta y aparece en el panel bajo **Workers**.
+La license key se genera al instalar el componente cliente en el equipo de la sucursal. Aparece en tu panel bajo la sección **Sucursales**.
 
 ## Cómo se usa
 
@@ -30,12 +28,12 @@ GET /api/v0/estaciones/{licenseKey}
 
 La API valida que la license key:
 
-1. Existe y está **activa** (no revocada).
-2. Pertenece al usuario dueño del API key que envía la solicitud.
-3. Está actualmente **conectada** (el agente local tiene una sesión SignalR viva).
+1. **Existe** y está activa.
+2. **Pertenece a tu cuenta** (la API key que envías debe ser dueña de la sucursal).
+3. **Está en línea** (la sucursal responde en este momento).
 
 Si cualquiera de esas condiciones falla, recibes un error 4xx con un mensaje claro. Ver [Errores](/errores).
 
 ## Múltiples sucursales
 
-Una cuenta puede tener N sucursales. Cada una con su license key. Las llamadas son atómicas por sucursal — no hay endpoints que agreguen datos entre sucursales (eso lo haces tú en tu integración).
+Una cuenta puede tener N sucursales, cada una con su propia license key. Las llamadas son por sucursal — no hay endpoints que agreguen datos entre varias sucursales. Si necesitas eso, agrégalos en tu integración.

@@ -11,9 +11,9 @@ Esta guía te lleva de cero a tu primera respuesta exitosa en menos de cinco min
 2. En tu panel, ve a **API Keys → Crear nueva**.
 3. **Copia la clave inmediatamente** — solo se muestra una vez. Formato: `wrst_live_` seguido de 32 caracteres alfanuméricos.
 
-## 2. Registra tu sucursal
+## 2. Conecta una sucursal
 
-Cada sucursal con Soft Restaurant necesita instalar el **agente** de W Restaurant para conectarse al gateway. Al hacerlo, recibes una **license key** de 16 caracteres (ejemplo: `DS5D2368HCME4O9X`). Esa license key identifica a cada sucursal en las llamadas al API.
+Cada sucursal con Soft Restaurant necesita instalar el componente cliente de W Restaurant para quedar disponible en la API. Al instalarlo, la sucursal recibe una **license key** de 16 caracteres (ejemplo: `DS5D2368HCME4O9X`). Esa license key identifica a cada sucursal en las llamadas. Ver [Sucursales](/workers) para detalles.
 
 ## 3. Haz tu primera llamada
 
@@ -27,7 +27,7 @@ Respuesta esperada:
 ```json
 {
   "items": [
-    { "id": "...", "name": "Tacos al pastor", "price": 95.00, ... }
+    { "id": "...", "name": "Tacos al pastor", "price": 95.00 }
   ],
   "page": 1,
   "limit": 10,

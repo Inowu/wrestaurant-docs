@@ -3,7 +3,7 @@ title: Errores
 sidebar_label: Errores
 ---
 
-Todos los errores devuelven un cuerpo JSON con la estructura estándar de ASP.NET Core (RFC 7807):
+Todos los errores devuelven un cuerpo JSON con la estructura [Problem Details (RFC 7807)](https://tools.ietf.org/html/rfc7807):
 
 ```json
 {
@@ -24,15 +24,15 @@ Todos los errores devuelven un cuerpo JSON con la estructura estándar de ASP.NE
 | **401** | Unauthorized | API key ausente o inválida |
 | **403** | Forbidden | API key válida pero no autorizada para esta license key |
 | **404** | Not Found | License key no existe o no pertenece a tu cuenta |
-| **408** | Request Timeout | La consulta tardó más de 30s en la sucursal |
+| **408** | Request Timeout | La consulta tardó demasiado en la sucursal |
 | **429** | Too Many Requests | Excedido el [límite de tasa](/limites). Respeta `Retry-After`. |
-| **503** | Service Unavailable | El worker de la sucursal está desconectado |
+| **503** | Service Unavailable | La sucursal está fuera de línea |
 | **500** | Internal Server Error | Algo falló en nuestro lado. Reintenta con back-off y reporta el `traceId`. |
 
 ## Cómo reportar un error
 
 Si encuentras un comportamiento que parece un bug:
 
-1. Captura el `traceId` de la respuesta — nos permite ubicar la solicitud específica en nuestros logs.
+1. Captura el `traceId` de la respuesta — nos permite ubicar la solicitud específica.
 2. Anota la fecha/hora exacta y el endpoint llamado.
 3. Escribe a [soporte@wrestaurantapi.com](mailto:soporte@wrestaurantapi.com) con esa información.
