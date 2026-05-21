@@ -4,12 +4,10 @@ import type { ZudokuConfig } from "zudoku";
 // surfaces feel like one product. Primary is the wrestaurant orange (#f26321 / oklch(0.637 0.2 36)).
 const config: ZudokuConfig = {
   site: {
-    title: "W Restaurant API",
     logo: {
       src: { light: "/logo-light.svg", dark: "/logo-dark.svg" },
       alt: "W Restaurant API",
       width: "180px",
-      href: "/",
     },
   },
   metadata: {
