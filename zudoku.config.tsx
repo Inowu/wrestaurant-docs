@@ -101,7 +101,7 @@ const config: ZudokuConfig = {
       type: "category",
       label: "Introducción",
       icon: "sparkles",
-      items: ["index", "primeros-pasos"],
+      items: ["bienvenido", "primeros-pasos"],
     },
     {
       type: "category",
@@ -123,7 +123,6 @@ const config: ZudokuConfig = {
       items: ["webhooks"],
     },
   ],
-  redirects: [{ from: "/", to: "/index" }],
   apis: [
     {
       type: "file",
