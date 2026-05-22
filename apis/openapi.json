@@ -9,7 +9,7 @@
     "/api/v0/productos/{licenseKey}": {
       "get": {
         "tags": [
-          "Consultas"
+          "Endpoints"
         ],
         "summary": "Listar productos",
         "description": "Devuelve el catálogo de productos de una sucursal, con paginación y filtros opcionales por grupo, clasificación y visibilidad en menú.",
@@ -130,7 +130,7 @@
     "/api/v0/estaciones/{licenseKey}": {
       "get": {
         "tags": [
-          "Consultas"
+          "Endpoints"
         ],
         "summary": "Listar estaciones",
         "description": "Devuelve las estaciones (mesas, áreas, terminales) configuradas en una sucursal, con paginación y búsqueda opcional.",
