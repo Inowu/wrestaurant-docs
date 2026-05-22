@@ -226,10 +226,240 @@
           }
         }
       }
+    },
+    "/api/v0/temp_ordenes/{licenseKey}": {
+      "post": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Crear una orden (nueva cuenta)",
+        "description": "Crea una nueva cuenta y retorna el id.",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar órdenes temporales",
+        "description": "Devuelve las órdenes abiertas (tempcheques) del Punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total.",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "CreateOrderRequest": {
+        "type": "object",
+        "properties": {
+          "turnDependent": {
+            "type": "boolean"
+          },
+          "mesa": {
+            "type": "string",
+            "nullable": true
+          },
+          "idMesero": {
+            "type": "string",
+            "nullable": true
+          },
+          "estacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "serie": {
+            "type": "string",
+            "nullable": true
+          },
+          "productos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductoLineaDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateOrderResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "folio": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "GruposModificadorDto": {
         "type": "object",
         "properties": {
@@ -284,6 +514,194 @@
           },
           "idGruposModificadores": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderDto": {
+        "type": "object",
+        "properties": {
+          "folio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "serieFolio": {
+            "type": "string",
+            "nullable": true
+          },
+          "numcheque": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cierre": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "mesa": {
+            "type": "string",
+            "nullable": true
+          },
+          "noPersonas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idMesero": {
+            "type": "string",
+            "nullable": true
+          },
+          "pagado": {
+            "type": "boolean"
+          },
+          "cancelado": {
+            "type": "boolean"
+          },
+          "impreso": {
+            "type": "boolean"
+          },
+          "impresiones": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descuento": {
+            "type": "number",
+            "format": "double"
+          },
+          "razonCancelado": {
+            "type": "string",
+            "nullable": true
+          },
+          "orden": {
+            "type": "string",
+            "nullable": true
+          },
+          "facturado": {
+            "type": "boolean"
+          },
+          "idTurno": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "usuarioCancelo": {
+            "type": "string",
+            "nullable": true
+          },
+          "comentarioDescuento": {
+            "type": "string",
+            "nullable": true
+          },
+          "usuarioPago": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalArticulos": {
+            "type": "number",
+            "format": "double"
+          },
+          "subtotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "subtotalSinImpuestos": {
+            "type": "number",
+            "format": "double"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalConPropina": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalImpuestod1": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalImpuestod2": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalImpuestod3": {
+            "type": "number",
+            "format": "double"
+          },
+          "efectivo": {
+            "type": "number",
+            "format": "double"
+          },
+          "tarjeta": {
+            "type": "number",
+            "format": "double"
+          },
+          "vales": {
+            "type": "number",
+            "format": "double"
+          },
+          "otros": {
+            "type": "number",
+            "format": "double"
+          },
+          "propina": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalSinDescuento": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalAlimentos": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalBebidas": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalOtros": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalDescuentos": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalCortesias": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalCortesiaAlimentos": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrdersResponse": {
+        "type": "object",
+        "properties": {
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderDto"
+            },
             "nullable": true
           }
         },
@@ -388,6 +806,48 @@
             "items": {
               "$ref": "#/components/schemas/GruposModificadorDto"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductoLineaDto": {
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "cantidad": {
+            "type": "number",
+            "format": "double"
+          },
+          "precio": {
+            "type": "number",
+            "format": "double"
+          },
+          "precioSinImpuestos": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto1": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto2": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto3": {
+            "type": "number",
+            "format": "double"
+          },
+          "descuento": {
+            "type": "number",
+            "format": "double"
+          },
+          "comentario": {
+            "type": "string",
             "nullable": true
           }
         },
