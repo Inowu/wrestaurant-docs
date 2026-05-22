@@ -73,15 +73,15 @@ const config: ZudokuConfig = {
     // Zudoku has no built-in i18n yet, so we zero the original text via font-size:0
     // on the parent and inject Spanish via ::after. If Zudoku adds i18n later, drop this.
     customCss: `
-      aside > div > .font-medium:has(.lucide-list-tree) {
+      aside > .font-medium:has(.lucide-list-tree) {
         font-size: 0;
       }
-      aside > div > .font-medium:has(.lucide-list-tree) > svg {
+      aside > .font-medium:has(.lucide-list-tree) > svg {
         font-size: 1rem;
         width: 1rem;
         height: 1rem;
       }
-      aside > div > .font-medium:has(.lucide-list-tree)::after {
+      aside > .font-medium:has(.lucide-list-tree)::after {
         content: "En esta página";
         font-size: 0.875rem;
       }
