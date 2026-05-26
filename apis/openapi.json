@@ -335,7 +335,7 @@
           "Endpoints"
         ],
         "summary": "Listar órdenes temporales",
-        "description": "Devuelve las órdenes abiertas (tempcheques) del Punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total.",
+        "description": "Devuelve las órdenes abiertas del Punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total.",
         "parameters": [
           {
             "name": "X-Api-Key",
@@ -410,6 +410,196 @@
           }
         }
       }
+    },
+    "/api/v0/meseros/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar meseros",
+        "description": "Devuelve el listado de meseros configurados en una sucursal.",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeserosResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/temp_ordenes_det/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar detalles de órdenes temporales",
+        "description": "Devuelve las líneas de productos temporales de una sucursal, con paginación y filtros opcionales por folio de orden o búsqueda por producto.",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "folio",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailsQueryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -439,7 +629,7 @@
           "productos": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProductoLineaDto"
+              "$ref": "#/components/schemas/PartialProductDto"
             },
             "nullable": true
           }
@@ -493,6 +683,108 @@
         },
         "additionalProperties": false
       },
+      "MeseroDto": {
+        "type": "object",
+        "properties": {
+          "idMeseroInterno": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "idMesero": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "contrasena": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "fotografia": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "visible": {
+            "type": "boolean"
+          },
+          "idEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoAcceso": {
+            "type": "boolean"
+          },
+          "capturaRestringidaMesas": {
+            "type": "boolean"
+          },
+          "perfil": {
+            "type": "string",
+            "nullable": true
+          },
+          "monitorMeseroColorFondo": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "monitorMeseroColorLetra": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "accesoIndicadorMesas": {
+            "type": "boolean"
+          },
+          "turnoAbierto": {
+            "type": "boolean"
+          },
+          "comision": {
+            "type": "number",
+            "format": "double"
+          },
+          "autorizaProductosMenuQr": {
+            "type": "boolean"
+          },
+          "workspaceId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MeserosResponse": {
+        "type": "object",
+        "properties": {
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "meseros": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MeseroDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ModificadorDto": {
         "type": "object",
         "properties": {
@@ -514,6 +806,182 @@
           },
           "idGruposModificadores": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderDetailDto": {
+        "type": "object",
+        "properties": {
+          "folioDet": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "movimiento": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comanda": {
+            "type": "string",
+            "nullable": true
+          },
+          "cantidad": {
+            "type": "number",
+            "format": "double"
+          },
+          "idProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "descuento": {
+            "type": "number",
+            "format": "double"
+          },
+          "precio": {
+            "type": "number",
+            "format": "double"
+          },
+          "precioSinImpuestos": {
+            "type": "number",
+            "format": "double"
+          },
+          "comentario": {
+            "type": "string",
+            "nullable": true
+          },
+          "tiempo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "mitad": {
+            "type": "number",
+            "format": "double"
+          },
+          "hora": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "modificador": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idEstacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "impuesto1": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto2": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto3": {
+            "type": "number",
+            "format": "double"
+          },
+          "usuarioDescuento": {
+            "type": "string",
+            "nullable": true
+          },
+          "comentarioDescuento": {
+            "type": "string",
+            "nullable": true
+          },
+          "idTipoDescuento": {
+            "type": "string",
+            "nullable": true
+          },
+          "idProductoCompuesto": {
+            "type": "string",
+            "nullable": true
+          },
+          "productoCompuestoPrincipal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "precioCatalogo": {
+            "type": "number",
+            "format": "double"
+          },
+          "marcar": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idMeseroProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "idCortesia": {
+            "type": "string",
+            "nullable": true
+          },
+          "numeroTarjeta": {
+            "type": "string",
+            "nullable": true
+          },
+          "folioProduccion": {
+            "type": "number",
+            "format": "double"
+          },
+          "nivel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sistemaEnvio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "promoVolumen": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderDetailsQueryResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "orderDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderDetailDto"
+            },
             "nullable": true
           }
         },
@@ -707,6 +1175,98 @@
         },
         "additionalProperties": false
       },
+      "PartialProductDto": {
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcionProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "idGrupo": {
+            "type": "string",
+            "nullable": true
+          },
+          "movimiento": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cantidad": {
+            "type": "number",
+            "format": "double"
+          },
+          "descripcionGrupo": {
+            "type": "string",
+            "nullable": true
+          },
+          "clasificacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "productoCompuestoPrincipal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreCorto": {
+            "type": "string",
+            "nullable": true
+          },
+          "imagen": {
+            "type": "string",
+            "nullable": true
+          },
+          "visibleMenu": {
+            "type": "boolean"
+          },
+          "idProdServSat": {
+            "type": "string",
+            "nullable": true
+          },
+          "comentario": {
+            "type": "string",
+            "nullable": true
+          },
+          "precio": {
+            "type": "number",
+            "format": "double"
+          },
+          "precioSinImpuestos": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto1": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto2": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto3": {
+            "type": "number",
+            "format": "double"
+          },
+          "descuento": {
+            "type": "number",
+            "format": "double"
+          },
+          "bloqueado": {
+            "type": "boolean"
+          },
+          "permitirprodcompenmodif": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -806,48 +1366,6 @@
             "items": {
               "$ref": "#/components/schemas/GruposModificadorDto"
             },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ProductoLineaDto": {
-        "type": "object",
-        "properties": {
-          "idProducto": {
-            "type": "string",
-            "nullable": true
-          },
-          "cantidad": {
-            "type": "number",
-            "format": "double"
-          },
-          "precio": {
-            "type": "number",
-            "format": "double"
-          },
-          "precioSinImpuestos": {
-            "type": "number",
-            "format": "double"
-          },
-          "impuesto1": {
-            "type": "number",
-            "format": "double"
-          },
-          "impuesto2": {
-            "type": "number",
-            "format": "double"
-          },
-          "impuesto3": {
-            "type": "number",
-            "format": "double"
-          },
-          "descuento": {
-            "type": "number",
-            "format": "double"
-          },
-          "comentario": {
-            "type": "string",
             "nullable": true
           }
         },
