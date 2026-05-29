@@ -840,14 +840,6 @@
             "type": "string",
             "nullable": true
           },
-          "movimiento": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "modificador": {
-            "type": "integer",
-            "format": "int32"
-          },
           "productos": {
             "type": "array",
             "items": {
