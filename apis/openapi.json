@@ -365,6 +365,24 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
           }
         ],
         "responses": {
@@ -564,6 +582,106 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/OrderDetailsQueryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0/formasdepago/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar todas las formas de pago en una sucursal",
+        "description": "Retorna todas las formas de pago disponibles en una sucursal específica.",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentMethodsResponse"
                 }
               }
             }
@@ -987,7 +1105,7 @@
         },
         "additionalProperties": false
       },
-      "OrderDto": {
+      "OrderDtoWithItems": {
         "type": "object",
         "properties": {
           "folio": {
@@ -1053,7 +1171,8 @@
           },
           "idTurno": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "usuarioCancelo": {
             "type": "string",
@@ -1146,6 +1265,13 @@
           "totalCortesiaAlimentos": {
             "type": "number",
             "format": "double"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderDetailDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1161,14 +1287,29 @@
             "type": "string",
             "format": "date-time"
           },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
           "totalResults": {
             "type": "integer",
             "format": "int32"
           },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
           "orders": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/OrderDto"
+              "$ref": "#/components/schemas/OrderDtoWithItems"
             },
             "nullable": true
           }
@@ -1263,6 +1404,205 @@
           },
           "permitirprodcompenmodif": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentMethodDto": {
+        "type": "object",
+        "properties": {
+          "idFormaDePago": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipoDeCambio": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "solicitaReferencia": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "prioridadBoton": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "cuentaContableImporte": {
+            "type": "string",
+            "nullable": true
+          },
+          "cuentaContableComision": {
+            "type": "string",
+            "nullable": true
+          },
+          "cuentaContableIvaComision": {
+            "type": "string",
+            "nullable": true
+          },
+          "comision": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "visible": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "aceptaPropina": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "subtipo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "prefijo1": {
+            "type": "string",
+            "nullable": true
+          },
+          "prefijo2": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoDePrefijoconsulta": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoDePrefijoacumred": {
+            "type": "string",
+            "nullable": true
+          },
+          "generaPuntos": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "formatoImpresion": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idFPagoFiscal": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "pagoEnLinea": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipoTarjeta": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "noFacturable": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "comisionReporte1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "comisionReporte2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "tipoTarjetaBancaria": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idTipoDescuento": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFormaPagoSat": {
+            "type": "string",
+            "nullable": true
+          },
+          "serviceCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "leerBrazalete": {
+            "type": "boolean"
+          },
+          "cargoHabitacionEg": {
+            "type": "boolean"
+          },
+          "visibleKiosco": {
+            "type": "boolean"
+          },
+          "autocapturar": {
+            "type": "boolean"
+          },
+          "sumaTotal": {
+            "type": "boolean"
+          },
+          "equivalencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "bloqueaImporte": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentMethodsResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "paymentMethods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentMethodDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
