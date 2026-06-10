@@ -2,11 +2,11 @@
   "openapi": "3.0.1",
   "info": {
     "title": "W Restaurant API",
-    "description": "Gateway multi-tenant para Soft Restaurant. Registra tus sucursales y consulta sus datos en tiempo real.",
-    "version": "v0"
+    "description": "Gateway multi-tenant para Soft Restaurant. Registra tus sucursales y consulta sus datos en tiempo real. Versión estable para integraciones y SDK.",
+    "version": "v1"
   },
   "paths": {
-    "/api/v0/productos/{licenseKey}": {
+    "/api/v1/productos/{licenseKey}": {
       "get": {
         "tags": [
           "Endpoints"
@@ -127,7 +127,7 @@
         }
       }
     },
-    "/api/v0/estaciones/{licenseKey}": {
+    "/api/v1/estaciones/{licenseKey}": {
       "get": {
         "tags": [
           "Endpoints"
@@ -227,7 +227,7 @@
         }
       }
     },
-    "/api/v0/temp_ordenes/{licenseKey}": {
+    "/api/v1/temp_ordenes/{licenseKey}": {
       "post": {
         "tags": [
           "Endpoints"
@@ -429,7 +429,7 @@
         }
       }
     },
-    "/api/v0/temp_ordenes_cerradas/{licenseKey}": {
+    "/api/v1/temp_ordenes_cerradas/{licenseKey}": {
       "post": {
         "tags": [
           "Endpoints"
@@ -533,7 +533,7 @@
         }
       }
     },
-    "/api/v0/meseros/{licenseKey}": {
+    "/api/v1/meseros/{licenseKey}": {
       "get": {
         "tags": [
           "Endpoints"
@@ -615,7 +615,157 @@
         }
       }
     },
-    "/api/v0/temp_ordenes_det/{licenseKey}": {
+    "/api/v1/empresas/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar empresas",
+        "description": "Devuelve las empresas registradas en el Punto de Venta de una sucursal.",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmpresasResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/temp_ordenes_abiertas/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar órdenes abiertas del turno actual",
+        "description": "Devuelve todas las cuentas activas (sin cancelar) del turno operativo actual (6:00 AM – 5:59:59 AM del día siguiente).",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenOrdersResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/temp_ordenes_det/{licenseKey}": {
       "get": {
         "tags": [
           "Endpoints"
@@ -723,7 +873,7 @@
         }
       }
     },
-    "/api/v0/formasdepago/{licenseKey}": {
+    "/api/v1/formasdepago/{licenseKey}": {
       "get": {
         "tags": [
           "Endpoints"
@@ -840,6 +990,14 @@
             "type": "string",
             "nullable": true
           },
+          "idEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "noPersonas": {
+            "type": "integer",
+            "format": "int32"
+          },
           "productos": {
             "type": "array",
             "items": {
@@ -890,6 +1048,14 @@
             "type": "string",
             "nullable": true
           },
+          "idEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "noPersonas": {
+            "type": "integer",
+            "format": "int32"
+          },
           "productos": {
             "type": "array",
             "items": {
@@ -910,6 +1076,174 @@
           "folio": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmpresaDto": {
+        "type": "object",
+        "properties": {
+          "idEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "razonSocial": {
+            "type": "string",
+            "nullable": true
+          },
+          "direccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "sucursal": {
+            "type": "string",
+            "nullable": true
+          },
+          "rfc": {
+            "type": "string",
+            "nullable": true
+          },
+          "curp": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "giro": {
+            "type": "string",
+            "nullable": true
+          },
+          "contacto": {
+            "type": "string",
+            "nullable": true
+          },
+          "fax": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaCompra": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "distribuidor": {
+            "type": "string",
+            "nullable": true
+          },
+          "numeroFactura": {
+            "type": "string",
+            "nullable": true
+          },
+          "numeroDeControl": {
+            "type": "string",
+            "nullable": true
+          },
+          "contrasenaControl": {
+            "type": "string",
+            "nullable": true
+          },
+          "idHardware": {
+            "type": "string",
+            "nullable": true
+          },
+          "licenciaPrincipal": {
+            "type": "string",
+            "nullable": true
+          },
+          "licenciaMonederoElectronico": {
+            "type": "string",
+            "nullable": true
+          },
+          "licenciaMonitorProduccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "licenciaSrMovil": {
+            "type": "string",
+            "nullable": true
+          },
+          "licenciaManttoVentas": {
+            "type": "string",
+            "nullable": true
+          },
+          "licenciaPagoEnLinea": {
+            "type": "string",
+            "nullable": true
+          },
+          "licenciaHuellaDigital": {
+            "type": "string",
+            "nullable": true
+          },
+          "licenciaBillar": {
+            "type": "string",
+            "nullable": true
+          },
+          "franquicia": {
+            "type": "string",
+            "nullable": true
+          },
+          "web": {
+            "type": "string",
+            "nullable": true
+          },
+          "ciudad": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "pais": {
+            "type": "string",
+            "nullable": true
+          },
+          "ciudadSucursal": {
+            "type": "string",
+            "nullable": true
+          },
+          "estadoSucursal": {
+            "type": "string",
+            "nullable": true
+          },
+          "passwordEmpresa": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmpresasResponse": {
+        "type": "object",
+        "properties": {
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "empresas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmpresaDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1070,6 +1404,199 @@
           },
           "idGruposModificadores": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OpenOrderDto": {
+        "type": "object",
+        "properties": {
+          "folio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "serieFolio": {
+            "type": "string",
+            "nullable": true
+          },
+          "numcheque": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cierre": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "mesa": {
+            "type": "string",
+            "nullable": true
+          },
+          "noPersonas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idMesero": {
+            "type": "string",
+            "nullable": true
+          },
+          "pagado": {
+            "type": "boolean"
+          },
+          "cancelado": {
+            "type": "boolean"
+          },
+          "impreso": {
+            "type": "boolean"
+          },
+          "impresiones": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descuento": {
+            "type": "number",
+            "format": "double"
+          },
+          "razonCancelado": {
+            "type": "string",
+            "nullable": true
+          },
+          "orden": {
+            "type": "string",
+            "nullable": true
+          },
+          "facturado": {
+            "type": "boolean"
+          },
+          "idTurno": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "usuarioCancelo": {
+            "type": "string",
+            "nullable": true
+          },
+          "comentarioDescuento": {
+            "type": "string",
+            "nullable": true
+          },
+          "usuarioPago": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalArticulos": {
+            "type": "number",
+            "format": "double"
+          },
+          "subtotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "subtotalSinImpuestos": {
+            "type": "number",
+            "format": "double"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalConPropina": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalImpuestod1": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalImpuestod2": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalImpuestod3": {
+            "type": "number",
+            "format": "double"
+          },
+          "efectivo": {
+            "type": "number",
+            "format": "double"
+          },
+          "tarjeta": {
+            "type": "number",
+            "format": "double"
+          },
+          "vales": {
+            "type": "number",
+            "format": "double"
+          },
+          "otros": {
+            "type": "number",
+            "format": "double"
+          },
+          "propina": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalSinDescuento": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalAlimentos": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalBebidas": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalOtros": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalDescuentos": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalCortesias": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalCortesiaAlimentos": {
+            "type": "number",
+            "format": "double"
+          },
+          "nombreMesero": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OpenOrdersResponse": {
+        "type": "object",
+        "properties": {
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OpenOrderDto"
+            },
             "nullable": true
           }
         },
