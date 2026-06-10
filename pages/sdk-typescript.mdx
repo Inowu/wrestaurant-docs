@@ -42,7 +42,7 @@ Cada endpoint recibe la **license key** de la sucursal (16 caracteres, p. ej.
 `DS5D2368HCME4O9X`). Consulta [Sucursales](/workers) para entender las license keys.
 
 ```typescript
-const productos = await client.endpoints.listarProductos({
+const productos = await client.endpoints.getProducts({
   licenseKey: "DS5D2368HCME4O9X",
   page: 1,
   pageSize: 100,
@@ -61,7 +61,7 @@ let page = 1;
 const all = [];
 
 while (true) {
-  const res = await client.endpoints.listarProductos({
+  const res = await client.endpoints.getProducts({
     licenseKey: "DS5D2368HCME4O9X",
     page,
     pageSize: 100,
@@ -75,7 +75,7 @@ while (true) {
 ## Crear una orden
 
 ```typescript
-const orden = await client.endpoints.crearUnaOrdenNuevaCuenta({
+const orden = await client.endpoints.createTempOrders({
   licenseKey: "DS5D2368HCME4O9X",
   mesa: "12",
   noPersonas: 2,
@@ -96,7 +96,7 @@ Las respuestas con error (401, 404, 429, …) lanzan una excepción tipada
 import { WrestaurantApiClient, WrestaurantApiError } from "@wrestaurant/sdk";
 
 try {
-  await client.endpoints.listarProductos({ licenseKey: "DS5D2368HCME4O9X" });
+  await client.endpoints.getProducts({ licenseKey: "DS5D2368HCME4O9X" });
 } catch (err) {
   if (err instanceof WrestaurantApiError) {
     console.error(err.statusCode, err.body); // p. ej. 429 -> límite excedido
@@ -116,16 +116,16 @@ Los nombres de los métodos siguen el resumen de cada endpoint. Bajo
 
 | Método | Descripción |
 | --- | --- |
-| `listarProductos` | Catálogo de productos de una sucursal |
-| `listarEstaciones` | Estaciones (mesas, áreas, terminales) |
-| `listarMeseros` | Meseros configurados |
-| `listarEmpresas` | Empresas del Punto de Venta |
-| `listarTodasLasFormasDePagoEnUnaSucursal` | Formas de pago |
-| `listarOrdenesTemporales` | Órdenes abiertas (con filtros) |
-| `listarOrdenesAbiertasDelTurnoActual` | Cuentas activas del turno actual |
-| `listarDetallesDeOrdenesTemporales` | Líneas de producto de las órdenes |
-| `crearUnaOrdenNuevaCuenta` | Crear una cuenta nueva |
-| `crearUnaOrdenCerradaVentaRapida` | Crear una venta cerrada |
+| `getProducts` | Catálogo de productos de una sucursal |
+| `getStations` | Estaciones (mesas, áreas, terminales) |
+| `getMeseros` | Meseros configurados |
+| `getEmpresas` | Empresas del Punto de Venta |
+| `getPaymentMethods` | Formas de pago |
+| `getTempOrders` | Órdenes abiertas (con filtros) |
+| `getOpenOrders` | Cuentas activas del turno actual |
+| `getTempOrderDetails` | Líneas de producto de las órdenes |
+| `createTempOrders` | Crear una cuenta nueva |
+| `createClosedTempOrder` | Crear una venta cerrada |
 
 La lista completa, con todos los parámetros y tipos de respuesta, está en la
 [Referencia API](/api) — cada endpoint muestra el ejemplo equivalente con el SDK.

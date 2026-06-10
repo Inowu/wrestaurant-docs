@@ -6,6 +6,28 @@ import type { ZudokuConfig } from "zudoku";
 // ("v0", "v1", …) and treats input[0] as the default.
 import apiVersionInputs from "./apis/versions.json";
 
+// Renders a @wrestaurant/sdk usage example for an operation, shown as the
+// "TypeScript (SDK)" code sample on every endpoint in the API reference. The SDK
+// method name is the camelCased operationId (e.g. GetProducts -> getProducts),
+// which is exactly how Fern derives it — so this stays correct as endpoints change.
+function sdkCodeSnippet(operation: { operationId?: string }): string {
+  const opId = operation?.operationId;
+  const method = opId ? opId.charAt(0).toLowerCase() + opId.slice(1) : null;
+  const call = method
+    ? `await client.endpoints.${method}({\n  licenseKey: "DS5D2368HCME4O9X",\n})`
+    : `// Consulta la lista de métodos en la guía del SDK`;
+  return [
+    `import { WrestaurantApiClient } from "@wrestaurant/sdk";`,
+    ``,
+    `const client = new WrestaurantApiClient({`,
+    `  apiKey: process.env.WRESTAURANT_API_KEY!, // wrst_live_...`,
+    `});`,
+    ``,
+    `const response = ${call};`,
+    `console.log(response);`,
+  ].join("\n");
+}
+
 // Theme tokens lifted verbatim from wrestaurant-admin's src/styles/index.css so both
 // surfaces feel like one product. Primary is the wrestaurant orange (#f26321 / oklch(0.637 0.2 36)).
 const config: ZudokuConfig = {
@@ -124,7 +146,15 @@ const config: ZudokuConfig = {
       type: "category",
       label: "SDKs",
       icon: "code",
-      items: ["sdk-typescript"],
+      items: [
+        "sdk-typescript",
+        {
+          type: "link",
+          to: "https://www.npmjs.com/package/@wrestaurant/sdk",
+          label: "npm: @wrestaurant/sdk",
+          icon: "package",
+        },
+      ],
     },
     {
       type: "category",
@@ -137,6 +167,21 @@ const config: ZudokuConfig = {
     type: "file",
     input: apiVersionInputs,
     path: "/api",
+    options: {
+      examplesLanguage: "typescript",
+      supportedLanguages: [
+        { value: "typescript", label: "TypeScript (SDK)" },
+        { value: "shell", label: "cURL" },
+        { value: "python", label: "Python" },
+      ],
+      generateCodeSnippet: ({
+        selectedLang,
+        operation,
+      }: {
+        selectedLang: string;
+        operation: { operationId?: string };
+      }) => (selectedLang === "typescript" ? sdkCodeSnippet(operation) : false),
+    },
   },
   docs: {
     defaultOptions: {
