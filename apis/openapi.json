@@ -19,6 +19,7 @@
         ],
         "summary": "Listar productos",
         "description": "Devuelve el catálogo de productos de una sucursal, con paginación y filtros opcionales por grupo, clasificación y visibilidad en menú.",
+        "operationId": "GetProducts",
         "parameters": [
           {
             "name": "X-Api-Key",
@@ -140,6 +141,7 @@
         ],
         "summary": "Listar estaciones",
         "description": "Devuelve las estaciones (mesas, áreas, terminales) configuradas en una sucursal, con paginación y búsqueda opcional.",
+        "operationId": "GetStations",
         "parameters": [
           {
             "name": "X-Api-Key",
@@ -240,6 +242,7 @@
         ],
         "summary": "Crear una orden (nueva cuenta)",
         "description": "Crea una nueva cuenta y retorna el id.",
+        "operationId": "CreateTempOrders",
         "parameters": [
           {
             "name": "X-Api-Key",
@@ -342,6 +345,7 @@
         ],
         "summary": "Listar órdenes temporales",
         "description": "Devuelve las órdenes abiertas del Punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total.",
+        "operationId": "GetTempOrders",
         "parameters": [
           {
             "name": "X-Api-Key",
@@ -442,6 +446,7 @@
         ],
         "summary": "Crear una orden cerrada (venta rápida)",
         "description": "Crea una nueva venta cerrada con su pago y retorna el folio generado.",
+        "operationId": "CreateClosedTempOrder",
         "parameters": [
           {
             "name": "X-Api-Key",
@@ -546,6 +551,7 @@
         ],
         "summary": "Listar meseros",
         "description": "Devuelve el listado de meseros configurados en una sucursal.",
+        "operationId": "GetMeseros",
         "parameters": [
           {
             "name": "X-Api-Key",
@@ -628,6 +634,7 @@
         ],
         "summary": "Listar empresas",
         "description": "Devuelve las empresas registradas en el Punto de Venta de una sucursal.",
+        "operationId": "GetEmpresas",
         "parameters": [
           {
             "name": "X-Api-Key",
@@ -703,6 +710,7 @@
         ],
         "summary": "Listar órdenes abiertas del turno actual",
         "description": "Devuelve todas las cuentas activas (sin cancelar) del turno operativo actual (6:00 AM – 5:59:59 AM del día siguiente).",
+        "operationId": "GetOpenOrders",
         "parameters": [
           {
             "name": "X-Api-Key",
@@ -778,6 +786,7 @@
         ],
         "summary": "Listar detalles de órdenes temporales",
         "description": "Devuelve las líneas de productos temporales de una sucursal, con paginación y filtros opcionales por folio de orden o búsqueda por producto.",
+        "operationId": "GetTempOrderDetails",
         "parameters": [
           {
             "name": "X-Api-Key",
@@ -886,6 +895,7 @@
         ],
         "summary": "Listar todas las formas de pago en una sucursal",
         "description": "Retorna todas las formas de pago disponibles en una sucursal específica.",
+        "operationId": "GetPaymentMethods",
         "parameters": [
           {
             "name": "X-Api-Key",
