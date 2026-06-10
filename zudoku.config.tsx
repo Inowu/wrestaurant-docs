@@ -9,7 +9,7 @@ import apiVersionInputs from "./apis/versions.json";
 // Renders a @wrestaurant/sdk usage example for an operation, shown as the
 // "TypeScript (SDK)" code sample on every endpoint in the API reference. The SDK
 // method name is the camelCased operationId (e.g. GetProducts -> getProducts),
-// which is exactly how Fern derives it — so this stays correct as endpoints change.
+// so this stays correct as endpoints change.
 function sdkCodeSnippet(operation: { operationId?: string }): string {
   const opId = operation?.operationId;
   const method = opId ? opId.charAt(0).toLowerCase() + opId.slice(1) : null;
