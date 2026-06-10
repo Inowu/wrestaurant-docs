@@ -1,0 +1,131 @@
+---
+title: SDK de TypeScript / JavaScript
+sidebar_label: TypeScript / JavaScript
+---
+
+El SDK oficial de W Restaurant para TypeScript y JavaScript es un cliente tipado,
+generado automáticamente a partir de la especificación OpenAPI. Cada vez que la API
+cambia, el SDK se regenera y se publica en npm, así que siempre está sincronizado con
+la [Referencia API](/api).
+
+- **Paquete:** [`@wrestaurant/sdk`](https://www.npmjs.com/package/@wrestaurant/sdk)
+- **Tipado:** TypeScript de extremo a extremo (también funciona en JavaScript puro)
+- **Entornos:** Node.js, Deno, Bun y navegadores con `fetch`
+
+## Instalación
+
+```bash
+npm install @wrestaurant/sdk
+# o: pnpm add @wrestaurant/sdk
+# o: yarn add @wrestaurant/sdk
+```
+
+## Configura el cliente
+
+El cliente se autentica con tu **API key** (`wrst_live_…`), que se envía en la cabecera
+`X-Api-Key` en cada solicitud. Consulta [Autenticación](/autenticacion) para obtener una.
+
+```typescript
+import { WrestaurantApiClient } from "@wrestaurant/sdk";
+
+const client = new WrestaurantApiClient({
+  apiKey: process.env.WRESTAURANT_API_KEY!, // wrst_live_...
+});
+```
+
+> **Consejo:** nunca incrustes tu API key en código de cliente (navegador/app).
+> Mantenla en el servidor o en variables de entorno.
+
+## Tu primera llamada
+
+Cada endpoint recibe la **license key** de la sucursal (16 caracteres, p. ej.
+`DS5D2368HCME4O9X`). Consulta [Sucursales](/workers) para entender las license keys.
+
+```typescript
+const productos = await client.endpoints.listarProductos({
+  licenseKey: "DS5D2368HCME4O9X",
+  page: 1,
+  pageSize: 100,
+});
+
+console.log(productos.totalResults, productos.products);
+```
+
+## Paginación
+
+Los endpoints de listado devuelven `page`, `pageSize`, `totalPages` y `hasNextPage`.
+Itera hasta agotar las páginas:
+
+```typescript
+let page = 1;
+const all = [];
+
+while (true) {
+  const res = await client.endpoints.listarProductos({
+    licenseKey: "DS5D2368HCME4O9X",
+    page,
+    pageSize: 100,
+  });
+  all.push(...(res.products ?? []));
+  if (!res.hasNextPage) break;
+  page++;
+}
+```
+
+## Crear una orden
+
+```typescript
+const orden = await client.endpoints.crearUnaOrdenNuevaCuenta({
+  licenseKey: "DS5D2368HCME4O9X",
+  mesa: "12",
+  noPersonas: 2,
+  productos: [
+    { idProducto: "P001", cantidad: 2 },
+  ],
+});
+
+console.log(orden.folio);
+```
+
+## Manejo de errores
+
+Las respuestas con error (401, 404, 429, …) lanzan una excepción tipada
+`WrestaurantApiError` con el código de estado y el cuerpo de la respuesta.
+
+```typescript
+import { WrestaurantApiClient, WrestaurantApiError } from "@wrestaurant/sdk";
+
+try {
+  await client.endpoints.listarProductos({ licenseKey: "DS5D2368HCME4O9X" });
+} catch (err) {
+  if (err instanceof WrestaurantApiError) {
+    console.error(err.statusCode, err.body); // p. ej. 429 -> límite excedido
+  } else {
+    throw err;
+  }
+}
+```
+
+Consulta [Límites de uso](/limites) y [Errores](/errores) para los códigos y cabeceras
+de control de tasa.
+
+## Métodos disponibles
+
+Los nombres de los métodos siguen el resumen de cada endpoint. Bajo
+`client.endpoints` encontrarás, entre otros:
+
+| Método | Descripción |
+| --- | --- |
+| `listarProductos` | Catálogo de productos de una sucursal |
+| `listarEstaciones` | Estaciones (mesas, áreas, terminales) |
+| `listarMeseros` | Meseros configurados |
+| `listarEmpresas` | Empresas del Punto de Venta |
+| `listarTodasLasFormasDePagoEnUnaSucursal` | Formas de pago |
+| `listarOrdenesTemporales` | Órdenes abiertas (con filtros) |
+| `listarOrdenesAbiertasDelTurnoActual` | Cuentas activas del turno actual |
+| `listarDetallesDeOrdenesTemporales` | Líneas de producto de las órdenes |
+| `crearUnaOrdenNuevaCuenta` | Crear una cuenta nueva |
+| `crearUnaOrdenCerradaVentaRapida` | Crear una venta cerrada |
+
+La lista completa, con todos los parámetros y tipos de respuesta, está en la
+[Referencia API](/api) — cada endpoint muestra el ejemplo equivalente con el SDK.

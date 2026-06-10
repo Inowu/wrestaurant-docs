@@ -122,6 +122,12 @@ const config: ZudokuConfig = {
     },
     {
       type: "category",
+      label: "SDKs",
+      icon: "code",
+      items: ["sdk-typescript"],
+    },
+    {
+      type: "category",
       label: "Avanzado",
       icon: "rocket",
       items: ["webhooks"],
