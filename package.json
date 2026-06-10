@@ -4,8 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "zudoku dev",
-    "build": "zudoku build && mkdir -p dist/apis && cp apis/openapi.json dist/apis/openapi.json",
+    "gen:versions": "node scripts/gen-api-versions.mjs",
+    "dev": "pnpm gen:versions && zudoku dev",
+    "build": "pnpm gen:versions && zudoku build && mkdir -p dist/apis && cp apis/openapi*.json dist/apis/",
     "preview": "wrangler dev",
     "lint": "eslint",
     "deploy": "wrangler deploy"

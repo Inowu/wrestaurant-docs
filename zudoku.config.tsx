@@ -1,4 +1,10 @@
 import type { ZudokuConfig } from "zudoku";
+// Ordered list of public OpenAPI specs (newest version first), generated from the
+// synced openapi.v<N>.json files by scripts/gen-api-versions.mjs before every build.
+// Static JSON import keeps the config browser-safe (Zudoku bundles it isomorphically).
+// Zudoku derives each version's label/segment from the spec's own info.version
+// ("v0", "v1", …) and treats input[0] as the default.
+import apiVersionInputs from "./apis/versions.json";
 
 // Theme tokens lifted verbatim from wrestaurant-admin's src/styles/index.css so both
 // surfaces feel like one product. Primary is the wrestaurant orange (#f26321 / oklch(0.637 0.2 36)).
@@ -121,13 +127,11 @@ const config: ZudokuConfig = {
       items: ["webhooks"],
     },
   ],
-  apis: [
-    {
-      type: "file",
-      input: "./apis/openapi.json",
-      path: "/api",
-    },
-  ],
+  apis: {
+    type: "file",
+    input: apiVersionInputs,
+    path: "/api",
+  },
   docs: {
     defaultOptions: {
       showLastModified: false,

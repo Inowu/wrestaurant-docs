@@ -1,0 +1,4 @@
+[
+  "./apis/openapi.v1.json",
+  "./apis/openapi.v0.json"
+]
