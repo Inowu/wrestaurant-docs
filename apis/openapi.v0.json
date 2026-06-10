@@ -5,6 +5,12 @@
     "description": "Gateway multi-tenant para Soft Restaurant. Registra tus sucursales y consulta sus datos en tiempo real.",
     "version": "v0"
   },
+  "servers": [
+    {
+      "url": "https://api.wrestaurantapi.com",
+      "description": "Producción"
+    }
+  ],
   "paths": {
     "/api/v0/productos/{licenseKey}": {
       "get": {
