@@ -1,0 +1,88 @@
+---
+title: Idempotencia
+sidebar_label: Idempotencia
+---
+
+Las operaciones que **crean recursos** —abrir una cuenta o registrar una venta cerrada— pueden duplicarse si una solicitud se reintenta tras un error de red o un timeout. La idempotencia te permite reintentar con seguridad: una misma clave nunca crea dos órdenes.
+
+Una operación **idempotente** es aquella que, repetida con la misma clave, produce el mismo resultado que la primera vez, sin efectos adicionales.
+
+## A qué endpoints aplica
+
+Solo a las dos operaciones de creación:
+
+| Método | Endpoint | Crea |
+|---|---|---|
+| `POST` | `/api/v1/temp_ordenes/{licenseKey}` | Una cuenta nueva (orden abierta) |
+| `POST` | `/api/v1/temp_ordenes_cerradas/{licenseKey}` | Una venta cerrada con su pago |
+
+Las consultas de lectura (`GET`) ya son seguras de reintentar y no necesitan clave.
+
+## Cómo usar
+
+Envía el encabezado `Idempotency-Key` con un valor único por operación. Usa un **UUID v4**:
+
+```bash
+curl -X POST \
+  -H "X-Api-Key: wrst_live_Abc123Def456Ghi789Jkl012Mno345Pq" \
+  -H "Idempotency-Key: 5f8e2b1c-9a4d-4c6e-8f1a-2b3c4d5e6f70" \
+  -H "Content-Type: application/json" \
+  -d '{ "estacion": "1", "idEmpresa": "1", "noPersonas": 1, "productos": [], "idFormaDePago": "1" }' \
+  https://wrestaurant-api.inowu.store/api/v1/temp_ordenes_cerradas/DS5D2368HCME4O9X
+```
+
+El encabezado es **opcional**, pero muy recomendado en cualquier operación de creación. Sin él, un reintento puede generar una venta duplicada.
+
+## Cómo funciona
+
+1. **Primera solicitud con una clave nueva** → se ejecuta normalmente y se guarda la respuesta (incluido el `folio`).
+2. **Reintento con la misma clave y el mismo cuerpo** → devuelve la **misma respuesta** de la primera vez, sin crear un segundo recurso. Recibes el mismo `folio`, no uno nuevo.
+3. **Misma clave mientras la primera solicitud sigue en curso** → `409 Conflict`. Espera a que termine; no reintentes todavía.
+4. **Misma clave con un cuerpo distinto** → `422 Unprocessable Entity`. La clave ya se usó para otra operación; usa una clave nueva.
+
+La respuesta guardada se conserva durante **24 horas**. Pasado ese tiempo, la clave se libera.
+
+## Cuándo generar una clave
+
+- **Reutiliza la misma clave** en todos los reintentos de *la misma* operación lógica (la misma venta). Genérala una vez en tu cliente, antes del primer intento, y consérvala mientras reintentas.
+- **Genera una clave nueva** para cada operación distinta. Dos ventas reales deben tener claves distintas, aunque su contenido sea idéntico.
+
+:::warning
+No reutilices una clave para una operación diferente. Si lo haces con un cuerpo distinto, recibirás `422`; si lo haces con el mismo cuerpo, recibirás la respuesta vieja en lugar de crear el recurso nuevo que esperabas.
+:::
+
+## Respuestas
+
+| Código | Significado | Cuándo |
+|---|---|---|
+| **201** | Created | Primera ejecución, o repetición exacta (replay) de una clave ya completada. |
+| **409** | Conflict | Una solicitud con la misma clave sigue en curso. Reintenta más tarde. |
+| **422** | Unprocessable Entity | La clave ya se usó para otra solicitud con un cuerpo distinto. |
+
+Ver [Errores](/errores) para el modelo completo de respuestas.
+
+## Con el SDK de TypeScript
+
+Los métodos de creación del [SDK](/sdk-typescript) aceptan la clave de idempotencia como parámetro. Si tu cliente reintenta automáticamente, reusa el mismo valor para que el reintento sea seguro.
+
+```ts
+import { randomUUID } from "node:crypto";
+import { WrestaurantApiClient } from "@wrestaurant/sdk";
+
+const client = new WrestaurantApiClient({
+  apiKey: process.env.WRESTAURANT_API_KEY!, // wrst_live_...
+});
+
+const idempotencyKey = randomUUID(); // genérala una vez, reúsala en reintentos
+
+const venta = await client.endpoints.createClosedTempOrder({
+  licenseKey: "DS5D2368HCME4O9X",
+  "Idempotency-Key": idempotencyKey,
+  estacion: "1",
+  idEmpresa: "1",
+  noPersonas: 1,
+  productos: [],
+  idFormaDePago: "1",
+});
+console.log(venta.folio);
+```

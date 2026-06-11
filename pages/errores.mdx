@@ -44,6 +44,8 @@ Todos los errores devuelven un cuerpo JSON con esta estructura:
 | **403** | Forbidden | API key válida pero no autorizada para esta license key |
 | **404** | Not Found | License key no existe o no pertenece a tu cuenta |
 | **408** | Request Timeout | La consulta tardó demasiado en la sucursal |
+| **409** | Conflict | Otra solicitud con la misma [clave de idempotencia](/idempotencia) sigue en curso |
+| **422** | Unprocessable Entity | [Clave de idempotencia](/idempotencia) reutilizada con un cuerpo distinto |
 | **429** | Too Many Requests | Excedido el [límite de tasa](/limites) |
 | **503** | Service Unavailable | La sucursal está fuera de línea |
 | **500** | Internal Server Error | Algo falló en nuestro lado. Reintenta con back-off. |
