@@ -1092,6 +1092,10 @@
           "folio": {
             "type": "integer",
             "format": "int32"
+          },
+          "numcheque": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
