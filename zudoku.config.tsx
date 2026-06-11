@@ -120,6 +120,16 @@ const config: ZudokuConfig = {
         content: "Menú";
         font-size: 0.875rem;
       }
+      button > div:has(> svg.lucide-search) {
+        font-size: 0;
+      }
+      button > div:has(> svg.lucide-search) > svg {
+        font-size: 0.875rem;
+      }
+      button > div:has(> svg.lucide-search)::after {
+        content: "Buscar";
+        font-size: 0.875rem;
+      }
     `,
   },
   navigation: [
@@ -187,6 +197,13 @@ const config: ZudokuConfig = {
     defaultOptions: {
       showLastModified: false,
     },
+  },
+  // Built-in static search. Pagefind indexes the prerendered HTML at build time
+  // (no external service, account, or API key), so it works on the same static
+  // `zudoku build` output served by Dokploy.
+  search: {
+    type: "pagefind",
+    maxSubResults: 3,
   },
 };
 
