@@ -2423,6 +2423,10 @@
             "type": "number",
             "format": "double"
           },
+          "precioSinImpuestos": {
+            "type": "number",
+            "format": "double"
+          },
           "impuesto1": {
             "type": "number",
             "format": "double"

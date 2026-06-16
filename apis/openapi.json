@@ -235,6 +235,107 @@
         }
       }
     },
+    "/api/v1/grupos/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar grupos",
+        "description": "Devuelve los grupos (categorías de productos) configurados en una sucursal, con paginación y búsqueda opcional por id, descripción o clasificación.",
+        "operationId": "GetGrupos",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GruposQueryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/temp_ordenes/{licenseKey}": {
       "post": {
         "tags": [
@@ -1322,6 +1423,87 @@
         },
         "additionalProperties": false
       },
+      "GrupoDto": {
+        "type": "object",
+        "properties": {
+          "idGrupo": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "clasificacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          },
+          "colorLetra": {
+            "type": "string",
+            "nullable": true
+          },
+          "prioridadImpresion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cambiaColorCuenta": {
+            "type": "boolean"
+          },
+          "colorCuenta": {
+            "type": "string",
+            "nullable": true
+          },
+          "colorLetraCuenta": {
+            "type": "string",
+            "nullable": true
+          },
+          "solicitaAutorizacion": {
+            "type": "boolean"
+          },
+          "imagenMenuElectronico": {
+            "type": "string",
+            "nullable": true
+          },
+          "extMenu": {
+            "type": "string",
+            "nullable": true
+          },
+          "porcentajePropina": {
+            "type": "number",
+            "format": "double"
+          },
+          "imagenMenu": {
+            "type": "string",
+            "nullable": true
+          },
+          "idEtiqueta": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "workspaceId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "alcohol": {
+            "type": "boolean"
+          },
+          "serviceCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GruposModificadorDto": {
         "type": "object",
         "properties": {
@@ -1351,6 +1533,50 @@
           "incluidos": {
             "type": "number",
             "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GruposQueryResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "grupos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrupoDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2420,6 +2646,10 @@
             "nullable": true
           },
           "precio": {
+            "type": "number",
+            "format": "double"
+          },
+          "precioSinImpuestos": {
             "type": "number",
             "format": "double"
           },
