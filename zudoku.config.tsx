@@ -36,6 +36,7 @@ const config: ZudokuConfig = {
       src: { light: "/logo-light.svg", dark: "/logo-dark.svg" },
       alt: "W Restaurant API",
       width: "180px",
+      href: "https://wrestaurantapi.com",
     },
   },
   metadata: {
@@ -166,12 +167,12 @@ const config: ZudokuConfig = {
         },
       ],
     },
-    {
-      type: "category",
-      label: "Avanzado",
-      icon: "rocket",
-      items: ["webhooks"],
-    },
+    // {
+    //   type: "category",
+    //   label: "Avanzado",
+    //   icon: "rocket",
+    //   items: ["webhooks"],
+    // },
   ],
   apis: {
     type: "file",
