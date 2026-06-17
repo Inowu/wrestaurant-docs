@@ -1,6 +1,6 @@
 # wrestaurant-docs
 
-Public API documentation site for [W Restaurant API](https://wrestaurant-api.inowu.store).
+Public API documentation site for [W Restaurant API](https://api.wrestaurantapi.com).
 
 Live at **https://docs.wrestaurantapi.com**.
 
