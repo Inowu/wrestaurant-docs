@@ -2,26 +2,147 @@
 title: Bienvenido
 sidebar_label: Bienvenido
 ---
+## ¿Qué es WRestaurantAPI?
+Restaurant API es una capa de integración que se instala directamente en el servidor de punto de venta del restaurante (el mismo equipo donde corre Soft Restaurant) y expone, a través de endpoints REST, la información que normalmente solo vive dentro de la base de datos local del POS (SQL Server).
 
-API REST para integrar pedidos, menús y ventas en tiempo real con Soft Restaurant.
+En otras palabras: convierte los datos de tu Soft Restaurant —menú, productos, ventas, mesas, cortes, etc.— en información que cualquier aplicación externa (un sitio web, una app de pedidos, un dashboard, una integración con un tercero) puede consultar de forma segura mediante peticiones HTTP, sin necesidad de tocar la base de datos directamente.
 
-Tu sucursal sigue operando localmente; nosotros exponemos solamente los datos que tú autorizas, en tiempo real, con autenticación por **API key**.
+## Arquitectura general
 
-## ¿Qué puedes hacer?
+El diagrama siguiente resume cómo se comunican las tres piezas del sistema:
 
-- Consultar **productos** y **estaciones** de cada sucursal sin tocar la base de datos local.
-- Obtener resultados en formato JSON con paginación predecible.
-- Autenticar cada llamada con un **API key** emitido desde tu panel de administración.
+![Diagrama WRestaurant API](/images/intro/image-diagram.png)
 
-## Por dónde empezar
+| # | Paso | Descripción |
+|---|------|-------------|
+| 1 | El usuario final hace una petición | Una aplicación cliente (en el diagrama, representada por Node.js, aunque puede ser cualquier tecnología capaz de hacer peticiones HTTP) llama a un endpoint de Restaurant API. |
+| 2 | Restaurant API solicita los datos | La API, que vive en el mismo servidor que Soft Restaurant, consulta directamente la base de datos SQL Server de Soft Restaurant. |
+| 3 | Soft Restaurant regresa la información | SQL Server responde con los datos crudos solicitados (productos, ventas, existencias, etc.). |
+| 4 | Restaurant API responde al usuario final | La API transforma esos datos en una respuesta JSON estandarizada y se la entrega a la aplicación cliente. |
 
-| Si quieres... | Ve a |
-|---|---|
-| Hacer tu primera llamada | [Primeros pasos](/primeros-pasos) |
-| Entender cómo funciona el API key | [Autenticación](/autenticacion) |
-| Ver todos los endpoints | [Referencia API](/api) |
-| Entender qué es una licencia | [Licencias](/licencias) |
+Este flujo es importante porque significa tres cosas para ti como integrador:
 
-## Soporte
+- No necesitas acceso directo a la base de datos del restaurante. Toda la comunicación pasa por la API, que actúa como intermediario seguro y controlado.
+- La API corre localmente, dentro del mismo servidor de punto de venta, por lo que refleja la información en tiempo real, tal como está en Soft Restaurant en ese momento.
+- Instalar el ejecutable que viene en el manual de como instalarlo para crear el tunel entre tu restaurante y la API.
 
-Para soporte técnico, escríbenos a [soporte@wrestaurantapi.com](mailto:soporte@wrestaurantapi.com).
+## Antes de empezar
+
+Antes de hacer tu primera llamada a la API, necesitas completar los siguientes pasos:
+
+## Paso 1 - Crear su cuenta en WRestaurantAPI
+
+Para comenzar, acceda a [wrestaurantapi.com](http://wrestaurantapi.com/) y cree su cuenta.
+
+Registrar credenciales: Accione el botón "Iniciar Sesión", posteriormente seleccione "Crear cuenta" e ingrese credenciales.
+
+![Pantalla de inicio de sesión / crear cuenta en wrestaurantapi.com](/images/intro/image1.png)
+
+Verifique Correo Electrónico e Inicie Sesión.
+
+![Formulario de registro de credenciales](/images/intro/image2.png)
+
+![Verificación de correo electrónico](/images/intro/image3.png)
+
+## Paso 2 - Seleccionar plan
+
+Ingrese a la sección Suscripción y seleccione un plan.
+
+Complete el onboarding de cobro proporcionado por Stripe
+
+Vuelve a wrestaurantapi.com
+
+Se actualizará la interfaz con su suscripción generada.
+
+![Sección de suscripción con los planes disponibles](/images/intro/image4.png)
+
+## Paso 3 - Crear Worker
+
+Ingrese a la sección "Workers"
+
+![Sección de Workers](/images/intro/image5.png)
+
+Selecciona la opción "Nuevo Worker"
+
+"Ingrese el nombre del punto de venta y seleccione **Crear Worker**."
+
+![Formulario para crear un nuevo Worker](/images/intro/image6.png)
+
+Dependiendo del plan previamente seleccionado, el usuario tendrá un límite de generación de workers, si este excede su límite, el sistema generará una advertencia, en la que se le explique al usuario que, de generar un worker fuera de su límite se generará un cobro extra. El cobro se realizará una vez que el worker haya instalado.
+
+Advertencia de límite de workers alcanzados:
+
+![Advertencia de límite de workers alcanzado](/images/intro/image7.png)
+
+Vista de workers generados:
+
+![Listado de workers generados](/images/intro/image8.png)
+
+## Paso 4 - Creación de API Key
+
+El usuario deberá dirigirse a la sección "API keys" y presionar el botón "Nueva API Key".
+
+Deberá asignar un nombre y presionar el botón generar.
+
+![Formulario para generar una nueva API Key](/images/intro/image9.png)
+
+**Importante:** Copie la API Key antes de cerrar esta ventana. Una vez cerrada, no será posible recuperarla.
+
+*Deberá usar su API Key para consumir los endpoints o el SDK de WRestaurantAPI*
+
+![API Key generada](/images/intro/image10.png)
+
+## Paso 5 - Proceso de instalación
+
+### 5.1 Descargar Instalador de worker
+
+Navegue a /Workers
+
+Seleccione el botón desplegable "Descargar agente para Windows" y asegúrese de siempre descargar la versión mas actual.
+
+La versión mas actual será la que aparezca al comienzo del listado y con la etiqueta "Nuevo" de color verde.
+
+Debe seleccionar la versión del sistema operativo: x64 o x86.
+
+![Descarga del instalador del agente para Windows](/images/intro/image11.png)
+
+### 5.2 Proceso de instalación en el punto de venta
+
+Navegue por su explorador de archivos hasta encontrar el archivo comprimido de wrestaurantapi
+
+Descomprima el archivo en una carpeta
+
+Seleccione la carpeta y busque el instalador "wrestaurant"
+
+Abrir como administrador
+
+![Instalador de wrestaurant ejecutándose como administrador](/images/intro/image12.png)
+
+Ingrese los datos correspondientes:
+
+- Servidor SQL y Base de datos se encuentran principalmente en la aplicación "Multiempresas"
+- Usuario y Contraseña estarán preestablecidos
+- Clave de licencia: Pegue su API Key.
+- Versión POS: Seleccione la versión del softrestaurant asociada a su punto de venta.
+
+Después de llenar todos los campos, presione "Instalar".
+
+Al terminar la instalación visualizará el dashboard del instalador:
+
+![Dashboard del instalador al finalizar la instalación](/images/intro/image13.png)
+
+Para desinstalar el agente, abra el instalador como administrador y presione el botón **Desinstalar** (color rojo). El sistema eliminará todos los componentes instalados.
+
+![Botón de desinstalación en el dashboard del instalador](/images/intro/image14.png)
+
+Eliminará todo rastro del Worker:
+
+- Servicio
+- Registros de la api
+- Configuración de carpetas
+- Rastros de archivos (instalador, .exe y complementos)
+
+¿Por qué motivo necesitará desinstalar WRestaurantAPI?
+
+- Cambio de versión.
+- Reinstalación forzosa.
