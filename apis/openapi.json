@@ -1147,6 +1147,20 @@
   },
   "components": {
     "schemas": {
+      "CommentDto": {
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateClosedOrderRequest": {
         "type": "object",
         "properties": {
@@ -2682,6 +2696,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GruposModificadorDto"
+            },
+            "nullable": true
+          },
+          "comentarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommentDto"
             },
             "nullable": true
           }
