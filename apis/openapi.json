@@ -1143,6 +1143,187 @@
           }
         }
       }
+    },
+    "/api/v1/print/{licenseKey}": {
+      "post": {
+        "tags": [
+          "Impresión"
+        ],
+        "summary": "Imprimir una orden",
+        "description": "Renderiza tickets ESC/POS y los envía a las impresoras de la sucursal. Cada grupo apunta a una impresora por su id (printerId). Marca isReprint=true para reimpresiones.",
+        "operationId": "PrintOrder",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintOrderRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintOrderRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintOrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/print/{licenseKey}/printers": {
+      "get": {
+        "tags": [
+          "Impresión"
+        ],
+        "summary": "Listar impresoras de la sucursal",
+        "description": "Devuelve las impresoras configuradas para la sucursal (id, IP, nombre, ancho), para que el kiosko elija el printerId al imprimir.",
+        "operationId": "GetPrinters",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrinterAssignmentsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1719,6 +1900,27 @@
           "idGruposModificadores": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ModifiersPrint": {
+        "type": "object",
+        "properties": {
+          "idModifier": {
+            "type": "string",
+            "description": "Id interno del modificador.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del modificador impreso en el ticket.",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "description": "Precio del modificador. Se guarda para futuras plantillas de recibo; no se imprime en la comanda.",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -2588,6 +2790,214 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PaymentMethodDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PrintGroupRequest": {
+        "type": "object",
+        "properties": {
+          "printerId": {
+            "type": "string",
+            "description": "Id de la impresora destino (obtenido de GET /print/{licenseKey}/printers).",
+            "nullable": true
+          },
+          "jobType": {
+            "type": "string",
+            "description": "Tipo interno del trabajo de impresión (p. ej. \"kitchenTicket\", \"barTicket\", \"receipt\").",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "Título del ticket — se imprime como la línea de destino (p. ej. \"COCINA\").",
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrintLineRequest"
+            },
+            "description": "Artículos a imprimir en este ticket.",
+            "nullable": true
+          },
+          "qrData": {
+            "type": "string",
+            "description": "QR del ticket si se requiere. Reservado para la futura plantilla de recibo.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PrintGroupResult": {
+        "type": "object",
+        "properties": {
+          "printerId": {
+            "type": "string",
+            "description": "Id de la impresora a la que apuntó este grupo.",
+            "nullable": true
+          },
+          "jobId": {
+            "type": "string",
+            "description": "Id de auditoría del trabajo de impresión creado, si se creó alguno.",
+            "format": "uuid",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "description": "Estado del resultado: \"Completed\" o \"Failed\".",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "description": "Detalle de la falla cuando el grupo no se imprimió.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PrintLineRequest": {
+        "type": "object",
+        "properties": {
+          "idProduct": {
+            "type": "string",
+            "description": "Id interno del producto.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del producto impreso en el ticket.",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Cantidad solicitada.",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "description": "Precio unitario. Se guarda para futuras plantillas de recibo; no se imprime en la comanda.",
+            "format": "double",
+            "nullable": true
+          },
+          "modifiers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModifiersPrint"
+            },
+            "description": "Modificadores del producto, impresos como líneas \"+ {nombre}\".",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "description": "Nota libre para esta línea, impresa como \"nota: {notas}\".",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PrintOrderRequest": {
+        "type": "object",
+        "properties": {
+          "orderFolio": {
+            "type": "string",
+            "description": "Folio de la orden mostrado en el ticket (p. ej. \"169\").",
+            "nullable": true
+          },
+          "isReprint": {
+            "type": "boolean",
+            "description": "Indica si el ticket ya había sido impreso anteriormente."
+          },
+          "price": {
+            "type": "number",
+            "description": "Total de la orden. Se guarda para futuras plantillas de recibo; no se imprime en la comanda.",
+            "format": "double",
+            "nullable": true
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "Método de pago. Se guarda para futuras plantillas de recibo; no se imprime en la comanda.",
+            "nullable": true
+          },
+          "businessName": {
+            "type": "string",
+            "description": "Nombre del negocio impreso como encabezado del ticket.",
+            "nullable": true
+          },
+          "businessSubtitle": {
+            "type": "string",
+            "description": "Segunda línea opcional del encabezado, debajo del nombre del negocio (p. ej. marca o sucursal).",
+            "nullable": true
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrintGroupRequest"
+            },
+            "description": "Un grupo de impresión por cada impresora destino.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Solicitud de impresión enviada desde el kiosko. Cada elemento de \"groups\" apunta a una impresora\r\npor su id y se renderiza y despacha de forma independiente. Las reimpresiones marcan \"isReprint\"\r\ny reenvían los mismos datos de líneas."
+      },
+      "PrintOrderResponse": {
+        "type": "object",
+        "properties": {
+          "orderRef": {
+            "type": "string",
+            "nullable": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrintGroupResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Resultado de despachar una orden — una entrada por grupo de impresión, con resultados independientes."
+      },
+      "PrinterAssignmentDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "printerIp": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "widthMm": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "source": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Impresora a la que el kiosko puede apuntar por su id en una solicitud de impresión."
+      },
+      "PrinterAssignmentsResponse": {
+        "type": "object",
+        "properties": {
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "printers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrinterAssignmentDto"
             },
             "nullable": true
           }
