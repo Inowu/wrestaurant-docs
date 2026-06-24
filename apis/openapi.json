@@ -1193,7 +1193,8 @@
                 "$ref": "#/components/schemas/PrintOrderRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -1291,6 +1292,420 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/printers": {
+      "get": {
+        "tags": [
+          "Impresoras"
+        ],
+        "summary": "Listar mis impresoras",
+        "description": "Devuelve las impresoras del usuario. Filtra por licenseKey para limitar a un solo punto de venta.",
+        "operationId": "ListPrinters",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PrinterDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Impresoras"
+        ],
+        "summary": "Registrar una impresora",
+        "description": "Registra una nueva impresora en uno de los puntos de venta del usuario.",
+        "operationId": "CreatePrinter",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePrinterRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePrinterRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePrinterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrinterDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/printers/{id}": {
+      "get": {
+        "tags": [
+          "Impresoras"
+        ],
+        "summary": "Obtener una impresora",
+        "description": "Devuelve una impresora del usuario por su id.",
+        "operationId": "GetPrinter",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrinterDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Impresoras"
+        ],
+        "summary": "Actualizar una impresora",
+        "description": "Actualiza la configuración de una impresora existente del usuario.",
+        "operationId": "UpdatePrinter",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePrinterRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePrinterRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePrinterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrinterDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Impresoras"
+        ],
+        "summary": "Eliminar una impresora",
+        "description": "Elimina de forma permanente una impresora del usuario.",
+        "operationId": "DeletePrinter",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
           },
           "401": {
             "description": "Unauthorized",
@@ -1449,6 +1864,48 @@
           }
         },
         "additionalProperties": false
+      },
+      "CreatePrinterRequest": {
+        "required": [
+          "licenseKey",
+          "printerIp",
+          "widthMm"
+        ],
+        "type": "object",
+        "properties": {
+          "licenseKey": {
+            "minLength": 1,
+            "type": "string",
+            "description": "License key (16 caracteres) del punto de venta al que pertenece la impresora."
+          },
+          "printerIp": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Dirección IP de la impresora en la red local de la sucursal (p. ej. \"192.168.1.50\")."
+          },
+          "displayName": {
+            "type": "string",
+            "description": "Nombre visible de la impresora (p. ej. \"Cocina\", \"Barra\").",
+            "nullable": true
+          },
+          "widthMm": {
+            "type": "integer",
+            "description": "Ancho del papel en milímetros (típicamente 58 u 80).",
+            "format": "int32"
+          },
+          "source": {
+            "type": "string",
+            "description": "Origen opcional de la impresora cuando se importa de un sistema externo.",
+            "nullable": true
+          },
+          "sourceId": {
+            "type": "string",
+            "description": "Identificador de la impresora en el sistema de origen, si aplica.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Cuerpo para registrar una nueva impresora en un punto de venta del usuario."
       },
       "EmpresaDto": {
         "type": "object",
@@ -1905,17 +2362,22 @@
         "additionalProperties": false
       },
       "ModifiersPrint": {
+        "required": [
+          "idModifier",
+          "name",
+          "price"
+        ],
         "type": "object",
         "properties": {
           "idModifier": {
+            "minLength": 1,
             "type": "string",
-            "description": "Id interno del modificador.",
-            "nullable": true
+            "description": "Id interno del modificador."
           },
           "name": {
+            "minLength": 1,
             "type": "string",
-            "description": "Nombre del modificador impreso en el ticket.",
-            "nullable": true
+            "description": "Nombre del modificador impreso en el ticket."
           },
           "price": {
             "type": "number",
@@ -2797,30 +3259,35 @@
         "additionalProperties": false
       },
       "PrintGroupRequest": {
+        "required": [
+          "items",
+          "jobType",
+          "printerId",
+          "title"
+        ],
         "type": "object",
         "properties": {
           "printerId": {
+            "minLength": 1,
             "type": "string",
-            "description": "Id de la impresora destino (obtenido de GET /print/{licenseKey}/printers).",
-            "nullable": true
+            "description": "Id de la impresora destino (obtenido de GET /print/{licenseKey}/printers)."
           },
           "jobType": {
+            "minLength": 1,
             "type": "string",
-            "description": "Tipo interno del trabajo de impresión (p. ej. \"kitchenTicket\", \"barTicket\", \"receipt\").",
-            "nullable": true
+            "description": "Tipo interno del trabajo de impresión (p. ej. \"kitchenTicket\", \"barTicket\", \"receipt\")."
           },
           "title": {
+            "minLength": 1,
             "type": "string",
-            "description": "Título del ticket — se imprime como la línea de destino (p. ej. \"COCINA\").",
-            "nullable": true
+            "description": "Título del ticket — se imprime como la línea de destino (p. ej. \"COCINA\")."
           },
           "items": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PrintLineRequest"
             },
-            "description": "Artículos a imprimir en este ticket.",
-            "nullable": true
+            "description": "Artículos a imprimir en este ticket."
           },
           "qrData": {
             "type": "string",
@@ -2858,17 +3325,23 @@
         "additionalProperties": false
       },
       "PrintLineRequest": {
+        "required": [
+          "idProduct",
+          "modifiers",
+          "name",
+          "quantity"
+        ],
         "type": "object",
         "properties": {
           "idProduct": {
+            "minLength": 1,
             "type": "string",
-            "description": "Id interno del producto.",
-            "nullable": true
+            "description": "Id interno del producto."
           },
           "name": {
+            "minLength": 1,
             "type": "string",
-            "description": "Nombre del producto impreso en el ticket.",
-            "nullable": true
+            "description": "Nombre del producto impreso en el ticket."
           },
           "quantity": {
             "type": "integer",
@@ -2886,8 +3359,7 @@
             "items": {
               "$ref": "#/components/schemas/ModifiersPrint"
             },
-            "description": "Modificadores del producto, impresos como líneas \"+ {nombre}\".",
-            "nullable": true
+            "description": "Modificadores del producto, impresos como líneas \"+ {nombre}\"."
           },
           "notes": {
             "type": "string",
@@ -2898,12 +3370,17 @@
         "additionalProperties": false
       },
       "PrintOrderRequest": {
+        "required": [
+          "groups",
+          "isReprint",
+          "orderFolio"
+        ],
         "type": "object",
         "properties": {
           "orderFolio": {
+            "minLength": 1,
             "type": "string",
-            "description": "Folio de la orden mostrado en el ticket (p. ej. \"169\").",
-            "nullable": true
+            "description": "Folio de la orden mostrado en el ticket (p. ej. \"169\")."
           },
           "isReprint": {
             "type": "boolean",
@@ -2935,8 +3412,7 @@
             "items": {
               "$ref": "#/components/schemas/PrintGroupRequest"
             },
-            "description": "Un grupo de impresión por cada impresora destino.",
-            "nullable": true
+            "description": "Un grupo de impresión por cada impresora destino."
           }
         },
         "additionalProperties": false,
@@ -3003,6 +3479,53 @@
           }
         },
         "additionalProperties": false
+      },
+      "PrinterDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "licenseKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "printerIp": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "widthMm": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "source": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Impresora que pertenece a un cliente, vinculada a uno de sus puntos de venta."
       },
       "ProblemDetails": {
         "type": "object",
@@ -3248,6 +3771,42 @@
           }
         },
         "additionalProperties": false
+      },
+      "UpdatePrinterRequest": {
+        "required": [
+          "printerIp",
+          "widthMm"
+        ],
+        "type": "object",
+        "properties": {
+          "printerIp": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Dirección IP de la impresora en la red local de la sucursal (p. ej. \"192.168.1.50\")."
+          },
+          "displayName": {
+            "type": "string",
+            "description": "Nombre visible de la impresora (p. ej. \"Cocina\", \"Barra\").",
+            "nullable": true
+          },
+          "widthMm": {
+            "type": "integer",
+            "description": "Ancho del papel en milímetros (típicamente 58 u 80).",
+            "format": "int32"
+          },
+          "source": {
+            "type": "string",
+            "description": "Origen opcional de la impresora cuando se importa de un sistema externo.",
+            "nullable": true
+          },
+          "sourceId": {
+            "type": "string",
+            "description": "Identificador de la impresora en el sistema de origen, si aplica.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Cuerpo para actualizar la configuración de una impresora existente."
       }
     },
     "securitySchemes": {
