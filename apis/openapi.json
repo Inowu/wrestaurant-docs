@@ -1144,188 +1144,6 @@
         }
       }
     },
-    "/api/v1/print/{licenseKey}": {
-      "post": {
-        "tags": [
-          "Impresión"
-        ],
-        "summary": "Imprimir una orden",
-        "description": "Renderiza tickets ESC/POS y los envía a las impresoras de la sucursal. Cada grupo apunta a una impresora por su id (printerId). Marca isReprint=true para reimpresiones.",
-        "operationId": "PrintOrder",
-        "parameters": [
-          {
-            "name": "X-Api-Key",
-            "in": "header",
-            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "ejemplo": {
-                "value": "TU_API_KEY"
-              }
-            }
-          },
-          {
-            "name": "licenseKey",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PrintOrderRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PrintOrderRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PrintOrderRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PrintOrderResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/print/{licenseKey}/printers": {
-      "get": {
-        "tags": [
-          "Impresión"
-        ],
-        "summary": "Listar impresoras de la sucursal",
-        "description": "Devuelve las impresoras configuradas para la sucursal (id, IP, nombre, ancho), para que el kiosko elija el printerId al imprimir.",
-        "operationId": "GetPrinters",
-        "parameters": [
-          {
-            "name": "X-Api-Key",
-            "in": "header",
-            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "ejemplo": {
-                "value": "TU_API_KEY"
-              }
-            }
-          },
-          {
-            "name": "licenseKey",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PrinterAssignmentsResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/me/printers": {
       "get": {
         "tags": [
@@ -1739,6 +1557,188 @@
           }
         }
       }
+    },
+    "/api/v1/print/{licenseKey}": {
+      "post": {
+        "tags": [
+          "Impresoras"
+        ],
+        "summary": "Imprimir una orden",
+        "description": "Renderiza tickets ESC/POS y los envía a las impresoras de la sucursal. Cada grupo apunta a una impresora por su id (printerId). Marca isReprint=true para reimpresiones.",
+        "operationId": "PrintOrder",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintOrderRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintOrderRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintOrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/print/{licenseKey}/printers": {
+      "get": {
+        "tags": [
+          "Impresoras"
+        ],
+        "summary": "Listar impresoras de la sucursal",
+        "description": "Devuelve las impresoras configuradas para la sucursal (id, IP, nombre, ancho), para que el kiosko elija el printerId al imprimir.",
+        "operationId": "GetPrinters",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrinterAssignmentsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1874,14 +1874,14 @@
         "type": "object",
         "properties": {
           "licenseKey": {
-            "minLength": 1,
             "type": "string",
-            "description": "License key (16 caracteres) del punto de venta al que pertenece la impresora."
+            "description": "License key (16 caracteres) del punto de venta al que pertenece la impresora.",
+            "nullable": true
           },
           "printerIp": {
-            "minLength": 1,
             "type": "string",
-            "description": "Dirección IP de la impresora en la red local de la sucursal (p. ej. \"192.168.1.50\")."
+            "description": "Dirección IP de la impresora en la red local de la sucursal (p. ej. \"192.168.1.50\").",
+            "nullable": true
           },
           "displayName": {
             "type": "string",
@@ -2370,14 +2370,14 @@
         "type": "object",
         "properties": {
           "idModifier": {
-            "minLength": 1,
             "type": "string",
-            "description": "Id interno del modificador."
+            "description": "Id interno del modificador.",
+            "nullable": true
           },
           "name": {
-            "minLength": 1,
             "type": "string",
-            "description": "Nombre del modificador impreso en el ticket."
+            "description": "Nombre del modificador impreso en el ticket.",
+            "nullable": true
           },
           "price": {
             "type": "number",
@@ -3268,26 +3268,27 @@
         "type": "object",
         "properties": {
           "printerId": {
-            "minLength": 1,
             "type": "string",
-            "description": "Id de la impresora destino (obtenido de GET /print/{licenseKey}/printers)."
+            "description": "Id de la impresora destino (obtenido de GET /print/{licenseKey}/printers).",
+            "nullable": true
           },
           "jobType": {
-            "minLength": 1,
             "type": "string",
-            "description": "Tipo interno del trabajo de impresión (p. ej. \"kitchenTicket\", \"barTicket\", \"receipt\")."
+            "description": "Tipo interno del trabajo de impresión (p. ej. \"kitchenTicket\", \"barTicket\", \"receipt\").",
+            "nullable": true
           },
           "title": {
-            "minLength": 1,
             "type": "string",
-            "description": "Título del ticket — se imprime como la línea de destino (p. ej. \"COCINA\")."
+            "description": "Título del ticket — se imprime como la línea de destino (p. ej. \"COCINA\").",
+            "nullable": true
           },
           "items": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PrintLineRequest"
             },
-            "description": "Artículos a imprimir en este ticket."
+            "description": "Artículos a imprimir en este ticket.",
+            "nullable": true
           },
           "qrData": {
             "type": "string",
@@ -3334,14 +3335,14 @@
         "type": "object",
         "properties": {
           "idProduct": {
-            "minLength": 1,
             "type": "string",
-            "description": "Id interno del producto."
+            "description": "Id interno del producto.",
+            "nullable": true
           },
           "name": {
-            "minLength": 1,
             "type": "string",
-            "description": "Nombre del producto impreso en el ticket."
+            "description": "Nombre del producto impreso en el ticket.",
+            "nullable": true
           },
           "quantity": {
             "type": "integer",
@@ -3359,7 +3360,8 @@
             "items": {
               "$ref": "#/components/schemas/ModifiersPrint"
             },
-            "description": "Modificadores del producto, impresos como líneas \"+ {nombre}\"."
+            "description": "Modificadores del producto, impresos como líneas \"+ {nombre}\".",
+            "nullable": true
           },
           "notes": {
             "type": "string",
@@ -3378,9 +3380,9 @@
         "type": "object",
         "properties": {
           "orderFolio": {
-            "minLength": 1,
             "type": "string",
-            "description": "Folio de la orden mostrado en el ticket (p. ej. \"169\")."
+            "description": "Folio de la orden mostrado en el ticket (p. ej. \"169\").",
+            "nullable": true
           },
           "isReprint": {
             "type": "boolean",
@@ -3412,7 +3414,8 @@
             "items": {
               "$ref": "#/components/schemas/PrintGroupRequest"
             },
-            "description": "Un grupo de impresión por cada impresora destino."
+            "description": "Un grupo de impresión por cada impresora destino.",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -3780,9 +3783,9 @@
         "type": "object",
         "properties": {
           "printerIp": {
-            "minLength": 1,
             "type": "string",
-            "description": "Dirección IP de la impresora en la red local de la sucursal (p. ej. \"192.168.1.50\")."
+            "description": "Dirección IP de la impresora en la red local de la sucursal (p. ej. \"192.168.1.50\").",
+            "nullable": true
           },
           "displayName": {
             "type": "string",
