@@ -131,7 +131,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "pos"
       }
     },
     "/api/v1/estaciones/{licenseKey}": {
@@ -232,7 +233,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "pos"
       }
     },
     "/api/v1/grupos/{licenseKey}": {
@@ -333,7 +335,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "pos"
       }
     },
     "/api/v1/temp_ordenes/{licenseKey}": {
@@ -380,17 +383,20 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateOrderRequest"
-              }
+              },
+              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateOrderRequest"
-              }
+              },
+              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateOrderRequest"
-              }
+              },
+              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
             }
           }
         },
@@ -465,7 +471,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "pos"
       },
       "get": {
         "tags": [
@@ -564,7 +571,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "pos"
       }
     },
     "/api/v1/temp_ordenes_cerradas/{licenseKey}": {
@@ -611,17 +619,20 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
-              }
+              },
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
-              }
+              },
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
-              }
+              },
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
             }
           }
         },
@@ -696,7 +707,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "pos"
       }
     },
     "/api/v1/meseros/{licenseKey}": {
@@ -779,7 +791,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "pos"
       }
     },
     "/api/v1/empresas/{licenseKey}": {
@@ -855,7 +868,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "pos"
       }
     },
     "/api/v1/temp_ordenes_abiertas/{licenseKey}": {
@@ -931,7 +945,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "pos"
       }
     },
     "/api/v1/temp_ordenes_det/{licenseKey}": {
@@ -1040,7 +1055,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "pos"
       }
     },
     "/api/v1/formasdepago/{licenseKey}": {
@@ -1141,7 +1157,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "pos"
       }
     },
     "/api/v1/me/printers": {
@@ -1209,7 +1226,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "printers"
       },
       "post": {
         "tags": [
@@ -1239,17 +1257,20 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreatePrinterRequest"
-              }
+              },
+              "example": {"licenseKey":"DS5D2368HCME4O9X","printerIp":"192.168.1.50","displayName":"Cocina","widthMm":80,"source":"windows","sourceId":"POS-01"}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreatePrinterRequest"
-              }
+              },
+              "example": {"licenseKey":"DS5D2368HCME4O9X","printerIp":"192.168.1.50","displayName":"Cocina","widthMm":80,"source":"windows","sourceId":"POS-01"}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreatePrinterRequest"
-              }
+              },
+              "example": {"licenseKey":"DS5D2368HCME4O9X","printerIp":"192.168.1.50","displayName":"Cocina","widthMm":80,"source":"windows","sourceId":"POS-01"}
             }
           },
           "required": true
@@ -1295,6 +1316,16 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Too Many Requests",
             "content": {
@@ -1305,7 +1336,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "printers"
       }
     },
     "/api/v1/me/printers/{id}": {
@@ -1382,7 +1414,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "printers"
       },
       "put": {
         "tags": [
@@ -1421,17 +1454,20 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/UpdatePrinterRequest"
-              }
+              },
+              "example": {"printerIp":"192.168.1.51","displayName":"Cocina (caliente)","widthMm":80,"source":"windows","sourceId":"POS-01"}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/UpdatePrinterRequest"
-              }
+              },
+              "example": {"printerIp":"192.168.1.51","displayName":"Cocina (caliente)","widthMm":80,"source":"windows","sourceId":"POS-01"}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/UpdatePrinterRequest"
-              }
+              },
+              "example": {"printerIp":"192.168.1.51","displayName":"Cocina (caliente)","widthMm":80,"source":"windows","sourceId":"POS-01"}
             }
           },
           "required": true
@@ -1477,6 +1513,16 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Too Many Requests",
             "content": {
@@ -1487,7 +1533,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "printers"
       },
       "delete": {
         "tags": [
@@ -1555,7 +1602,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "printers"
       }
     },
     "/api/v1/print/{licenseKey}": {
@@ -1595,17 +1643,20 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PrintOrderRequest"
-              }
+              },
+              "example": {"orderFolio":"169","isReprint":false,"price":128.50,"paymentMethod":"CARD","businessName":"Mi Restaurante","businessSubtitle":"Sucursal Centro","groups":[{"printerId":"00000000-b12a-405f-905d-dbf424c20000","jobType":"order","title":"COCINA","items":[{"idProduct":"01052","name":"Hamburguesa doble carne","quantity":2,"price":89.00,"modifiers":[{"idModifier":"50110","name":"Sin cebolla","price":0}],"notes":"Sin pepinillos"}],"qrData":null}]}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/PrintOrderRequest"
-              }
+              },
+              "example": {"orderFolio":"169","isReprint":false,"price":128.50,"paymentMethod":"CARD","businessName":"Mi Restaurante","businessSubtitle":"Sucursal Centro","groups":[{"printerId":"00000000-b12a-405f-905d-dbf424c20000","jobType":"order","title":"COCINA","items":[{"idProduct":"01052","name":"Hamburguesa doble carne","quantity":2,"price":89.00,"modifiers":[{"idModifier":"50110","name":"Sin cebolla","price":0}],"notes":"Sin pepinillos"}],"qrData":null}]}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/PrintOrderRequest"
-              }
+              },
+              "example": {"orderFolio":"169","isReprint":false,"price":128.50,"paymentMethod":"CARD","businessName":"Mi Restaurante","businessSubtitle":"Sucursal Centro","groups":[{"printerId":"00000000-b12a-405f-905d-dbf424c20000","jobType":"order","title":"COCINA","items":[{"idProduct":"01052","name":"Hamburguesa doble carne","quantity":2,"price":89.00,"modifiers":[{"idModifier":"50110","name":"Sin cebolla","price":0}],"notes":"Sin pepinillos"}],"qrData":null}]}
             }
           },
           "required": true
@@ -1661,7 +1712,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "printers"
       }
     },
     "/api/v1/print/{licenseKey}/printers": {
@@ -1737,7 +1789,8 @@
               }
             }
           }
-        }
+        },
+        "x-fern-sdk-group-name": "printers"
       }
     }
   },
@@ -3273,9 +3326,12 @@
             "nullable": true
           },
           "jobType": {
+            "enum": [
+              "receipt",
+              "order"
+            ],
             "type": "string",
-            "description": "Tipo interno del trabajo de impresión (p. ej. \"kitchenTicket\", \"barTicket\", \"receipt\").",
-            "nullable": true
+            "description": "Qué se imprime. Envíe \"receipt\" para el recibo del cliente o \"order\" para la comanda de preparación (cocina/barra)."
           },
           "title": {
             "type": "string",
