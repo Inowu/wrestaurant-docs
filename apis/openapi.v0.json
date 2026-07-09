@@ -377,7 +377,7 @@
           "Endpoints"
         ],
         "summary": "Listar órdenes temporales",
-        "description": "Devuelve las órdenes abiertas del Punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total.",
+        "description": "Devuelve las órdenes del turno actual por punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total.",
         "operationId": "GetTempOrders",
         "parameters": [
           {

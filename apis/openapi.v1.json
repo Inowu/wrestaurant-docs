@@ -339,6 +339,108 @@
         "x-fern-sdk-group-name": "pos"
       }
     },
+    "/api/v1/turnos/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar turnos",
+        "description": "Devuelve los turnos (cortes de caja) registrados en una sucursal, con paginación y búsqueda opcional.",
+        "operationId": "GetTurnos",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TurnosQueryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
     "/api/v1/temp_ordenes/{licenseKey}": {
       "post": {
         "tags": [
@@ -479,7 +581,7 @@
           "Endpoints"
         ],
         "summary": "Listar órdenes temporales",
-        "description": "Devuelve las órdenes abiertas del Punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total.",
+        "description": "Devuelve las órdenes del turno actual por punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total.",
         "operationId": "GetTempOrders",
         "parameters": [
           {
@@ -1021,6 +1123,329 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/OrderDetailsQueryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/ordenes/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar órdenes cerradas",
+        "description": "Devuelve las órdenes cerradas/históricas del Punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total.",
+        "operationId": "GetOrders",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/ordenes_det/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar detalles de órdenes cerradas",
+        "description": "Devuelve las líneas de productos de órdenes cerradas/históricas de una sucursal, con paginación y filtros opcionales por folio de orden o búsqueda por producto.",
+        "operationId": "GetOrderDetails",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "folio",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailsQueryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/ordenes_dia/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar órdenes del día operativo",
+        "description": "Devuelve todas las órdenes del día operativo actual (abiertas y cerradas), juntando las órdenes según los turnos que iniciaron y cerraron dentro de la ventana. Por defecto la ventana es 06:00–05:59:59 del día siguiente; el inicio es configurable vía dayStartHour.",
+        "operationId": "GetDayOrders",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          },
+          {
+            "name": "dayStartHour",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 6
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersResponse"
                 }
               }
             }
@@ -3825,6 +4250,144 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/StationDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TurnoDto": {
+        "type": "object",
+        "properties": {
+          "idTurnoInterno": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "idTurno": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fondo": {
+            "type": "number",
+            "format": "double"
+          },
+          "apertura": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cierre": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "idEstacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "cajero": {
+            "type": "string",
+            "nullable": true
+          },
+          "efectivo": {
+            "type": "number",
+            "format": "double"
+          },
+          "tarjeta": {
+            "type": "number",
+            "format": "double"
+          },
+          "vales": {
+            "type": "number",
+            "format": "double"
+          },
+          "credito": {
+            "type": "number",
+            "format": "double"
+          },
+          "procesadoWeb": {
+            "type": "boolean"
+          },
+          "idEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "enviadoACentral": {
+            "type": "boolean"
+          },
+          "fechaEnviado": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "usuarioEnvio": {
+            "type": "string",
+            "nullable": true
+          },
+          "offline": {
+            "type": "boolean"
+          },
+          "enviadoAf": {
+            "type": "boolean"
+          },
+          "corteEnviado": {
+            "type": "boolean"
+          },
+          "eliminarTemporalesEnCierre": {
+            "type": "boolean"
+          },
+          "idMesero": {
+            "type": "string",
+            "nullable": true
+          },
+          "fondoDolares": {
+            "type": "number",
+            "format": "double"
+          },
+          "procesado": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TurnosQueryResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "turnos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TurnoDto"
             },
             "nullable": true
           }
