@@ -1385,6 +1385,36 @@
         },
         "additionalProperties": false
       },
+      "ImpuestosDto": {
+        "type": "object",
+        "properties": {
+          "nombreImpuesto1": {
+            "type": "string",
+            "nullable": true
+          },
+          "impuesto1": {
+            "type": "number",
+            "format": "double"
+          },
+          "nombreImpuesto2": {
+            "type": "string",
+            "nullable": true
+          },
+          "impuesto2": {
+            "type": "number",
+            "format": "double"
+          },
+          "nombreImpuesto3": {
+            "type": "string",
+            "nullable": true
+          },
+          "impuesto3": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "MeseroDto": {
         "type": "object",
         "properties": {
@@ -1614,18 +1644,6 @@
             "type": "number",
             "format": "double"
           },
-          "totalImpuestod1": {
-            "type": "number",
-            "format": "double"
-          },
-          "totalImpuestod2": {
-            "type": "number",
-            "format": "double"
-          },
-          "totalImpuestod3": {
-            "type": "number",
-            "format": "double"
-          },
           "efectivo": {
             "type": "number",
             "format": "double"
@@ -1676,6 +1694,13 @@
           },
           "nombreMesero": {
             "type": "string",
+            "nullable": true
+          },
+          "impuestos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImpuestosDto"
+            },
             "nullable": true
           }
         },
@@ -1834,6 +1859,13 @@
           "promoVolumen": {
             "type": "integer",
             "format": "int32"
+          },
+          "impuestos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImpuestosDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1882,7 +1914,7 @@
         },
         "additionalProperties": false
       },
-      "OrderDtoWithItems": {
+      "OrderDtoWithItemsAndPayments": {
         "type": "object",
         "properties": {
           "folio": {
@@ -1983,18 +2015,6 @@
             "type": "number",
             "format": "double"
           },
-          "totalImpuestod1": {
-            "type": "number",
-            "format": "double"
-          },
-          "totalImpuestod2": {
-            "type": "number",
-            "format": "double"
-          },
-          "totalImpuestod3": {
-            "type": "number",
-            "format": "double"
-          },
           "efectivo": {
             "type": "number",
             "format": "double"
@@ -2049,6 +2069,50 @@
               "$ref": "#/components/schemas/OrderDetailDto"
             },
             "nullable": true
+          },
+          "paymentMethods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderPaymentMethodsDto"
+            },
+            "nullable": true
+          },
+          "impuestos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImpuestosDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderPaymentMethodsDto": {
+        "type": "object",
+        "properties": {
+          "folio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idFormaDePago": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "importe": {
+            "type": "number",
+            "format": "double"
+          },
+          "propina": {
+            "type": "number",
+            "format": "double"
+          },
+          "tipoDeCambio": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -2086,7 +2150,7 @@
           "orders": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/OrderDtoWithItems"
+              "$ref": "#/components/schemas/OrderDtoWithItemsAndPayments"
             },
             "nullable": true
           }
