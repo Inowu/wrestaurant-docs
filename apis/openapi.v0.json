@@ -1697,11 +1697,7 @@
             "nullable": true
           },
           "impuestos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ImpuestosDto"
-            },
-            "nullable": true
+            "$ref": "#/components/schemas/ImpuestosDto"
           }
         },
         "additionalProperties": false
@@ -1861,11 +1857,7 @@
             "format": "int32"
           },
           "impuestos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ImpuestosDto"
-            },
-            "nullable": true
+            "$ref": "#/components/schemas/ImpuestosDto"
           }
         },
         "additionalProperties": false
@@ -2078,11 +2070,7 @@
             "nullable": true
           },
           "impuestos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ImpuestosDto"
-            },
-            "nullable": true
+            "$ref": "#/components/schemas/ImpuestosDto"
           }
         },
         "additionalProperties": false
