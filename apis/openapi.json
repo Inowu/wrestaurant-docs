@@ -581,7 +581,7 @@
           "Endpoints"
         ],
         "summary": "Listar órdenes temporales",
-        "description": "Devuelve las órdenes del turno actual por punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total.",
+        "description": "Devuelve las órdenes del turno actual por punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total. Usa `facturado=true` para incluir solo órdenes ya facturadas, o `facturado=false` para incluir solo las no facturadas; si se omite, no se filtra por estado de facturación.",
         "operationId": "GetTempOrders",
         "parameters": [
           {
@@ -629,6 +629,13 @@
               "type": "integer",
               "format": "int32",
               "default": 20
+            }
+          },
+          {
+            "name": "facturado",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
             }
           }
         ],
@@ -1167,7 +1174,7 @@
           "Endpoints"
         ],
         "summary": "Listar órdenes cerradas",
-        "description": "Devuelve las órdenes cerradas/históricas del Punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total.",
+        "description": "Devuelve las órdenes cerradas/históricas del Punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total. Usa `facturado=true` para incluir solo órdenes ya facturadas, o `facturado=false` para incluir solo las no facturadas; si se omite, no se filtra por estado de facturación.",
         "operationId": "GetOrders",
         "parameters": [
           {
@@ -1215,6 +1222,13 @@
               "type": "integer",
               "format": "int32",
               "default": 20
+            }
+          },
+          {
+            "name": "facturado",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
             }
           }
         ],
@@ -1379,7 +1393,7 @@
           "Endpoints"
         ],
         "summary": "Listar órdenes del día operativo",
-        "description": "Devuelve todas las órdenes del día operativo actual (abiertas y cerradas), juntando las órdenes según los turnos que iniciaron y cerraron dentro de la ventana. Por defecto la ventana es 06:00–05:59:59 del día siguiente; el inicio es configurable vía dayStartHour.",
+        "description": "Devuelve todas las órdenes del día operativo actual (abiertas y cerradas), juntando las órdenes según los turnos que iniciaron y cerraron dentro de la ventana. Por defecto la ventana es 06:00–05:59:59 del día siguiente; el inicio es configurable vía dayStartHour. Usa `facturado=true` para incluir solo órdenes ya facturadas, o `facturado=false` para incluir solo las no facturadas; si se omite, no se filtra por estado de facturación.",
         "operationId": "GetDayOrders",
         "parameters": [
           {
@@ -1436,6 +1450,13 @@
               "type": "integer",
               "format": "int32",
               "default": 6
+            }
+          },
+          {
+            "name": "facturado",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
             }
           }
         ],
