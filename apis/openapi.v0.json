@@ -1788,18 +1788,6 @@
             "type": "string",
             "nullable": true
           },
-          "impuesto1": {
-            "type": "number",
-            "format": "double"
-          },
-          "impuesto2": {
-            "type": "number",
-            "format": "double"
-          },
-          "impuesto3": {
-            "type": "number",
-            "format": "double"
-          },
           "usuarioDescuento": {
             "type": "string",
             "nullable": true

@@ -1586,6 +1586,110 @@
         "x-fern-sdk-group-name": "pos"
       }
     },
+    "/api/v1/facturas/xml/{licenseKey}/{numCheque}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Descargar el XML de una factura",
+        "description": "Descarga el contenido XML (CFDI) de la factura asociada a un número de cheque, dentro de una empresa del Punto de Venta.",
+        "operationId": "GetFacturaXml",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "numCheque",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "idEmpresa",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
     "/api/v1/me/printers": {
       "get": {
         "tags": [
@@ -3139,18 +3243,6 @@
           "idEstacion": {
             "type": "string",
             "nullable": true
-          },
-          "impuesto1": {
-            "type": "number",
-            "format": "double"
-          },
-          "impuesto2": {
-            "type": "number",
-            "format": "double"
-          },
-          "impuesto3": {
-            "type": "number",
-            "format": "double"
           },
           "usuarioDescuento": {
             "type": "string",
