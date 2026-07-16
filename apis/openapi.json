@@ -141,7 +141,7 @@
           "Endpoints"
         ],
         "summary": "Actualizar un producto",
-        "description": "Actualiza los datos principales de un producto existente: descripción, grupo, nombre corto, precio,\r\nimpuestos, bloqueo, visibilidad en menú electrónico y si permite producto compuesto en modificador.\r\n\r\nEs una actualización de reemplazo completo: se deben enviar todos los campos en cada solicitud\r\n(los valores omitidos no se conservan). El producto debe existir previamente — este endpoint no\r\ncrea productos nuevos.\r\n\r\nAdemás del cambio en sí, la operación aplica automáticamente estos efectos:\r\n- Si el precio cambió, se registra en el historial de cambios de precio.\r\n- Si el producto también está registrado como modificador de sí mismo, su precio se sincroniza.\r\n- Se agrega una entrada de auditoría en la bitácora del sistema.\r\n- Se marca el producto para sincronización con otros sistemas conectados.\r\n\r\nNo modifica grupos de modificadores, paquetes, costos, comentarios, asignaciones de estación/almacén\r\nni configuración de monedero del producto — esa configuración, si existe, se conserva sin cambios.",
+        "description": "Actualiza los datos principales de un producto existente: descripción, grupo, nombre corto, precio, impuestos, bloqueo, visibilidad en menú electrónico y si permite producto compuesto en modificador.\n\nEs una actualización de reemplazo completo: se deben enviar todos los campos en cada solicitud (los valores omitidos no se conservan). El producto debe existir previamente — este endpoint no crea productos nuevos.\n\nAdemás del cambio en sí, la operación aplica automáticamente estos efectos:\n- Si el precio cambió, se registra en el historial de cambios de precio.\n- Si el producto también está registrado como modificador de sí mismo, su precio se sincroniza.\n- Se agrega una entrada de auditoría en la bitácora del sistema.\n- Se marca el producto para sincronización con otros sistemas conectados.\n\nNo modifica grupos de modificadores, paquetes, costos, comentarios, asignaciones de estación/almacén ni configuración de monedero del producto — esa configuración, si existe, se conserva sin cambios.",
         "operationId": "UpdateProduct",
         "parameters": [
           {
@@ -896,6 +896,142 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateClosedOrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/turnos_cierre/{licenseKey}": {
+      "post": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Cerrar turno",
+        "description": "Cierra un turno abierto: consolida las cuentas pagadas/canceladas en las tablas permanentes, libera mesas y marca el turno como cerrado. Requiere el idTurno exacto para evitar cerrar el turno equivocado cuando hay varios abiertos.",
+        "operationId": "CloseShift",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseShiftRequest"
+              },
+              "example": {"idTurno":22,"estacion":"CAJA1","idEmpresa":"1","serie":"A"}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseShiftRequest"
+              },
+              "example": {"idTurno":22,"estacion":"CAJA1","idEmpresa":"1","serie":"A"}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseShiftRequest"
+              },
+              "example": {"idTurno":22,"estacion":"CAJA1","idEmpresa":"1","serie":"A"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CloseShiftResponse"
                 }
               }
             }
@@ -2490,6 +2626,66 @@
   },
   "components": {
     "schemas": {
+      "CloseShiftRequest": {
+        "type": "object",
+        "properties": {
+          "idTurno": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "serie": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CloseShiftResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "idTurno": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cierre": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "migratedCheques": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "efectivo": {
+            "type": "number",
+            "format": "double"
+          },
+          "tarjeta": {
+            "type": "number",
+            "format": "double"
+          },
+          "vales": {
+            "type": "number",
+            "format": "double"
+          },
+          "credito": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "CommentDto": {
         "type": "object",
         "properties": {
