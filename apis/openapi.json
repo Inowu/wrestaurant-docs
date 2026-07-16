@@ -187,17 +187,20 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateProductRequest"
-              }
+              },
+              "example": {"idEmpresa":"1","descripcionProducto":"TECATE LIGHT (ACTUALIZADO)","idGrupo":"001","nombreCorto":"TECATE LIGHT (UPD)","visibleMenu":true,"precio":45.0000,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"bloqueado":false,"permitirprodcompenmodif":true}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateProductRequest"
-              }
+              },
+              "example": {"idEmpresa":"1","descripcionProducto":"TECATE LIGHT (ACTUALIZADO)","idGrupo":"001","nombreCorto":"TECATE LIGHT (UPD)","visibleMenu":true,"precio":45.0000,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"bloqueado":false,"permitirprodcompenmodif":true}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateProductRequest"
-              }
+              },
+              "example": {"idEmpresa":"1","descripcionProducto":"TECATE LIGHT (ACTUALIZADO)","idGrupo":"001","nombreCorto":"TECATE LIGHT (UPD)","visibleMenu":true,"precio":45.0000,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"bloqueado":false,"permitirprodcompenmodif":true}
             }
           }
         },
@@ -4737,11 +4740,15 @@
         "description": "Cuerpo para actualizar la configuración de una impresora existente."
       },
       "UpdateProductRequest": {
+        "required": [
+          "idEmpresa"
+        ],
         "type": "object",
         "properties": {
           "idEmpresa": {
+            "minLength": 1,
             "type": "string",
-            "nullable": true
+            "description": "Id de la empresa dueña del producto. Debe corresponder a una empresa existente; de lo contrario la solicitud falla."
           },
           "descripcionProducto": {
             "type": "string",
