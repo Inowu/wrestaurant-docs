@@ -135,6 +135,147 @@
         "x-fern-sdk-group-name": "pos"
       }
     },
+    "/api/v1/productos/{licenseKey}/{idProducto}": {
+      "put": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Actualizar un producto",
+        "description": "Actualiza los datos principales de un producto existente: descripción, grupo, nombre corto, precio,\r\nimpuestos, bloqueo, visibilidad en menú electrónico y si permite producto compuesto en modificador.\r\n\r\nEs una actualización de reemplazo completo: se deben enviar todos los campos en cada solicitud\r\n(los valores omitidos no se conservan). El producto debe existir previamente — este endpoint no\r\ncrea productos nuevos.\r\n\r\nAdemás del cambio en sí, la operación aplica automáticamente estos efectos:\r\n- Si el precio cambió, se registra en el historial de cambios de precio.\r\n- Si el producto también está registrado como modificador de sí mismo, su precio se sincroniza.\r\n- Se agrega una entrada de auditoría en la bitácora del sistema.\r\n- Se marca el producto para sincronización con otros sistemas conectados.\r\n\r\nNo modifica grupos de modificadores, paquetes, costos, comentarios, asignaciones de estación/almacén\r\nni configuración de monedero del producto — esa configuración, si existe, se conserva sin cambios.",
+        "operationId": "UpdateProduct",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idProducto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
     "/api/v1/estaciones/{licenseKey}": {
       "get": {
         "tags": [
@@ -4594,6 +4735,67 @@
         },
         "additionalProperties": false,
         "description": "Cuerpo para actualizar la configuración de una impresora existente."
+      },
+      "UpdateProductRequest": {
+        "type": "object",
+        "properties": {
+          "idEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcionProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "idGrupo": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreCorto": {
+            "type": "string",
+            "nullable": true
+          },
+          "visibleMenu": {
+            "type": "boolean"
+          },
+          "precio": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto1": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto2": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto3": {
+            "type": "number",
+            "format": "double"
+          },
+          "bloqueado": {
+            "type": "boolean"
+          },
+          "permitirprodcompenmodif": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateProductResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "idProducto": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       }
     },
     "securitySchemes": {
