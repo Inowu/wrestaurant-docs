@@ -489,7 +489,7 @@
           "Endpoints"
         ],
         "summary": "Listar turnos",
-        "description": "Devuelve los turnos (cortes de caja) registrados en una sucursal, con paginación y búsqueda opcional.",
+        "description": "Devuelve los turnos (cortes de caja) registrados en una sucursal, con paginación y búsqueda opcional. Admite filtros de fecha (inclusivos, formato ISO 8601) sobre la apertura (`aperturaStart`/`aperturaEnd`) y sobre el cierre (`cierreStart`/`cierreEnd`); cada límite es opcional y pueden combinarse. Nota: los turnos abiertos no tienen fecha de cierre, por lo que cualquier filtro sobre `cierre` los excluye.",
         "operationId": "GetTurnos",
         "parameters": [
           {
@@ -537,6 +537,38 @@
             "in": "query",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "aperturaStart",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "aperturaEnd",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "cierreStart",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "cierreEnd",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
             }
           }
         ],
@@ -1454,7 +1486,7 @@
           "Endpoints"
         ],
         "summary": "Listar órdenes cerradas",
-        "description": "Devuelve las órdenes cerradas/históricas del Punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total. Usa `facturado=true` para incluir solo órdenes ya facturadas, o `facturado=false` para incluir solo las no facturadas; si se omite, no se filtra por estado de facturación.",
+        "description": "Devuelve las órdenes cerradas/históricas del Punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total. Usa `facturado=true` para incluir solo órdenes ya facturadas, o `facturado=false` para incluir solo las no facturadas; si se omite, no se filtra por estado de facturación. Admite filtros de fecha (inclusivos, formato ISO 8601): `fechaStart`/`fechaEnd` sobre la fecha de apertura de la orden y `cierreStart`/`cierreEnd` sobre su fecha de cierre. Además, `turnoAperturaStart`/`turnoAperturaEnd` filtran por turno: devuelven las órdenes de TODOS los turnos abiertos dentro de ese rango de fechas, sin necesidad de enviar la lista de ids. Para filtrar por una lista explícita de ids de turno (potencialmente grande), usa `POST /ordenes/buscar/{licenseKey}`.",
         "operationId": "GetOrders",
         "parameters": [
           {
@@ -1510,6 +1542,54 @@
             "schema": {
               "type": "boolean"
             }
+          },
+          {
+            "name": "fechaStart",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fechaEnd",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "cierreStart",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "cierreEnd",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "turnoAperturaStart",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "turnoAperturaEnd",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
           }
         ],
         "responses": {
@@ -1519,6 +1599,115 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/OrdersResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/ordenes/buscar/{licenseKey}": {
+      "post": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Buscar órdenes cerradas por lista de turnos",
+        "description": "Devuelve las órdenes cerradas/históricas cuyos ids de turno estén en la lista `idTurnos` enviada en el cuerpo (hasta 10,000 ids), con los mismos filtros opcionales de `GET /ordenes/{licenseKey}` (`search`, `facturado`, `fechaStart`/`fechaEnd`, `cierreStart`/`cierreEnd`) y paginación. Usa este endpoint cuando necesites filtrar por una lista explícita de turnos demasiado grande para la URL de un GET (~500 ids); si los turnos que te interesan corresponden a un rango de fechas, es más simple usar `GET /ordenes/{licenseKey}` con `turnoAperturaStart`/`turnoAperturaEnd`.",
+        "operationId": "SearchOrders",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchOrdersRequest"
+              },
+              "example": {"idTurnos":[18,19,22],"search":null,"page":1,"pageSize":20,"facturado":false,"fechaStart":null,"fechaEnd":null,"cierreStart":"2026-07-01T00:00:00","cierreEnd":"2026-07-15T23:59:59"}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchOrdersRequest"
+              },
+              "example": {"idTurnos":[18,19,22],"search":null,"page":1,"pageSize":20,"facturado":false,"fechaStart":null,"fechaEnd":null,"cierreStart":"2026-07-01T00:00:00","cierreEnd":"2026-07-15T23:59:59"}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchOrdersRequest"
+              },
+              "example": {"idTurnos":[18,19,22],"search":null,"page":1,"pageSize":20,"facturado":false,"fechaStart":null,"fechaEnd":null,"cierreStart":"2026-07-01T00:00:00","cierreEnd":"2026-07-15T23:59:59"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -4670,6 +4859,59 @@
             "items": {
               "$ref": "#/components/schemas/ProductDto"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchOrdersRequest": {
+        "required": [
+          "idTurnos"
+        ],
+        "type": "object",
+        "properties": {
+          "idTurnos": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "search": {
+            "type": "string",
+            "nullable": true
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "facturado": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "fechaStart": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "fechaEnd": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cierreStart": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cierreEnd": {
+            "type": "string",
+            "format": "date-time",
             "nullable": true
           }
         },
