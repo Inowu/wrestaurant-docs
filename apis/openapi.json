@@ -1132,6 +1132,122 @@
         "x-fern-sdk-group-name": "pos"
       }
     },
+    "/api/v1/turnos_apertura/{licenseKey}": {
+      "post": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Abrir turno",
+        "description": "Abre un nuevo turno para la estación y empresa indicadas. Devuelve el idTurno asignado junto con los datos de apertura (fondo, cajero, mesero, fondo en dólares). Falla con un error si ya existe un turno abierto para esa estación/empresa; ciérralo primero con turnos_cierre.",
+        "operationId": "OpenShift",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OpenShiftRequest"
+              },
+              "example": {"estacion":"CAJA1","idEmpresa":"1","idMesero":"","cajero":"","fondo":0,"fondoDolares":0}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OpenShiftRequest"
+              },
+              "example": {"estacion":"CAJA1","idEmpresa":"1","idMesero":"","cajero":"","fondo":0,"fondoDolares":0}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OpenShiftRequest"
+              },
+              "example": {"estacion":"CAJA1","idEmpresa":"1","idMesero":"","cajero":"","fondo":0,"fondoDolares":0}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenShiftResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
     "/api/v1/meseros/{licenseKey}": {
       "get": {
         "tags": [
@@ -3729,6 +3845,70 @@
               "$ref": "#/components/schemas/OpenOrderDto"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OpenShiftRequest": {
+        "type": "object",
+        "properties": {
+          "estacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "idMesero": {
+            "type": "string",
+            "nullable": true
+          },
+          "cajero": {
+            "type": "string",
+            "nullable": true
+          },
+          "fondo": {
+            "type": "number",
+            "format": "double"
+          },
+          "fondoDolares": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OpenShiftResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "idTurno": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "apertura": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fondo": {
+            "type": "number",
+            "format": "double"
+          },
+          "cajero": {
+            "type": "string",
+            "nullable": true
+          },
+          "idMesero": {
+            "type": "string",
+            "nullable": true
+          },
+          "fondoDolares": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
