@@ -667,6 +667,176 @@
         "x-fern-sdk-group-name": "pos"
       }
     },
+    "/api/v1/asistencias/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar asistencias de empleados",
+        "description": "Devuelve los registros de asistencia (entrada/salida) de los empleados de una sucursal, ordenados por empleado y hora de entrada, con paginación y búsqueda opcional por id o nombre del empleado. Cada registro incluye el nombre del empleado y su tipo (`1` = mesero, `2` = usuario), resueltos contra los catálogos correspondientes del Punto de Venta.\n\nPor defecto se consulta el día operativo actual de SoftRestaurant: de las 06:00 a las 05:59:59 del día siguiente. El inicio de esa ventana es configurable vía `dayStartHour`, o puede reemplazarse por un rango explícito con `entradaStart` y `entradaEnd` (formato ISO 8601, ambos límites inclusivos y opcionales por separado). La ventana efectivamente aplicada se devuelve en `entradaStart`/`entradaEnd` de la respuesta.\n\nLos registros cuya salida aún no se ha marcado se devuelven con `salida: null`, `abierta: true` y `duracionMinutos: null`. Usa `abiertas=true` para obtener solo a quienes siguen sin marcar salida, o `abiertas=false` para solo los turnos ya cerrados. Usa `tipo` para limitar la consulta a un solo catálogo de empleados.",
+        "operationId": "GetAsistencias",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "description": "License key (16 caracteres) del punto de venta del que se consultan las asistencias.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página a devolver, empezando en 1.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Cantidad de registros por página. Máximo 100; valores mayores se recortan a 100.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Texto libre para filtrar por id o nombre del empleado. Coincidencia parcial en cualquier posición del texto.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entradaStart",
+            "in": "query",
+            "description": "Límite inferior (inclusivo) sobre la hora de entrada, en formato ISO 8601 y hora local de la sucursal (p. ej. \"2026-08-19T06:00:00\"). Si se omite, se usa el inicio del día operativo actual.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "entradaEnd",
+            "in": "query",
+            "description": "Límite superior (inclusivo) sobre la hora de entrada, en formato ISO 8601 y hora local de la sucursal. Si se omite, se usa el cierre del día operativo actual.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "dayStartHour",
+            "in": "query",
+            "description": "Hora (0-23) en que inicia el día operativo usado cuando no se envían `entradaStart` ni `entradaEnd`. Por omisión 6, es decir de las 06:00 a las 05:59:59 del día siguiente.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 6
+            }
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Limita la consulta a un solo catálogo de empleados: 1 = meseros, 2 = usuarios. Si se omite, se devuelven ambos.",
+            "schema": {
+              "$ref": "#/components/schemas/TipoEmpleado"
+            }
+          },
+          {
+            "name": "abiertas",
+            "in": "query",
+            "description": "`true` devuelve solo los turnos sin salida marcada; `false` solo los ya cerrados. Si se omite, se devuelven ambos.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsistenciasQueryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
     "/api/v1/temp_ordenes/{licenseKey}": {
       "post": {
         "tags": [
@@ -3151,6 +3321,117 @@
   },
   "components": {
     "schemas": {
+      "AsistenciaDto": {
+        "type": "object",
+        "properties": {
+          "idEmpleado": {
+            "type": "string",
+            "description": "Id del empleado tal como lo registra el Punto de Venta: id del mesero cuando `tipo` es 1, usuario cuando `tipo` es 2.",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "description": "Nombre del empleado resuelto contra el catálogo correspondiente a su `tipo`. Cadena vacía si el empleado ya no existe en el catálogo.",
+            "nullable": true
+          },
+          "tipo": {
+            "type": "integer",
+            "description": "Catálogo al que pertenece el empleado: 1 = mesero, 2 = usuario.",
+            "format": "int32"
+          },
+          "tipoDescripcion": {
+            "type": "string",
+            "description": "Descripción legible de `tipo`: \"MESERO\" o \"USUARIO\". Cadena vacía si el Punto de Venta reportó un tipo desconocido.",
+            "nullable": true
+          },
+          "entrada": {
+            "type": "string",
+            "description": "Fecha y hora en que el empleado marcó entrada, en la hora local de la sucursal.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "salida": {
+            "type": "string",
+            "description": "Fecha y hora en que el empleado marcó salida, en la hora local de la sucursal. `null` mientras el turno sigue abierto.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "abierta": {
+            "type": "boolean",
+            "description": "`true` cuando el empleado aún no marca salida; en ese caso `salida` y `duracionMinutos` vienen en `null`."
+          },
+          "duracionMinutos": {
+            "type": "integer",
+            "description": "Minutos trabajados entre `entrada` y `salida`, redondeados hacia abajo. `null` mientras el turno sigue abierto.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AsistenciasQueryResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "description": "Id del trabajo de consulta despachado al agente local. Útil para rastrear la solicitud en auditoría y soporte.",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "description": "Id interno del punto de venta que atendió la consulta.",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "description": "Momento en que la consulta se envió al agente local.",
+            "format": "date-time"
+          },
+          "entradaStart": {
+            "type": "string",
+            "description": "Inicio de la ventana de búsqueda efectivamente aplicada sobre la hora de entrada (inclusivo). Refleja el valor recibido en `entradaStart` o, si se omitió, el inicio del día operativo calculado.",
+            "format": "date-time"
+          },
+          "entradaEnd": {
+            "type": "string",
+            "description": "Fin de la ventana de búsqueda efectivamente aplicada sobre la hora de entrada (inclusivo). Refleja el valor recibido en `entradaEnd` o, si se omitió, el cierre del día operativo calculado.",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "description": "Número de página devuelta, empezando en 1.",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "Cantidad de registros por página efectivamente aplicada (máximo 100).",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "description": "Total de registros de asistencia que cumplen los filtros, sin importar la paginación.",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "Total de páginas disponibles con el `pageSize` aplicado. Es 0 cuando no hay resultados.",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean",
+            "description": "`true` cuando existe al menos una página más después de la actual."
+          },
+          "asistencias": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AsistenciaDto"
+            },
+            "description": "Registros de asistencia de la página, ordenados por id de empleado y luego por hora de entrada.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CloseShiftRequest": {
         "type": "object",
         "properties": {
@@ -5402,6 +5683,14 @@
           }
         },
         "additionalProperties": false
+      },
+      "TipoEmpleado": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "TurnoDto": {
         "type": "object",
