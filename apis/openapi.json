@@ -2763,19 +2763,19 @@
               "schema": {
                 "$ref": "#/components/schemas/CreatePrinterRequest"
               },
-              "example": {"licenseKey":"DS5D2368HCME4O9X","printerIp":"192.168.1.50","displayName":"Cocina","widthMm":80,"source":"windows","sourceId":"POS-01"}
+              "example": {"licenseKey":"DS5D2368HCME4O9X","printerIp":"192.168.1.50","displayName":"Cocina","widthMm":80,"source":"windows","sourceId":"POS-01","kind":"thermal","label":null}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreatePrinterRequest"
               },
-              "example": {"licenseKey":"DS5D2368HCME4O9X","printerIp":"192.168.1.50","displayName":"Cocina","widthMm":80,"source":"windows","sourceId":"POS-01"}
+              "example": {"licenseKey":"DS5D2368HCME4O9X","printerIp":"192.168.1.50","displayName":"Cocina","widthMm":80,"source":"windows","sourceId":"POS-01","kind":"thermal","label":null}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreatePrinterRequest"
               },
-              "example": {"licenseKey":"DS5D2368HCME4O9X","printerIp":"192.168.1.50","displayName":"Cocina","widthMm":80,"source":"windows","sourceId":"POS-01"}
+              "example": {"licenseKey":"DS5D2368HCME4O9X","printerIp":"192.168.1.50","displayName":"Cocina","widthMm":80,"source":"windows","sourceId":"POS-01","kind":"thermal","label":null}
             }
           },
           "required": true
@@ -2960,19 +2960,19 @@
               "schema": {
                 "$ref": "#/components/schemas/UpdatePrinterRequest"
               },
-              "example": {"printerIp":"192.168.1.51","displayName":"Cocina (caliente)","widthMm":80,"source":"windows","sourceId":"POS-01"}
+              "example": {"printerIp":"192.168.1.51","displayName":"Etiquetas barra","widthMm":58,"source":"windows","sourceId":"POS-01","kind":"label","label":{"widthMm":57.15,"heightMm":31.75,"gapMm":3.50,"gapOffsetMm":1.50,"speed":3,"density":8,"direction":0,"copies":1}}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/UpdatePrinterRequest"
               },
-              "example": {"printerIp":"192.168.1.51","displayName":"Cocina (caliente)","widthMm":80,"source":"windows","sourceId":"POS-01"}
+              "example": {"printerIp":"192.168.1.51","displayName":"Etiquetas barra","widthMm":58,"source":"windows","sourceId":"POS-01","kind":"label","label":{"widthMm":57.15,"heightMm":31.75,"gapMm":3.50,"gapOffsetMm":1.50,"speed":3,"density":8,"direction":0,"copies":1}}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/UpdatePrinterRequest"
               },
-              "example": {"printerIp":"192.168.1.51","displayName":"Cocina (caliente)","widthMm":80,"source":"windows","sourceId":"POS-01"}
+              "example": {"printerIp":"192.168.1.51","displayName":"Etiquetas barra","widthMm":58,"source":"windows","sourceId":"POS-01","kind":"label","label":{"widthMm":57.15,"heightMm":31.75,"gapMm":3.50,"gapOffsetMm":1.50,"speed":3,"density":8,"direction":0,"copies":1}}
             }
           },
           "required": true
@@ -3149,19 +3149,136 @@
               "schema": {
                 "$ref": "#/components/schemas/PrintOrderRequest"
               },
-              "example": {"orderFolio":"169","isReprint":false,"price":128.50,"paymentMethod":"CARD","businessName":"Mi Restaurante","businessSubtitle":"Sucursal Centro","groups":[{"printerId":"00000000-b12a-405f-905d-dbf424c20000","jobType":"order","title":"COCINA","items":[{"idProduct":"01052","name":"Hamburguesa doble carne","quantity":2,"price":89.00,"modifiers":[{"idModifier":"50110","name":"Sin cebolla","price":0}],"notes":"Sin pepinillos"}],"qrData":null}]}
+              "example": {"orderFolio":"169","isReprint":false,"price":128.50,"paymentMethod":"CARD","businessName":"Mi Restaurante","businessSubtitle":"Sucursal Centro","groups":[{"printerId":"00000000-b12a-405f-905d-dbf424c20000","jobType":"order","title":"COCINA","items":null,"qrData":null,"sections":[{"label":"TITULAR","items":[{"idProduct":"01052","name":"Hamburguesa doble carne","quantity":2,"price":89.00,"modifiers":[{"idModifier":"50110","name":"Sin cebolla","price":0}],"notes":"Sin pepinillos"}]},{"label":"INVITADO 1","items":[{"idProduct":"01060","name":"Ensalada César","quantity":1,"price":75.00,"modifiers":[],"notes":null}]}]}],"customer":{"code":"A17","name":"Cliente Demo","type":"Socio","roomName":"Sala Terraza"},"orderNote":"Sin popote"}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/PrintOrderRequest"
               },
-              "example": {"orderFolio":"169","isReprint":false,"price":128.50,"paymentMethod":"CARD","businessName":"Mi Restaurante","businessSubtitle":"Sucursal Centro","groups":[{"printerId":"00000000-b12a-405f-905d-dbf424c20000","jobType":"order","title":"COCINA","items":[{"idProduct":"01052","name":"Hamburguesa doble carne","quantity":2,"price":89.00,"modifiers":[{"idModifier":"50110","name":"Sin cebolla","price":0}],"notes":"Sin pepinillos"}],"qrData":null}]}
+              "example": {"orderFolio":"169","isReprint":false,"price":128.50,"paymentMethod":"CARD","businessName":"Mi Restaurante","businessSubtitle":"Sucursal Centro","groups":[{"printerId":"00000000-b12a-405f-905d-dbf424c20000","jobType":"order","title":"COCINA","items":null,"qrData":null,"sections":[{"label":"TITULAR","items":[{"idProduct":"01052","name":"Hamburguesa doble carne","quantity":2,"price":89.00,"modifiers":[{"idModifier":"50110","name":"Sin cebolla","price":0}],"notes":"Sin pepinillos"}]},{"label":"INVITADO 1","items":[{"idProduct":"01060","name":"Ensalada César","quantity":1,"price":75.00,"modifiers":[],"notes":null}]}]}],"customer":{"code":"A17","name":"Cliente Demo","type":"Socio","roomName":"Sala Terraza"},"orderNote":"Sin popote"}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/PrintOrderRequest"
               },
-              "example": {"orderFolio":"169","isReprint":false,"price":128.50,"paymentMethod":"CARD","businessName":"Mi Restaurante","businessSubtitle":"Sucursal Centro","groups":[{"printerId":"00000000-b12a-405f-905d-dbf424c20000","jobType":"order","title":"COCINA","items":[{"idProduct":"01052","name":"Hamburguesa doble carne","quantity":2,"price":89.00,"modifiers":[{"idModifier":"50110","name":"Sin cebolla","price":0}],"notes":"Sin pepinillos"}],"qrData":null}]}
+              "example": {"orderFolio":"169","isReprint":false,"price":128.50,"paymentMethod":"CARD","businessName":"Mi Restaurante","businessSubtitle":"Sucursal Centro","groups":[{"printerId":"00000000-b12a-405f-905d-dbf424c20000","jobType":"order","title":"COCINA","items":null,"qrData":null,"sections":[{"label":"TITULAR","items":[{"idProduct":"01052","name":"Hamburguesa doble carne","quantity":2,"price":89.00,"modifiers":[{"idModifier":"50110","name":"Sin cebolla","price":0}],"notes":"Sin pepinillos"}]},{"label":"INVITADO 1","items":[{"idProduct":"01060","name":"Ensalada César","quantity":1,"price":75.00,"modifiers":[],"notes":null}]}]}],"customer":{"code":"A17","name":"Cliente Demo","type":"Socio","roomName":"Sala Terraza"},"orderNote":"Sin popote"}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintOrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "printers"
+      }
+    },
+    "/api/v1/print/{licenseKey}/test": {
+      "post": {
+        "tags": [
+          "Impresoras"
+        ],
+        "summary": "Imprimir una prueba",
+        "description": "Envía un ticket o etiqueta de prueba a una sola impresora para comprobar que la configuración llega al papel. Usa la misma ruta que una impresión real.",
+        "operationId": "PrintTest",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintTestRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintTestRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintTestRequest"
+              }
             }
           },
           "required": true
@@ -3639,7 +3756,7 @@
           },
           "widthMm": {
             "type": "integer",
-            "description": "Ancho del papel en milímetros (típicamente 58 u 80).",
+            "description": "Ancho del papel en milímetros (típicamente 58 u 80). Requerido para impresoras térmicas.",
             "format": "int32"
           },
           "source": {
@@ -3651,6 +3768,18 @@
             "type": "string",
             "description": "Identificador de la impresora en el sistema de origen, si aplica.",
             "nullable": true
+          },
+          "kind": {
+            "enum": [
+              "thermal",
+              "label"
+            ],
+            "type": "string",
+            "description": "Protocolo de la impresora: \"thermal\" (ESC/POS) o \"label\" (etiquetadora TSPL).",
+            "nullable": true
+          },
+          "label": {
+            "$ref": "#/components/schemas/LabelSettingsDto"
           }
         },
         "additionalProperties": false,
@@ -4011,6 +4140,53 @@
           }
         },
         "additionalProperties": false
+      },
+      "LabelSettingsDto": {
+        "type": "object",
+        "properties": {
+          "widthMm": {
+            "type": "number",
+            "description": "Ancho de la etiqueta en milímetros (primer argumento de SIZE).",
+            "format": "double"
+          },
+          "heightMm": {
+            "type": "number",
+            "description": "Alto de la etiqueta en milímetros (segundo argumento de SIZE).",
+            "format": "double"
+          },
+          "gapMm": {
+            "type": "number",
+            "description": "Separación entre etiquetas en milímetros (primer argumento de GAP).",
+            "format": "double"
+          },
+          "gapOffsetMm": {
+            "type": "number",
+            "description": "Desplazamiento de la separación en milímetros (segundo argumento de GAP).",
+            "format": "double"
+          },
+          "speed": {
+            "type": "integer",
+            "description": "Velocidad de impresión en pulgadas por segundo (SPEED), 1-14.",
+            "format": "int32"
+          },
+          "density": {
+            "type": "integer",
+            "description": "Densidad o calor del cabezal (DENSITY), 0-15.",
+            "format": "int32"
+          },
+          "direction": {
+            "type": "integer",
+            "description": "Sentido de avance del papel (DIRECTION), 0 o 1.",
+            "format": "int32"
+          },
+          "copies": {
+            "type": "integer",
+            "description": "Copias de cada etiqueta (segundo argumento de PRINT).",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Parámetros de medio TSPL de una etiquetadora. Sólo se aplican cuando kind es \"label\";\r\nen una impresora térmica se devuelven con sus valores por defecto y se ignoran al imprimir."
       },
       "MeseroDto": {
         "type": "object",
@@ -5111,9 +5287,34 @@
         },
         "additionalProperties": false
       },
+      "PrintCustomerRequest": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Código del cliente (p. ej. \"A17\").",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del cliente.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Tipo de cliente (p. ej. \"Socio\").",
+            "nullable": true
+          },
+          "roomName": {
+            "type": "string",
+            "description": "Sala o área desde la que se ordenó.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "PrintGroupRequest": {
         "required": [
-          "items",
           "jobType",
           "printerId",
           "title"
@@ -5143,12 +5344,20 @@
             "items": {
               "$ref": "#/components/schemas/PrintLineRequest"
             },
-            "description": "Artículos a imprimir en este ticket.",
+            "description": "Artículos a imprimir en este ticket. Ignorado cuando se envían \"sections\".",
             "nullable": true
           },
           "qrData": {
             "type": "string",
             "description": "QR del ticket si se requiere. Reservado para la futura plantilla de recibo.",
+            "nullable": true
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrintSectionRequest"
+            },
+            "description": "Bloques de artículos con encabezado. Sustituye a \"items\" cuando se envía.",
             "nullable": true
           }
         },
@@ -5272,6 +5481,14 @@
             },
             "description": "Un grupo de impresión por cada impresora destino.",
             "nullable": true
+          },
+          "customer": {
+            "$ref": "#/components/schemas/PrintCustomerRequest"
+          },
+          "orderNote": {
+            "type": "string",
+            "description": "Nota que aplica a toda la orden, impresa al final del ticket.",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -5295,6 +5512,58 @@
         "additionalProperties": false,
         "description": "Resultado de despachar una orden — una entrada por grupo de impresión, con resultados independientes."
       },
+      "PrintSectionRequest": {
+        "required": [
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Encabezado del bloque, p. ej. el comensal al que pertenecen los artículos.",
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrintLineRequest"
+            },
+            "description": "Artículos de este bloque.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PrintTestRequest": {
+        "required": [
+          "printerId"
+        ],
+        "type": "object",
+        "properties": {
+          "printerId": {
+            "type": "string",
+            "description": "Id de la impresora a probar (obtenido de GET /print/{licenseKey}/printers).",
+            "nullable": true
+          },
+          "printerName": {
+            "type": "string",
+            "description": "Nombre de la impresora, impreso en el ticket para identificar cuál respondió.",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "Encabezado de la prueba. Por defecto \"PRUEBA\".",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Cuerpo de la prueba. Por defecto \"IMPRESORA OK - IGNORAR\".",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Solicitud de impresión de prueba. Imprime un ticket o etiqueta mínimos en una sola impresora\r\npara comprobar que la configuración llega al papel."
+      },
       "PrinterAssignmentDto": {
         "type": "object",
         "properties": {
@@ -5310,9 +5579,20 @@
             "type": "string",
             "nullable": true
           },
+          "kind": {
+            "enum": [
+              "thermal",
+              "label"
+            ],
+            "type": "string",
+            "description": "Protocolo de la impresora: \"thermal\" (ESC/POS) o \"label\" (etiquetadora TSPL)."
+          },
           "widthMm": {
             "type": "integer",
             "format": "int32"
+          },
+          "label": {
+            "$ref": "#/components/schemas/LabelSettingsDto"
           },
           "source": {
             "type": "string",
@@ -5362,9 +5642,20 @@
             "type": "string",
             "nullable": true
           },
+          "kind": {
+            "enum": [
+              "thermal",
+              "label"
+            ],
+            "type": "string",
+            "description": "Protocolo de la impresora: \"thermal\" (ESC/POS) o \"label\" (etiquetadora TSPL)."
+          },
           "widthMm": {
             "type": "integer",
             "format": "int32"
+          },
+          "label": {
+            "$ref": "#/components/schemas/LabelSettingsDto"
           },
           "source": {
             "type": "string",
@@ -5849,7 +6140,7 @@
           },
           "widthMm": {
             "type": "integer",
-            "description": "Ancho del papel en milímetros (típicamente 58 u 80).",
+            "description": "Ancho del papel en milímetros (típicamente 58 u 80). Requerido para impresoras térmicas.",
             "format": "int32"
           },
           "source": {
@@ -5861,6 +6152,18 @@
             "type": "string",
             "description": "Identificador de la impresora en el sistema de origen, si aplica.",
             "nullable": true
+          },
+          "kind": {
+            "enum": [
+              "thermal",
+              "label"
+            ],
+            "type": "string",
+            "description": "Protocolo de la impresora: \"thermal\" (ESC/POS) o \"label\" (etiquetadora TSPL).",
+            "nullable": true
+          },
+          "label": {
+            "$ref": "#/components/schemas/LabelSettingsDto"
           }
         },
         "additionalProperties": false,
