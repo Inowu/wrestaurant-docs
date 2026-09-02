@@ -882,19 +882,19 @@
               "schema": {
                 "$ref": "#/components/schemas/CreateOrderRequest"
               },
-              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
+              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false},{"idProducto":"14001","descripcionProducto":"Limonada natural","idGrupo":"0014","movimiento":2,"cantidad":1,"descripcionGrupo":"Refrescos","clasificacion":"1","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Limonada","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":45.00,"precioSinImpuestos":38.7931,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateOrderRequest"
               },
-              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
+              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false},{"idProducto":"14001","descripcionProducto":"Limonada natural","idGrupo":"0014","movimiento":2,"cantidad":1,"descripcionGrupo":"Refrescos","clasificacion":"1","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Limonada","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":45.00,"precioSinImpuestos":38.7931,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateOrderRequest"
               },
-              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
+              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false},{"idProducto":"14001","descripcionProducto":"Limonada natural","idGrupo":"0014","movimiento":2,"cantidad":1,"descripcionGrupo":"Refrescos","clasificacion":"1","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Limonada","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":45.00,"precioSinImpuestos":38.7931,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
             }
           }
         },
@@ -987,7 +987,7 @@
           "Endpoints"
         ],
         "summary": "Listar órdenes temporales",
-        "description": "Devuelve las órdenes del turno actual por punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total. Usa `facturado=true` para incluir solo órdenes ya facturadas, o `facturado=false` para incluir solo las no facturadas; si se omite, no se filtra por estado de facturación.",
+        "description": "Devuelve las órdenes del turno actual del Punto de Venta de una sucursal, con sus productos, formas de pago e impuestos.\n\nUsa `folio` para traer una orden concreta: es una coincidencia exacta, no una búsqueda parcial. Omítelo para no filtrar por folio.\n\nEl parámetro `search` busca coincidencias parciales en folio, número de cheque, mesa y total.\n\nUsa `facturado=true` para incluir solo órdenes ya facturadas, o `facturado=false` para incluir solo las no facturadas; si se omite, no se filtra por estado de facturación.\n\nRetorna solo cuentas del turno en curso, no admite filtros de fecha.",
         "operationId": "GetTempOrders",
         "parameters": [
           {
@@ -1010,6 +1010,14 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "folio",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -1145,19 +1153,19 @@
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
               },
-              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
               },
-              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
               },
-              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
             }
           }
         },
@@ -1214,6 +1222,711 @@
           },
           "422": {
             "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/temp_ordenes/descuento/{licenseKey}/{folio}": {
+      "put": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Aplicar descuento general a una cuenta",
+        "description": "Aplica un descuento a toda una cuenta abierta, expresado como porcentaje del subtotal (modo \"porcentaje\") o como importe fijo (modo \"importe\").\n\nCuando el modo es \"importe\", `base` indica de qué cifra se resta ese importe: \"subtotal\" (por omisión) lo resta del subtotal sin impuestos, y \"total\" lo resta del total con impuestos. Sobre una cuenta de $35.00 con IVA, un importe de $10.00 deja el total en $23.40 con base \"subtotal\" y en $25.00 con base \"total\". En modo \"porcentaje\" el parámetro se ignora.\n\nEl descuento reemplaza cualquier descuento general previo de la cuenta — no se acumula. Para cancelar un descuento, envíe valor 0: los totales vuelven exactamente a sus valores originales.\n\nLa cuenta debe estar abierta: no pagada, no cancelada, no en uso en una estación, y sin imprimir (una cuenta impresa solo admite descuento si fue reabierta).\n\nAdemás del descuento, la operación aplica automáticamente estos efectos:\n- Recalcula todos los totales de la cuenta (subtotal, impuestos, total, alimentos/bebidas/otros).\n- Reparte el descuento entre alimentos, bebidas y otros en proporción a su peso en el subtotal.\n- Marca la cuenta para sincronización de descuentos con SoftRestaurant.\n- Un descuento del 100% se registra como CORTESÍA: `totalDescuentos` conserva sólo los descuentos por producto y el importe general pasa a `totalCortesias`.\nLos descuentos por producto ya aplicados a las líneas se conservan y se descuentan antes de este: el porcentaje general opera sobre el subtotal ya neteado.",
+        "operationId": "ApplyOrderDiscount",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "folio",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyOrderDiscountRequest"
+              },
+              "example": {"modo":"porcentaje","base":"subtotal","valor":10,"comentario":"Descuento de gerencia","idTipoDescuento":"","usuario":"ADMIN"}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyOrderDiscountRequest"
+              },
+              "example": {"modo":"porcentaje","base":"subtotal","valor":10,"comentario":"Descuento de gerencia","idTipoDescuento":"","usuario":"ADMIN"}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyOrderDiscountRequest"
+              },
+              "example": {"modo":"porcentaje","base":"subtotal","valor":10,"comentario":"Descuento de gerencia","idTipoDescuento":"","usuario":"ADMIN"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplyDiscountResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/temp_ordenes/descuento_productos/{licenseKey}/{folio}": {
+      "put": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Aplicar descuento por producto a una cuenta",
+        "description": "Aplica un descuento a una o más líneas de una cuenta abierta. Acepta los mismos parámetros y sigue las mismas reglas que el descuento general, pero referidos a cada línea en lugar de a toda la cuenta: `modo` (\"porcentaje\" o \"importe\") y, cuando el modo es \"importe\", `base` (\"subtotal\" o \"total\").\n\nEn modo \"importe\" el valor es POR UNIDAD. Una línea de 3 piezas a $100 con importe $50 sobre \"total\" descuenta $150 en total, porque cada pieza baja $50; el punto de venta lo guarda como un 50% en esa línea. Con base \"subtotal\" el importe se resta del precio unitario sin impuestos.\n\nCada línea se resuelve por separado: una misma petición puede combinar líneas con `modo` \"porcentaje\" y líneas con `modo` \"importe\", y usar bases distintas entre ellas.\n\nCada línea se identifica por su movimiento y su idProducto. El valor enviado reemplaza el descuento previo de esa línea — no se acumula. Para cancelar el descuento de una línea, envíe valor 0.\n\nEl descuento se guarda en la línea como porcentaje: el detalle de la cuenta no tiene columnas para el importe ni para la base, así que un importe se convierte a su porcentaje equivalente y sólo ese porcentaje queda almacenado.\n\nUn descuento del 100% en una línea se registra como CORTESÍA, no como descuento — igual que un descuento general del 100%. Aplica también si el importe enviado iguala el precio unitario.\n\nLa operación es atómica: si alguna línea del cuerpo no existe en la cuenta, no se aplica ningún descuento y se devuelve un error. Las líneas no mencionadas conservan su descuento actual.\n\nLa cuenta debe estar abierta: no pagada, no cancelada, no en uso en una estación, y sin imprimir (una cuenta impresa solo admite descuento si fue reabierta).\n\nAl terminar se recalculan todos los totales de la cuenta y se agrega una entrada de auditoría en la bitácora del sistema. Si la cuenta también tiene un descuento general, este se recalcula sobre el nuevo subtotal.",
+        "operationId": "ApplyItemDiscounts",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "folio",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyItemDiscountsRequest"
+              },
+              "example": {"comentario":"Producto con demora","idTipoDescuento":"","usuario":"ADMIN","items":[{"movimiento":1,"idProducto":"001002","modo":"porcentaje","base":"subtotal","valor":5},{"movimiento":4,"idProducto":"003002","modo":"porcentaje","base":"subtotal","valor":50}]}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyItemDiscountsRequest"
+              },
+              "example": {"comentario":"Producto con demora","idTipoDescuento":"","usuario":"ADMIN","items":[{"movimiento":1,"idProducto":"001002","modo":"porcentaje","base":"subtotal","valor":5},{"movimiento":4,"idProducto":"003002","modo":"porcentaje","base":"subtotal","valor":50}]}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyItemDiscountsRequest"
+              },
+              "example": {"comentario":"Producto con demora","idTipoDescuento":"","usuario":"ADMIN","items":[{"movimiento":1,"idProducto":"001002","modo":"porcentaje","base":"subtotal","valor":5},{"movimiento":4,"idProducto":"003002","modo":"porcentaje","base":"subtotal","valor":50}]}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplyDiscountResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/temp_ordenes/productos/{licenseKey}/{folio}": {
+      "post": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Agregar productos a una cuenta abierta",
+        "description": "Agrega una o más líneas a una cuenta que ya está abierta. La operación sólo toca la cuenta temporal — no genera una venta ni reimprime nada.\n\nEl campo `movimiento` de cada producto sólo define el orden dentro de esta petición y a qué producto base pertenece cada modificador: debe empezar en 1 y ser consecutivo. El movimiento real dentro de la cuenta lo asigna el punto de venta continuando desde la última línea existente, y se devuelve en `movimientos` — son esos valores los que se usan después para descontar o cancelar cada línea.\n\nRecuerde que `impuesto1`, `impuesto2` e `impuesto3` son TASAS en porcentaje (`16.00` = 16%), no importes.\n\nLa cuenta debe estar abierta: no pagada, no cancelada, no en uso en una estación, y sin imprimir (una cuenta impresa solo admite cambios si fue reabierta).\n\nAl terminar se recalculan todos los totales de la cuenta. Si la cuenta ya tenía un descuento general, este se conserva y se vuelve a aplicar sobre el nuevo subtotal; los descuentos por producto de las líneas existentes tampoco se pierden.",
+        "operationId": "AddOrderItems",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "folio",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddOrderItemsRequest"
+              },
+              "example": {"usuario":"ADMIN","productos":[{"idProducto":"27004","descripcionProducto":"","idGrupo":"","movimiento":1,"cantidad":1,"descripcionGrupo":"","clasificacion":"","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"","imagen":"","visibleMenu":false,"idProdServSat":"","comentario":"","precio":260.00,"precioSinImpuestos":224.137900,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false},{"idProducto":"27007","descripcionProducto":"","idGrupo":"","movimiento":2,"cantidad":1,"descripcionGrupo":"","clasificacion":"","modificador":1,"productoCompuestoPrincipal":0,"nombreCorto":"","imagen":"","visibleMenu":false,"idProdServSat":"","comentario":"Sin cebolla","precio":0.00,"precioSinImpuestos":0.00,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddOrderItemsRequest"
+              },
+              "example": {"usuario":"ADMIN","productos":[{"idProducto":"27004","descripcionProducto":"","idGrupo":"","movimiento":1,"cantidad":1,"descripcionGrupo":"","clasificacion":"","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"","imagen":"","visibleMenu":false,"idProdServSat":"","comentario":"","precio":260.00,"precioSinImpuestos":224.137900,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false},{"idProducto":"27007","descripcionProducto":"","idGrupo":"","movimiento":2,"cantidad":1,"descripcionGrupo":"","clasificacion":"","modificador":1,"productoCompuestoPrincipal":0,"nombreCorto":"","imagen":"","visibleMenu":false,"idProdServSat":"","comentario":"Sin cebolla","precio":0.00,"precioSinImpuestos":0.00,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddOrderItemsRequest"
+              },
+              "example": {"usuario":"ADMIN","productos":[{"idProducto":"27004","descripcionProducto":"","idGrupo":"","movimiento":1,"cantidad":1,"descripcionGrupo":"","clasificacion":"","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"","imagen":"","visibleMenu":false,"idProdServSat":"","comentario":"","precio":260.00,"precioSinImpuestos":224.137900,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false},{"idProducto":"27007","descripcionProducto":"","idGrupo":"","movimiento":2,"cantidad":1,"descripcionGrupo":"","clasificacion":"","modificador":1,"productoCompuestoPrincipal":0,"nombreCorto":"","imagen":"","visibleMenu":false,"idProdServSat":"","comentario":"Sin cebolla","precio":0.00,"precioSinImpuestos":0.00,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOrderItemsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      },
+      "delete": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Cancelar productos de una cuenta abierta",
+        "description": "Cancela una o más líneas de una cuenta abierta. Cada línea se identifica por su movimiento y su idProducto; la línea se retira de la cuenta y la cancelación queda registrada para el personal de cocina y para el reporte de cancelaciones de la sucursal.\n\nCancelar un producto base arrastra sus modificadores: se cancelan junto con él y aparecen en `movimientos`, por lo que `itemsCancelados` puede ser mayor que el número de líneas enviadas. Cancelar un modificador por separado sí es posible y no afecta al producto base.\n\nLa operación es atómica: si alguna línea del cuerpo no existe en la cuenta, no se cancela nada y se devuelve un error.\n\n`razon` es el motivo de la cancelación en texto libre. Si la sucursal exige motivo (`forzarmotivocancela`), es obligatorio y no puede ir vacío. El punto de venta ofrece un catálogo de motivos sugeridos (SERVICIO LENTO, ERROR DE CAPTURA, MAL SABOR, CAMBIO DE OPINIÓN CLIENTE), pero son sólo texto y no llevan clave: envíe la descripción tal cual, o cualquier otro texto (máximo 200 caracteres).\n\nLo que queda guardado no es exactamente lo enviado: el punto de venta añade la mesa al final, con el formato `ERROR DE CAPTURA Mesa: CL-GE9-1`, porque su registro de cancelaciones no tiene columna de mesa. Esta API reproduce el mismo formato. En una venta sin mesa se guarda sólo el motivo.\n\nLa cuenta debe estar abierta: no pagada, no cancelada, no en uso en una estación, y sin imprimir (una cuenta impresa solo admite cambios si fue reabierta).\n\nAdemás de retirar las líneas, la operación:\n- Renumera las líneas restantes de forma consecutiva desde 1, igual que hace SoftRestaurant. Los movimientos devueltos son los que tenían ANTES de la renumeración.\n- Marca los productos correspondientes como cancelados en producción para que cocina lo vea.\n- Recalcula todos los totales de la cuenta, conservando el descuento general y los descuentos por producto de las líneas que sobreviven.\n- Agrega una entrada de auditoría en la bitácora del sistema.\n\nCancelar todas las líneas deja la cuenta ABIERTA y vacía con totales en cero; no cancela la cuenta.",
+        "operationId": "CancelOrderItems",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "folio",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelOrderItemsRequest"
+              },
+              "example": {"items":[{"movimiento":2,"idProducto":"27004"}],"razon":"CAMBIO DE OPINION CLIENTE","usuario":"ADMIN"}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelOrderItemsRequest"
+              },
+              "example": {"items":[{"movimiento":2,"idProducto":"27004"}],"razon":"CAMBIO DE OPINION CLIENTE","usuario":"ADMIN"}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelOrderItemsRequest"
+              },
+              "example": {"items":[{"movimiento":2,"idProducto":"27004"}],"razon":"CAMBIO DE OPINION CLIENTE","usuario":"ADMIN"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CancelOrderItemsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/tipos_descuento/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar tipos de descuento",
+        "description": "Devuelve el catálogo de tipos de descuento visibles de la sucursal. La clave idTipoDescuento de cada elemento es la que se envía al aplicar un descuento.\n\nCuando maximoActivado es true, el campo descuento funciona como tope: un descuento mayor a ese porcentaje será rechazado por el punto de venta.",
+        "operationId": "GetTiposDescuento",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TiposDescuentoResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -3438,6 +4151,159 @@
   },
   "components": {
     "schemas": {
+      "AddOrderItemsRequest": {
+        "type": "object",
+        "properties": {
+          "usuario": {
+            "type": "string",
+            "description": "Usuario del punto de venta al que se atribuye la operación. Se valida contra el catálogo de\r\nusuarios. Omitido = `API`.",
+            "nullable": true
+          },
+          "productos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartialProductDto"
+            },
+            "description": "Líneas a agregar, en el mismo formato que `POST /temp_ordenes`. El campo\r\n`movimiento` sólo define el orden dentro de esta petición y a qué producto base\r\npertenece cada modificador: debe empezar en 1 y ser consecutivo. El movimiento real dentro de\r\nla cuenta lo asigna el punto de venta continuando desde la última línea existente, y se\r\ndevuelve en `movimientos`.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Productos que se agregan a una cuenta ya abierta."
+      },
+      "AddOrderItemsResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "folio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "itemsAgregados": {
+            "type": "integer",
+            "description": "Número de líneas insertadas en la cuenta.",
+            "format": "int32"
+          },
+          "movimientos": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Movimientos que el punto de venta asignó a las líneas nuevas, en el mismo orden en que se\r\nenviaron. Son los valores con los que se identifica cada línea al descontarla o cancelarla.",
+            "nullable": true
+          },
+          "totales": {
+            "$ref": "#/components/schemas/OrderDiscountTotalsDto"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Resultado de agregar productos a una cuenta abierta."
+      },
+      "ApplyDiscountResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "folio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "itemsAfectados": {
+            "type": "integer",
+            "description": "Número de líneas modificadas — siempre `0` para el descuento general.",
+            "format": "int32"
+          },
+          "forzarDescuento": {
+            "type": "integer",
+            "description": "Valor de `parametros3.forzardescuento` en la sucursal. Se expone tal cual: el punto de venta\r\nlo consulta al abrir el diálogo de descuento, pero no observamos ninguna regla derivada de él en\r\nlas capturas, así que esta API no bloquea en función de su valor.",
+            "format": "int32"
+          },
+          "totales": {
+            "$ref": "#/components/schemas/OrderDiscountTotalsDto"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Respuesta de los endpoints de descuento."
+      },
+      "ApplyItemDiscountsRequest": {
+        "type": "object",
+        "properties": {
+          "comentario": {
+            "type": "string",
+            "description": "Comentario/motivo del descuento — se guarda en cada línea afectada.",
+            "nullable": true
+          },
+          "idTipoDescuento": {
+            "type": "string",
+            "description": "Clave del tipo de descuento (catálogo `tipodescuento`). Obligatorio si la sucursal fuerza tipo de descuento.",
+            "nullable": true
+          },
+          "usuario": {
+            "type": "string",
+            "description": "Usuario del punto de venta que autoriza. Se valida contra el catálogo de usuarios. Omitido = `API`.",
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemDiscount"
+            },
+            "description": "Líneas a descontar. Cada una debe existir en la cuenta.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Descuentos por producto aplicados a una o más líneas de la cuenta abierta."
+      },
+      "ApplyOrderDiscountRequest": {
+        "type": "object",
+        "properties": {
+          "modo": {
+            "enum": [
+              "porcentaje",
+              "importe"
+            ],
+            "type": "string",
+            "description": "`porcentaje` — `valor` es un porcentaje (0–100) sobre el subtotal.\r\n            `importe` — `valor` es un monto fijo; `base` decide si se resta del subtotal\r\n            sin impuestos o del total con impuestos."
+          },
+          "base": {
+            "enum": [
+              "subtotal",
+              "total"
+            ],
+            "type": "string",
+            "description": "Solo aplica cuando `modo` es `importe`: indica de qué cifra se resta el importe.\r\n`subtotal` — del subtotal sin impuestos (valor por omisión).\r\n`total` — del total con impuestos.\r\nSe ignora en modo `porcentaje`."
+          },
+          "valor": {
+            "type": "number",
+            "description": "Porcentaje o importe según `modo`. Enviar `0` para cancelar el descuento.",
+            "format": "double"
+          },
+          "comentario": {
+            "type": "string",
+            "description": "Comentario/motivo del descuento — se guarda en `tempcheques.comentariodescuento`.",
+            "nullable": true
+          },
+          "idTipoDescuento": {
+            "type": "string",
+            "description": "Clave del tipo de descuento (catálogo `tipodescuento`). Obligatorio si la sucursal fuerza tipo de descuento.",
+            "nullable": true
+          },
+          "usuario": {
+            "type": "string",
+            "description": "Usuario del punto de venta que autoriza. Se valida contra el catálogo de usuarios. Omitido = `API`.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Descuento general aplicado a toda la cuenta abierta."
+      },
       "AsistenciaDto": {
         "type": "object",
         "properties": {
@@ -3548,6 +4414,80 @@
           }
         },
         "additionalProperties": false
+      },
+      "CancelOrderItem": {
+        "type": "object",
+        "properties": {
+          "movimiento": {
+            "type": "integer",
+            "description": "Número de movimiento de la línea dentro de la cuenta.",
+            "format": "int32"
+          },
+          "idProducto": {
+            "type": "string",
+            "description": "Clave del producto de esa línea.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Una línea de la cuenta que se desea cancelar."
+      },
+      "CancelOrderItemsRequest": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CancelOrderItem"
+            },
+            "description": "Líneas a cancelar. Cada una debe existir en la cuenta.",
+            "nullable": true
+          },
+          "razon": {
+            "type": "string",
+            "description": "Motivo de la cancelación, en texto libre — se guarda en el registro de cancelaciones que ve\r\nel punto de venta. Obligatorio si la sucursal exige motivo de cancelación\r\n(`forzarmotivocancela`); en ese caso una cadena vacía se rechaza.\r\n            \r\nEl punto de venta ofrece un catálogo de motivos sugeridos (SERVICIO LENTO, ERROR DE CAPTURA,\r\nMAL SABOR, CAMBIO DE OPINIÓN CLIENTE), pero son sólo texto: no llevan clave. Envíe aquí la\r\ndescripción tal cual, o cualquier otro texto. Máximo 200 caracteres.\r\n            \r\nLo que se guarda no es exactamente lo enviado: el punto de venta añade la mesa al final, en\r\nel formato `\"ERROR DE CAPTURA Mesa: CL-GE9-1\"`, porque el registro de cancelaciones no\r\ntiene columna de mesa. Se reproduce ese mismo formato.",
+            "nullable": true
+          },
+          "usuario": {
+            "type": "string",
+            "description": "Usuario del punto de venta que autoriza. Se valida contra el catálogo de usuarios. Omitido = `API`.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Cancelación de una o más líneas de una cuenta abierta."
+      },
+      "CancelOrderItemsResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "folio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "itemsCancelados": {
+            "type": "integer",
+            "description": "Número de líneas efectivamente canceladas. Puede ser mayor que el número de líneas enviadas:\r\ncancelar un producto base arrastra sus modificadores.",
+            "format": "int32"
+          },
+          "movimientos": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Movimientos de las líneas canceladas, incluidos los modificadores arrastrados. Son los\r\nmovimientos que tenían ANTES de la renumeración; las líneas que sobreviven se renumeran de\r\nforma consecutiva desde 1, igual que hace SoftRestaurant.",
+            "nullable": true
+          },
+          "totales": {
+            "$ref": "#/components/schemas/OrderDiscountTotalsDto"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Resultado de cancelar productos de una cuenta abierta."
       },
       "CloseShiftRequest": {
         "type": "object",
@@ -4757,6 +5697,83 @@
         },
         "additionalProperties": false
       },
+      "OrderDiscountTotalsDto": {
+        "type": "object",
+        "properties": {
+          "totalSinDescuento": {
+            "type": "number",
+            "description": "Suma de los importes de línea sin impuestos y sin ningún descuento.",
+            "format": "double"
+          },
+          "subtotal": {
+            "type": "number",
+            "description": "Subtotal sin impuestos, ya neteado de los descuentos por producto.",
+            "format": "double"
+          },
+          "subtotalConDescuento": {
+            "type": "number",
+            "description": "Subtotal después de aplicar además el descuento general.",
+            "format": "double"
+          },
+          "totalDescuentos": {
+            "type": "number",
+            "description": "Suma de todos los descuentos aplicados (por producto + general).",
+            "format": "double"
+          },
+          "descuento": {
+            "type": "number",
+            "description": "Porcentaje de descuento general vigente en la cuenta.",
+            "format": "double"
+          },
+          "descuentoImporte": {
+            "type": "number",
+            "description": "Importe de descuento general vigente en la cuenta.",
+            "format": "double"
+          },
+          "totalImpuestos": {
+            "type": "number",
+            "description": "Impuestos calculados sobre el subtotal con descuento.",
+            "format": "double"
+          },
+          "total": {
+            "type": "number",
+            "description": "Total a cobrar, con impuestos.",
+            "format": "double"
+          },
+          "totalSinDescuentoImp": {
+            "type": "number",
+            "description": "Total con impuestos antes del descuento general.",
+            "format": "double"
+          },
+          "totalAlimentos": {
+            "type": "number",
+            "description": "Total de alimentos después de descuentos.",
+            "format": "double"
+          },
+          "totalBebidas": {
+            "type": "number",
+            "description": "Total de bebidas después de descuentos.",
+            "format": "double"
+          },
+          "totalOtros": {
+            "type": "number",
+            "description": "Total de otros después de descuentos.",
+            "format": "double"
+          },
+          "totalCortesias": {
+            "type": "number",
+            "description": "Total de cortesías. Un descuento general del 100% no se registra como descuento sino como\r\ncortesía: `totalDescuentos` conserva únicamente los descuentos por producto y el\r\nimporte general pasa a este campo, igual que hace SoftRestaurant.",
+            "format": "double"
+          },
+          "totalArticulos": {
+            "type": "number",
+            "description": "Número de artículos de la cuenta.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Totales de la cuenta recalculados después de aplicar (o cancelar) un descuento."
+      },
       "OrderDtoWithItemsAndPayments": {
         "type": "object",
         "properties": {
@@ -4926,6 +5943,44 @@
         },
         "additionalProperties": false
       },
+      "OrderItemDiscount": {
+        "type": "object",
+        "properties": {
+          "movimiento": {
+            "type": "integer",
+            "description": "Número de movimiento de la línea dentro de la cuenta.",
+            "format": "int32"
+          },
+          "idProducto": {
+            "type": "string",
+            "description": "Clave del producto de esa línea.",
+            "nullable": true
+          },
+          "modo": {
+            "enum": [
+              "porcentaje",
+              "importe"
+            ],
+            "type": "string",
+            "description": "`porcentaje` — `valor` es un porcentaje (0–100) sobre la línea.\r\n             `importe` — `valor` es un monto fijo POR UNIDAD; `base` decide si se resta del\r\n             precio unitario sin impuestos o del precio unitario con impuestos.\r\n            \r\n             Cada línea se resuelve por separado, así que una misma petición puede combinar líneas con\r\n             modo `porcentaje` y líneas con modo `importe`, y bases distintas entre ellas."
+          },
+          "base": {
+            "enum": [
+              "subtotal",
+              "total"
+            ],
+            "type": "string",
+            "description": "Solo aplica cuando `modo` es `importe`: indica de qué precio unitario se resta.\r\n`subtotal` — del precio unitario sin impuestos (valor por omisión).\r\n`total` — del precio unitario con impuestos.\r\nSe ignora en modo `porcentaje`."
+          },
+          "valor": {
+            "type": "number",
+            "description": "Porcentaje o importe unitario según `modo`. Enviar `0` para cancelar el descuento\r\nde la línea.\r\n            \r\nEn modo `importe` el valor es POR UNIDAD: una línea de 3 piezas a $100 con importe $50\r\nsobre `total` descuenta $150 en total, porque cada pieza baja $50. Es lo que hace el\r\npunto de venta, que guarda el descuento de esa línea como 50%.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Descuento aplicado a una línea concreta de la cuenta. Acepta los mismos parámetros y sigue las\r\nmismas reglas que el descuento general, pero referidos a esa línea en lugar de a toda la cuenta."
+      },
       "OrderPaymentMethodsDto": {
         "type": "object",
         "properties": {
@@ -5013,10 +6068,12 @@
           },
           "movimiento": {
             "type": "integer",
+            "description": "Número de línea dentro de la orden. Debe empezar en 1 y ser consecutivo.",
             "format": "int32"
           },
           "cantidad": {
             "type": "number",
+            "description": "Cantidad vendida. Debe ser mayor a 0.",
             "format": "double"
           },
           "descripcionGrupo": {
@@ -5029,6 +6086,7 @@
           },
           "modificador": {
             "type": "integer",
+            "description": "Requerido. `0` para un producto normal; distinto de 0 si la línea es un modificador.",
             "format": "int32",
             "nullable": true
           },
@@ -5057,26 +6115,32 @@
           },
           "precio": {
             "type": "number",
+            "description": "Precio unitario CON impuestos incluidos.",
             "format": "double"
           },
           "precioSinImpuestos": {
             "type": "number",
+            "description": "Precio unitario SIN impuestos, es decir `precio / (1 + (impuesto1+impuesto2+impuesto3)/100)`.",
             "format": "double"
           },
           "impuesto1": {
             "type": "number",
+            "description": "TASA del impuesto en porcentaje — `16.00` significa 16%, no $16.00. No es el importe\r\ndel impuesto. Enviar aquí el importe hace que la orden se cree con totales aparentemente\r\ncorrectos pero que cambien solos al aplicarle el primer descuento.",
             "format": "double"
           },
           "impuesto2": {
             "type": "number",
+            "description": "Tasa del segundo impuesto en porcentaje. `0` si no aplica.",
             "format": "double"
           },
           "impuesto3": {
             "type": "number",
+            "description": "Tasa del tercer impuesto en porcentaje. `0` si no aplica.",
             "format": "double"
           },
           "descuento": {
             "type": "number",
+            "description": "Porcentaje de descuento de la línea (0–100). `0` si no lleva descuento.",
             "format": "double"
           },
           "bloqueado": {
@@ -5086,7 +6150,8 @@
             "type": "boolean"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Una línea de la orden. Los valores de `precio`, `impuesto1..3` y `clasificacion`\r\nson los que devuelve `GET /productos/{licenseKey}` para ese producto."
       },
       "PaymentMethodDto": {
         "type": "object",
@@ -5975,6 +7040,37 @@
         },
         "additionalProperties": false
       },
+      "TipoDescuentoDto": {
+        "type": "object",
+        "properties": {
+          "idTipoDescuento": {
+            "type": "string",
+            "description": "Clave del tipo de descuento. Es el valor que se envia como `idTipoDescuento` al aplicar un descuento.",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "description": "Nombre visible del tipo de descuento.",
+            "nullable": true
+          },
+          "descuento": {
+            "type": "number",
+            "description": "Porcentaje propio del tipo de descuento. No es un tope.",
+            "format": "double"
+          },
+          "maximoActivado": {
+            "type": "boolean",
+            "description": "Cuando es `true`, PosGateway.Application.Features.Workers.TiposDescuento.Dtos.TipoDescuentoDto.ImporteMaximoDescuento funciona como tope: un descuento\r\ncuyo importe lo exceda sera rechazado. PosGateway.Application.Features.Workers.TiposDescuento.Dtos.TipoDescuentoDto.Descuento NO es el tope — es el\r\nporcentaje propio del tipo de descuento."
+          },
+          "importeMaximoDescuento": {
+            "type": "number",
+            "description": "Monto máximo del descuento a aplicar cuando PosGateway.Application.Features.Workers.TiposDescuento.Dtos.TipoDescuentoDto.MaximoActivado es `true`.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Un tipo de descuento del catalogo de la sucursal."
+      },
       "TipoEmpleado": {
         "enum": [
           1,
@@ -5982,6 +7078,35 @@
         ],
         "type": "integer",
         "format": "int32"
+      },
+      "TiposDescuentoResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tiposDescuento": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TipoDescuentoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "TurnoDto": {
         "type": "object",
