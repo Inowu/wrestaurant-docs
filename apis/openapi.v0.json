@@ -302,19 +302,19 @@
               "schema": {
                 "$ref": "#/components/schemas/CreateOrderRequest"
               },
-              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
+              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false},{"idProducto":"14001","descripcionProducto":"Limonada natural","idGrupo":"0014","movimiento":2,"cantidad":1,"descripcionGrupo":"Refrescos","clasificacion":"1","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Limonada","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":45.00,"precioSinImpuestos":38.7931,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateOrderRequest"
               },
-              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
+              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false},{"idProducto":"14001","descripcionProducto":"Limonada natural","idGrupo":"0014","movimiento":2,"cantidad":1,"descripcionGrupo":"Refrescos","clasificacion":"1","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Limonada","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":45.00,"precioSinImpuestos":38.7931,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateOrderRequest"
               },
-              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
+              "example": {"turnDependent":true,"mesa":"5","idMesero":"001","estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":2,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":2,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"Sin pepinillos","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false},{"idProducto":"14001","descripcionProducto":"Limonada natural","idGrupo":"0014","movimiento":2,"cantidad":1,"descripcionGrupo":"Refrescos","clasificacion":"1","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Limonada","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":45.00,"precioSinImpuestos":38.7931,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}]}
             }
           }
         },
@@ -407,7 +407,7 @@
           "Endpoints"
         ],
         "summary": "Listar órdenes temporales",
-        "description": "Devuelve las órdenes del turno actual por punto de Venta de una sucursal, con filtro opcional por folio, número de cheque o total. Usa `facturado=true` para incluir solo órdenes ya facturadas, o `facturado=false` para incluir solo las no facturadas; si se omite, no se filtra por estado de facturación.",
+        "description": "Devuelve las órdenes del turno actual del Punto de Venta de una sucursal, con sus productos, formas de pago e impuestos.\n\nUsa `folio` para traer una orden concreta: es una coincidencia exacta, no una búsqueda parcial. Omítelo para no filtrar por folio.\n\nEl parámetro `search` busca coincidencias parciales en folio, número de cheque, mesa y total.\n\nUsa `facturado=true` para incluir solo órdenes ya facturadas, o `facturado=false` para incluir solo las no facturadas; si se omite, no se filtra por estado de facturación.\n\nRetorna solo cuentas del turno en curso, no admite filtros de fecha.",
         "operationId": "GetTempOrders",
         "parameters": [
           {
@@ -430,6 +430,14 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "folio",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -565,19 +573,19 @@
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
               },
-              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
               },
-              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
               },
-              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"ALIMENTOS","modificador":null,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.72,"impuesto1":12.28,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
             }
           }
         },
@@ -2257,10 +2265,12 @@
           },
           "movimiento": {
             "type": "integer",
+            "description": "Número de línea dentro de la orden. Debe empezar en 1 y ser consecutivo.",
             "format": "int32"
           },
           "cantidad": {
             "type": "number",
+            "description": "Cantidad vendida. Debe ser mayor a 0.",
             "format": "double"
           },
           "descripcionGrupo": {
@@ -2273,6 +2283,7 @@
           },
           "modificador": {
             "type": "integer",
+            "description": "Requerido. `0` para un producto normal; distinto de 0 si la línea es un modificador.",
             "format": "int32",
             "nullable": true
           },
@@ -2301,26 +2312,32 @@
           },
           "precio": {
             "type": "number",
+            "description": "Precio unitario CON impuestos incluidos.",
             "format": "double"
           },
           "precioSinImpuestos": {
             "type": "number",
+            "description": "Precio unitario SIN impuestos, es decir `precio / (1 + (impuesto1+impuesto2+impuesto3)/100)`.",
             "format": "double"
           },
           "impuesto1": {
             "type": "number",
+            "description": "TASA del impuesto en porcentaje — `16.00` significa 16%, no $16.00. No es el importe\r\ndel impuesto. Enviar aquí el importe hace que la orden se cree con totales aparentemente\r\ncorrectos pero que cambien solos al aplicarle el primer descuento.",
             "format": "double"
           },
           "impuesto2": {
             "type": "number",
+            "description": "Tasa del segundo impuesto en porcentaje. `0` si no aplica.",
             "format": "double"
           },
           "impuesto3": {
             "type": "number",
+            "description": "Tasa del tercer impuesto en porcentaje. `0` si no aplica.",
             "format": "double"
           },
           "descuento": {
             "type": "number",
+            "description": "Porcentaje de descuento de la línea (0–100). `0` si no lleva descuento.",
             "format": "double"
           },
           "bloqueado": {
@@ -2330,7 +2347,8 @@
             "type": "boolean"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Una línea de la orden. Los valores de `precio`, `impuesto1..3` y `clasificacion`\r\nson los que devuelve `GET /productos/{licenseKey}` para ese producto."
       },
       "PaymentMethodDto": {
         "type": "object",
