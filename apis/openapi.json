@@ -2237,7 +2237,7 @@
           "Endpoints"
         ],
         "summary": "Listar meseros",
-        "description": "Devuelve el listado de meseros configurados en una sucursal.",
+        "description": "Devuelve el listado de meseros configurados en una sucursal. Acepta búsqueda por texto libre sobre idmesero, nombre y perfil (search), o coincidencia exacta sobre idmesero (idMesero). Si se envía idMesero se ignora search.",
         "operationId": "GetMeseros",
         "parameters": [
           {
@@ -2264,6 +2264,13 @@
           },
           {
             "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idMesero",
             "in": "query",
             "schema": {
               "type": "string"
@@ -3379,6 +3386,316 @@
         "x-fern-sdk-group-name": "pos"
       }
     },
+    "/api/v1/temp_ordenes/imprimir/{licenseKey}/{folio}": {
+      "post": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Imprimir la cuenta de una orden abierta",
+        "description": "Imprime la cuenta de una orden abierta. Se comporta distinto según si la cuenta ya se había impreso:\n\n- **Primera impresión**: la cuenta recibe su número de cheque, tomado del consecutivo de la sucursal, y queda marcada como impresa. Ese número es el que identifica la venta en los reportes y en la facturación.\n- **Reimpresión**: la cuenta conserva su número de cheque; sólo se incrementa el contador de impresiones y la reimpresión queda registrada en la bitácora del punto de venta, con el usuario enviado en `usuario`.\n\nNo hace falta indicar cuál de las dos es: la decide el punto de venta según el estado de la cuenta. El resultado se informa en `esReimpresion`.\nImprimir NO cobra la cuenta. La orden sigue abierta, puede cerrarse con `POST /temp_ordenes/cerrar/{licenseKey}/{folio}`; una cuenta impresa sólo admite cambios si fue reabierta. Tampoco asigna turno ni folio de nota de consumo: eso ocurre al cobrar.\nEs el endpoint para entregar otra copia del ticket después de cobrar: esa llamada es una reimpresión.\nAntes de imprimir se recalculan los totales de la cuenta, conservando el descuento general y los descuentos por producto.\nRequiere un turno abierto en la estación de la cuenta, y que la cuenta no esté cancelada ni en uso en una estación.\n`imprimirTicket` (por omisión `true`) controla la impresión física del ticket. Envíe `false` para registrar la impresión en el punto de venta sin sacar papel. La impresión física no forma parte de la transacción: si falla, la cuenta queda impresa igualmente y el detalle se devuelve en `impresion`, sin cambiar el código de respuesta.",
+        "operationId": "PrintOpenOrder",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "folio",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintOpenOrderRequest"
+              },
+              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05"}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintOpenOrderRequest"
+              },
+              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05"}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrintOpenOrderRequest"
+              },
+              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrintOpenOrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/temp_ordenes/cerrar/{licenseKey}/{folio}": {
+      "post": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Cerrar (cobrar) una orden abierta",
+        "description": "Cobra una orden abierta y la convierte en una venta: registra las formas de pago, marca la cuenta como pagada y la asigna al turno abierto de su estación. A partir de ese momento la orden ya no admite cambios, y el cierre de turno la migrará al histórico de órdenes.\n\n**Pagos.** Envíe una o más formas de pago en `pagos` (hasta 10). La suma de `importe × tipoDeCambio` debe cubrir el total de la cuenta; si es menor, no se cobra nada y se devuelve un error con el total esperado. El excedente se entrega como cambio y se descuenta del pago en efectivo, igual que en el punto de venta: por eso un excedente sin ningún pago en efectivo se rechaza, ya que sería un cobro de más y no un cambio.\n\n**Cobrar una cuenta no impresa se rechaza cuando la sucursal no permite cobrar sin imprimir; donde sí lo permite, la cuenta se cobra sin número de cheque, igual que en el punto de venta. El valor de esa configuración se devuelve en `pagarSinImprimir`.\n\n**Cuentas sin productos.** Una cuenta vacía se puede cobrar: el total es 0.00 y se registra un pago de 0.00.\n\nRequiere un turno abierto en la estación de la cuenta, y que la cuenta no esté pagada, cancelada ni en uso en una estación. Los totales se recalculan antes de cobrar, conservando el descuento general y los descuentos por producto.",
+        "operationId": "CloseOpenOrder",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "folio",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseOpenOrderRequest"
+              },
+              "example": {"pagos":[{"idFormaDePago":"EF","importe":500.00,"propina":0,"referencia":null,"tipoDeCambio":1},{"idFormaDePago":"TARJC","importe":620.00,"propina":50.00,"referencia":"4242","tipoDeCambio":1}],"usuario":"05"}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseOpenOrderRequest"
+              },
+              "example": {"pagos":[{"idFormaDePago":"EF","importe":500.00,"propina":0,"referencia":null,"tipoDeCambio":1},{"idFormaDePago":"TARJC","importe":620.00,"propina":50.00,"referencia":"4242","tipoDeCambio":1}],"usuario":"05"}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseOpenOrderRequest"
+              },
+              "example": {"pagos":[{"idFormaDePago":"EF","importe":500.00,"propina":0,"referencia":null,"tipoDeCambio":1},{"idFormaDePago":"TARJC","importe":620.00,"propina":50.00,"referencia":"4242","tipoDeCambio":1}],"usuario":"05"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CloseOpenOrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
     "/api/v1/me/printers": {
       "get": {
         "tags": [
@@ -4147,6 +4464,184 @@
         },
         "x-fern-sdk-group-name": "printers"
       }
+    },
+    "/api/v1/me/pos/{licenseKey}/encabezado-ticket": {
+      "get": {
+        "tags": [
+          "Puntos de venta"
+        ],
+        "summary": "Obtener el encabezado del ticket",
+        "description": "Devuelve los datos del negocio que se imprimen en el encabezado del ticket de cuenta de esta sucursal.\n\nEstos datos no se leen del Punto de Venta. Es una configuración dentro del dashboard en WRestaurantAPI.",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketHeaderDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Puntos de venta"
+        ],
+        "summary": "Configurar el encabezado del ticket",
+        "description": "Guarda los datos del negocio que se imprimen en el encabezado del ticket de cuenta de esta sucursal.\n\nSe reemplaza el encabezado completo: los campos que se omitan quedan vacíos. Un campo vacío simplemente no se imprime, salvo `telefono`, cuya etiqueta \"TEL:\" aparece siempre.\n\nHay que configurarlo antes de la primera impresión. Sin él, el ticket se imprime sin el bloque del negocio.",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketHeaderDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketHeaderDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketHeaderDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketHeaderDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -4488,6 +4983,81 @@
         },
         "additionalProperties": false,
         "description": "Resultado de cancelar productos de una cuenta abierta."
+      },
+      "CloseOpenOrderRequest": {
+        "type": "object",
+        "properties": {
+          "pagos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderPaymentDto"
+            },
+            "description": "Formas de pago con las que se liquida la cuenta. Debe enviarse al menos una y se admiten\r\npagos mixtos. La suma de `importe × tipoDeCambio` debe cubrir el total de la cuenta; el\r\nexcedente se devuelve como cambio y sólo puede salir de un pago en efectivo.",
+            "nullable": true
+          },
+          "usuario": {
+            "type": "string",
+            "description": "Usuario del punto de venta al que se atribuye el cobro. Se valida contra el catálogo de\r\nmeseros. Omitido = `API`.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Cierre (pago) de una cuenta abierta. No imprime: la cuenta debe imprimirse antes con\r\n`POST /temp_ordenes/imprimir/{licenseKey}/{folio}`, salvo que la sucursal permita cobrar sin\r\nimprimir."
+      },
+      "CloseOpenOrderResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "folio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numCheque": {
+            "type": "integer",
+            "description": "Número de cheque de la venta, asignado al imprimir la cuenta.",
+            "format": "int64"
+          },
+          "folioNotaDeConsumo": {
+            "type": "integer",
+            "description": "Folio de la nota de consumo, que el punto de venta asigna al liquidar.",
+            "format": "int64"
+          },
+          "idTurno": {
+            "type": "integer",
+            "description": "Turno al que queda asignada la venta.",
+            "format": "int64"
+          },
+          "cambio": {
+            "type": "number",
+            "description": "Cambio entregado. Es el excedente de los pagos sobre el total y se descuenta del pago en efectivo.",
+            "format": "double"
+          },
+          "propina": {
+            "type": "number",
+            "description": "Suma de las propinas cobradas.",
+            "format": "double"
+          },
+          "pagarSinImprimir": {
+            "type": "boolean",
+            "description": "Valor de `pagarsinimprimir` en la configuración de la sucursal: indica si permite cobrar\r\nuna cuenta sin imprimirla. Cuando es `false`, cobrar una cuenta no impresa se rechaza y\r\nhay que llamar antes a `POST /temp_ordenes/imprimir/{licenseKey}/{folio}`."
+          },
+          "totales": {
+            "$ref": "#/components/schemas/OrderDiscountTotalsDto"
+          },
+          "pagos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderPaymentResultDto"
+            },
+            "description": "Pagos registrados, en el mismo orden en que se enviaron.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Resultado de cerrar una cuenta abierta."
       },
       "CloseShiftRequest": {
         "type": "object",
@@ -5981,6 +6551,38 @@
         "additionalProperties": false,
         "description": "Descuento aplicado a una línea concreta de la cuenta. Acepta los mismos parámetros y sigue las\r\nmismas reglas que el descuento general, pero referidos a esa línea en lugar de a toda la cuenta."
       },
+      "OrderPaymentDto": {
+        "type": "object",
+        "properties": {
+          "idFormaDePago": {
+            "type": "string",
+            "description": "Clave de la forma de pago, tal como la devuelve `GET /formasdepago/{licenseKey}`\r\n(p. ej. `EF`, `TARJC`). Máximo 5 caracteres.",
+            "nullable": true
+          },
+          "importe": {
+            "type": "number",
+            "description": "Importe cubierto con esta forma de pago, en la moneda de `tipoDeCambio`. Se admite\r\n`0`: una cuenta sin productos se liquida con un pago de 0.00, igual que en el punto de\r\nventa.",
+            "format": "double"
+          },
+          "propina": {
+            "type": "number",
+            "description": "Propina cobrada con esta forma de pago. Por omisión 0.",
+            "format": "double"
+          },
+          "referencia": {
+            "type": "string",
+            "description": "Referencia del pago (p. ej. los últimos dígitos de la tarjeta). Máximo 100 caracteres.",
+            "nullable": true
+          },
+          "tipoDeCambio": {
+            "type": "number",
+            "description": "Tipo de cambio de la moneda del pago respecto a la moneda de la cuenta. Por omisión `1`.\r\nEl importe cubierto se calcula como `importe × tipoDeCambio`.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Un pago con el que se liquida una cuenta."
+      },
       "OrderPaymentMethodsDto": {
         "type": "object",
         "properties": {
@@ -6010,6 +6612,33 @@
           }
         },
         "additionalProperties": false
+      },
+      "OrderPaymentResultDto": {
+        "type": "object",
+        "properties": {
+          "idFormaDePago": {
+            "type": "string",
+            "nullable": true
+          },
+          "importe": {
+            "type": "number",
+            "format": "double"
+          },
+          "propina": {
+            "type": "number",
+            "format": "double"
+          },
+          "referencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoDeCambio": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Un pago tal como quedó registrado en la cuenta."
       },
       "OrdersResponse": {
         "type": "object",
@@ -6352,6 +6981,34 @@
         },
         "additionalProperties": false
       },
+      "PrintAttemptDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "`Completada`, `Fallida` u `Omitida`.",
+            "nullable": true
+          },
+          "printerId": {
+            "type": "string",
+            "description": "Impresora a la que se envió el ticket, si se resolvió alguna.",
+            "nullable": true
+          },
+          "jobId": {
+            "type": "string",
+            "description": "Id de auditoría del trabajo de impresión, si se creó.",
+            "format": "uuid",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "description": "Detalle de la falla, o el motivo por el que se omitió la impresión.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Resultado de mandar el ticket a una impresora.\r\n            \r\nLa impresión física NO es parte de la transacción: para cuando se envía el ticket, la cuenta ya\r\nquedó impresa o cobrada en el punto de venta. Por eso una falla aquí no revierte la operación ni\r\ncambia el código de respuesta — se reporta en este bloque y la orden queda correctamente cerrada."
+      },
       "PrintCustomerRequest": {
         "type": "object",
         "properties": {
@@ -6500,6 +7157,67 @@
           }
         },
         "additionalProperties": false
+      },
+      "PrintOpenOrderRequest": {
+        "type": "object",
+        "properties": {
+          "imprimirTicket": {
+            "type": "boolean",
+            "description": "Si se imprime físicamente el ticket en una impresora de la sucursal. Por omisión `true`.\r\nEnvíe `false` para registrar la impresión en el punto de venta (asignar número de cheque\r\no incrementar el contador de reimpresiones) sin sacar papel."
+          },
+          "printerId": {
+            "type": "string",
+            "description": "Id de la impresora destino (obtenido de `GET /me/printers`). Si se omite y la sucursal\r\ntiene una sola impresora térmica, se usa esa.",
+            "nullable": true
+          },
+          "usuario": {
+            "type": "string",
+            "description": "Usuario del punto de venta al que se atribuye la operación. Se valida contra el catálogo de\r\nmeseros. Omitido = `API`. Aparece en la bitácora de reimpresiones.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Impresión de la cuenta de una orden abierta (primera impresión o reimpresión)."
+      },
+      "PrintOpenOrderResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "folio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numCheque": {
+            "type": "integer",
+            "description": "Número de cheque de la cuenta. Se asigna en la PRIMERA impresión, tomándolo del consecutivo\r\nde la sucursal; en las reimpresiones se devuelve el mismo valor sin consumir otro folio.",
+            "format": "int64"
+          },
+          "impresiones": {
+            "type": "integer",
+            "description": "Veces que se ha impreso la cuenta, incluida ésta.",
+            "format": "int32"
+          },
+          "esReimpresion": {
+            "type": "boolean",
+            "description": "`true` si la cuenta ya estaba impresa y ésta fue una reimpresión — que sólo incrementa el\r\n            contador y queda registrada en la bitácora del punto de venta."
+          },
+          "idTurno": {
+            "type": "integer",
+            "description": "Turno abierto en la estación de la cuenta al momento de imprimir.",
+            "format": "int64"
+          },
+          "totales": {
+            "$ref": "#/components/schemas/OrderDiscountTotalsDto"
+          },
+          "impresion": {
+            "$ref": "#/components/schemas/PrintAttemptDto"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Resultado de imprimir la cuenta de una orden abierta."
       },
       "PrintOrderRequest": {
         "required": [
@@ -7039,6 +7757,48 @@
           }
         },
         "additionalProperties": false
+      },
+      "TicketHeaderDto": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "description": "Nombre comercial, en la primera línea del ticket (p. ej. \"EL PAPALOTE TACO & GRILL\").",
+            "nullable": true
+          },
+          "razonSocial": {
+            "type": "string",
+            "description": "Razón social, debajo del nombre comercial.",
+            "nullable": true
+          },
+          "rfc": {
+            "type": "string",
+            "description": "RFC del emisor, impreso como \"RFC:XXXX\".",
+            "nullable": true
+          },
+          "direccionFiscal": {
+            "type": "string",
+            "description": "Domicilio fiscal, impreso debajo del RFC.",
+            "nullable": true
+          },
+          "lugarExpedicion": {
+            "type": "string",
+            "description": "Domicilio de la sucursal, bajo el título \"LUGAR DE EXPEDICION\".",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "description": "Teléfono, impreso como \"TEL:\". Se imprime la etiqueta aunque vaya vacío.",
+            "nullable": true
+          },
+          "notas": {
+            "type": "string",
+            "description": "Nota al pie del ticket, debajo del aviso fiscal (p. ej. \"TIENE 72 HORAS PARA REALIZAR SU FACTURA\"). Se omite si va vacía.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Datos del negocio que se imprimen en el encabezado del ticket de cuenta.\r\n            \r\nNo se leen del Punto de Venta: SoftRestaurant guarda la tabla `empresas` cifrada con una\r\nllave interna de su propio programa, así que estos datos se configuran una vez por sucursal y se\r\nusan en todas las impresiones."
       },
       "TipoDescuentoDto": {
         "type": "object",

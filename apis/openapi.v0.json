@@ -680,7 +680,7 @@
           "Endpoints"
         ],
         "summary": "Listar meseros",
-        "description": "Devuelve el listado de meseros configurados en una sucursal.",
+        "description": "Devuelve el listado de meseros configurados en una sucursal. Acepta búsqueda por texto libre sobre idmesero, nombre y perfil (search), o coincidencia exacta sobre idmesero (idMesero). Si se envía idMesero se ignora search.",
         "operationId": "GetMeseros",
         "parameters": [
           {
@@ -707,6 +707,13 @@
           },
           {
             "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idMesero",
             "in": "query",
             "schema": {
               "type": "string"
