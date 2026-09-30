@@ -868,7 +868,7 @@
           "Endpoints"
         ],
         "summary": "Listar órdenes abiertas del turno actual",
-        "description": "Devuelve todas las cuentas activas (sin cancelar) del turno operativo actual (6:00 AM – 5:59:59 AM del día siguiente).",
+        "description": "Devuelve todas las cuentas activas (sin cancelar) del turno operativo actual (6:00 AM – 5:59:59 AM del día siguiente).\n\n`idMesero` limita el resultado a las cuentas de ese mesero. `soloPendientes=true` excluye las cuentas ya pagadas, que permanecen en la lista hasta el cierre del turno.",
         "operationId": "GetOpenOrders",
         "parameters": [
           {
@@ -891,6 +891,21 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "idMesero",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "soloPendientes",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
             }
           }
         ],
@@ -1817,6 +1832,16 @@
           "nombreMesero": {
             "type": "string",
             "nullable": true
+          },
+          "reabiertas": {
+            "type": "integer",
+            "description": "How many times the cashier reopened the account (`tempcheques.reabiertas`, an int). A\r\nprinted account is editable again only when this is above zero.",
+            "format": "int32"
+          },
+          "propinaIncluida": {
+            "type": "number",
+            "description": "The tip included in the account (`tempcheques.propinaincluida`), always an amount.\r\nSet in SoftRestaurant itself; this API only reads it.",
+            "format": "double"
           },
           "impuestos": {
             "$ref": "#/components/schemas/ImpuestosDto"

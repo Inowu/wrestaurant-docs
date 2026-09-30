@@ -1872,6 +1872,463 @@
         "x-fern-sdk-group-name": "pos"
       }
     },
+    "/api/v1/meseros/login/{licenseKey}": {
+      "post": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Autenticar un mesero por NIP",
+        "description": "Identifica al mesero al que pertenece un NIP. El NIP se valida en el punto de venta y nunca viaja en la respuesta.\n\nSolo meseros activos. Un NIP que no identifica a un único mesero recibe `code: NIP_NOT_RECOGNIZED`.",
+        "operationId": "AuthenticateMesero",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticateMeseroRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticateMeseroRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticateMeseroRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticatedMeseroDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/productos/mas_vendidos/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Productos más vendidos",
+        "description": "Ranking de productos por unidades vendidas en cuentas cerradas, sin contar modificadores ni cuentas canceladas.\n\n`clasificacion`: 1 = bebidas, 2 = alimentos, 3 = otros (omitido = todas). `dias` limita a las ventas de los últimos N días (omitido = todo el historial). `top` entre 1 y 50 (por omisión 1).",
+        "operationId": "GetBestSellers",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "clasificacion",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "dias",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BestSellersResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/temp_ordenes/mesa/{licenseKey}/{folio}": {
+      "put": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Renombrar una cuenta abierta",
+        "description": "Cambia el nombre (mesa) de una cuenta abierta y registra el cambio en la bitácora del punto de venta.\n\nEl nombre no puede estar en uso por otra cuenta abierta sin pagar (`code: TABLE_IN_USE`). La cuenta debe estar abierta: no pagada, no cancelada, no en uso en una estación, y sin imprimir (una cuenta impresa solo admite cambios si fue reabierta).",
+        "operationId": "RenameOrder",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "folio",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenameOrderRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenameOrderRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenameOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RenameOrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/subgrupos/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar subgrupos y la ubicación de cada producto",
+        "description": "Devuelve los subgrupos del menú (cada uno pertenece a un solo grupo; las descripciones se repiten entre grupos, así que identifique por `idSubgrupo`) y, para cada producto, el subgrupo en que está archivado (nulo si ninguno) y si se vende en comedor.",
+        "operationId": "GetSubgrupos",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubgruposResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
     "/api/v1/tipos_descuento/{licenseKey}": {
       "get": {
         "tags": [
@@ -2425,7 +2882,7 @@
           "Endpoints"
         ],
         "summary": "Listar órdenes abiertas del turno actual",
-        "description": "Devuelve todas las cuentas activas (sin cancelar) del turno operativo actual (6:00 AM – 5:59:59 AM del día siguiente).",
+        "description": "Devuelve todas las cuentas activas (sin cancelar) del turno operativo actual (6:00 AM – 5:59:59 AM del día siguiente).\n\n`idMesero` limita el resultado a las cuentas de ese mesero. `soloPendientes=true` excluye las cuentas ya pagadas, que permanecen en la lista hasta el cierre del turno.",
         "operationId": "GetOpenOrders",
         "parameters": [
           {
@@ -2448,6 +2905,21 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "idMesero",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "soloPendientes",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
             }
           }
         ],
@@ -4910,6 +5382,92 @@
         },
         "additionalProperties": false
       },
+      "AuthenticateMeseroRequest": {
+        "type": "object",
+        "properties": {
+          "nip": {
+            "type": "string",
+            "description": "El NIP (`meseros.contraseña`). Hasta 30 caracteres; no necesariamente numérico.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Autenticación de un mesero por NIP."
+      },
+      "AuthenticatedMeseroDto": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "idMesero": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "El mesero al que pertenece el NIP. Nunca incluye la contraseña: el NIP se compara dentro del\r\npunto de venta."
+      },
+      "BestSellerDto": {
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idGrupo": {
+            "type": "string",
+            "nullable": true
+          },
+          "grupo": {
+            "type": "string",
+            "nullable": true
+          },
+          "clasificacion": {
+            "type": "integer",
+            "description": "Clasificación del grupo: 1 = bebidas, 2 = alimentos, 3 = otros.",
+            "format": "int32",
+            "nullable": true
+          },
+          "cantidad": {
+            "type": "number",
+            "description": "Unidades vendidas, sin contar modificadores.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Un producto del ranking de más vendidos."
+      },
+      "BestSellersResponse": {
+        "type": "object",
+        "properties": {
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "productos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BestSellerDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CancelOrderItem": {
         "type": "object",
         "properties": {
@@ -6004,6 +6562,16 @@
           "nombreMesero": {
             "type": "string",
             "nullable": true
+          },
+          "reabiertas": {
+            "type": "integer",
+            "description": "How many times the cashier reopened the account (`tempcheques.reabiertas`, an int). A\r\nprinted account is editable again only when this is above zero.",
+            "format": "int32"
+          },
+          "propinaIncluida": {
+            "type": "number",
+            "description": "The tip included in the account (`tempcheques.propinaincluida`), always an amount.\r\nSet in SoftRestaurant itself; this API only reads it.",
+            "format": "double"
           },
           "impuestos": {
             "$ref": "#/components/schemas/ImpuestosDto"
@@ -7575,6 +8143,30 @@
         },
         "additionalProperties": false
       },
+      "ProductoSubgrupoDto": {
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "idGrupo": {
+            "type": "string",
+            "nullable": true
+          },
+          "idSubgrupo": {
+            "type": "string",
+            "description": "Null when the product is filed under no subgroup of its group.",
+            "nullable": true
+          },
+          "usarComedor": {
+            "type": "boolean",
+            "description": "`productos.usarcomedor`: false for products the dining room cannot sell."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Where a product is filed, and whether the dining room sells it."
+      },
       "ProductsQueryResponse": {
         "type": "object",
         "properties": {
@@ -7614,6 +8206,45 @@
             "items": {
               "$ref": "#/components/schemas/ProductDto"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RenameOrderRequest": {
+        "type": "object",
+        "properties": {
+          "mesa": {
+            "type": "string",
+            "description": "Nombre de la mesa, texto libre (por ejemplo `M-01` o `Barra 2`).",
+            "nullable": true
+          },
+          "usuario": {
+            "type": "string",
+            "description": "Mesero al que se atribuye el cambio en la bitácora. Omitido = `API`.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Nuevo nombre (mesa) de una cuenta abierta."
+      },
+      "RenameOrderResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "folio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mesaAnterior": {
+            "type": "string",
+            "nullable": true
+          },
+          "mesa": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -7752,6 +8383,52 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/StationDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SubgrupoDto": {
+        "type": "object",
+        "properties": {
+          "idSubgrupo": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idGrupo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SubgruposResponse": {
+        "type": "object",
+        "properties": {
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "subgrupos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubgrupoDto"
+            },
+            "nullable": true
+          },
+          "productos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductoSubgrupoDto"
             },
             "nullable": true
           }
