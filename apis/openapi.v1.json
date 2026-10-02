@@ -3864,7 +3864,7 @@
           "Endpoints"
         ],
         "summary": "Imprimir la cuenta de una orden abierta",
-        "description": "Imprime la cuenta de una orden abierta. Se comporta distinto según si la cuenta ya se había impreso:\n\n- **Primera impresión**: la cuenta recibe su número de cheque, tomado del consecutivo de la sucursal, y queda marcada como impresa. Ese número es el que identifica la venta en los reportes y en la facturación.\n- **Reimpresión**: la cuenta conserva su número de cheque; sólo se incrementa el contador de impresiones y la reimpresión queda registrada en la bitácora del punto de venta, con el usuario enviado en `usuario`.\n\nNo hace falta indicar cuál de las dos es: la decide el punto de venta según el estado de la cuenta. El resultado se informa en `esReimpresion`.\nImprimir NO cobra la cuenta. La orden sigue abierta, puede cerrarse con `POST /temp_ordenes/cerrar/{licenseKey}/{folio}`; una cuenta impresa sólo admite cambios si fue reabierta. Tampoco asigna turno ni folio de nota de consumo: eso ocurre al cobrar.\nEs el endpoint para entregar otra copia del ticket después de cobrar: esa llamada es una reimpresión.\nAntes de imprimir se recalculan los totales de la cuenta, conservando el descuento general y los descuentos por producto.\nRequiere un turno abierto en la estación de la cuenta, y que la cuenta no esté cancelada ni en uso en una estación.\n`imprimirTicket` (por omisión `true`) controla la impresión física del ticket. Envíe `false` para registrar la impresión en el punto de venta sin sacar papel. La impresión física no forma parte de la transacción: si falla, la cuenta queda impresa igualmente y el detalle se devuelve en `impresion`, sin cambiar el código de respuesta.",
+        "description": "Imprime la cuenta de una orden abierta. Se comporta distinto según si la cuenta ya se había impreso:\n\n- **Primera impresión**: la cuenta recibe su número de cheque, tomado del consecutivo de la sucursal, y queda marcada como impresa. Ese número es el que identifica la venta en los reportes y en la facturación.\n- **Reimpresión**: la cuenta conserva su número de cheque; sólo se incrementa el contador de impresiones y la reimpresión queda registrada en la bitácora del punto de venta, con el usuario enviado en `usuario`.\n\nNo hace falta indicar cuál de las dos es: la decide el punto de venta según el estado de la cuenta. El resultado se informa en `esReimpresion`.\nImprimir NO cobra la cuenta. La orden sigue abierta, puede cerrarse con `POST /temp_ordenes/cerrar/{licenseKey}/{folio}`; una cuenta impresa sólo admite cambios si fue reabierta. Tampoco asigna turno ni folio de nota de consumo: eso ocurre al cobrar.\nEs el endpoint para entregar otra copia del ticket después de cobrar: esa llamada es una reimpresión.\nAntes de imprimir se recalculan los totales de la cuenta, conservando el descuento general y los descuentos por producto.\nRequiere un turno abierto en la estación de la cuenta, y que la cuenta no esté cancelada ni en uso en una estación.\n`imprimirTicket` (por omisión `true`) controla la impresión física del ticket. Envíe `false` para registrar la impresión en el punto de venta sin sacar papel. La impresión física no forma parte de la transacción: si falla, la cuenta queda impresa igualmente y el detalle se devuelve en `impresion`, sin cambiar el código de respuesta.\n`includeOrderComments` (por omisión `false`) agrega al ticket el comentario de cada producto, impreso debajo del renglón al que pertenece. El comentario se lee de `tempcheqdet.comentario` de la propia cuenta, no de esta llamada, así que refleja lo que el punto de venta tiene guardado — incluido un cambio hecho desde SoftRestaurant. Un producto sin comentario no imprime renglón extra.",
         "operationId": "PrintOpenOrder",
         "parameters": [
           {
@@ -3912,19 +3912,19 @@
               "schema": {
                 "$ref": "#/components/schemas/PrintOpenOrderRequest"
               },
-              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05"}
+              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05","includeOrderComments":true}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/PrintOpenOrderRequest"
               },
-              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05"}
+              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05","includeOrderComments":true}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/PrintOpenOrderRequest"
               },
-              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05"}
+              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05","includeOrderComments":true}
             }
           }
         },
@@ -7742,6 +7742,10 @@
             "type": "string",
             "description": "Usuario del punto de venta al que se atribuye la operación. Se valida contra el catálogo de\r\nmeseros. Omitido = `API`. Aparece en la bitácora de reimpresiones.",
             "nullable": true
+          },
+          "includeOrderComments": {
+            "type": "boolean",
+            "description": "Si el ticket incluye el comentario de cada producto, impreso debajo del renglón al que\r\npertenece. Por omisión `false`, para no cambiar el ticket de quien ya consume este\r\nendpoint.\r\n            \r\nEl comentario se lee de `tempcheqdet.comentario` de la propia cuenta — el que el punto\r\nde venta tiene guardado, no uno enviado en esta llamada — así que refleja cualquier cambio\r\nhecho desde SoftRestaurant. Un producto sin comentario no imprime renglón extra."
           }
         },
         "additionalProperties": false,
