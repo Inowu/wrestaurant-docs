@@ -263,7 +263,7 @@
           "Endpoints"
         ],
         "summary": "Crear una orden (nueva cuenta)",
-        "description": "Crea una nueva cuenta y retorna el id.",
+        "description": "Crea una nueva cuenta y retorna el id.\n\n`productos` puede ir vacío: la cuenta se abre sin artículos, igual que desde el punto de venta, y se le agregan después con `temp_ordenes/productos`.",
         "operationId": "CreateTempOrders",
         "parameters": [
           {
