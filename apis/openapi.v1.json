@@ -2242,6 +2242,141 @@
         "x-fern-sdk-group-name": "pos"
       }
     },
+    "/api/v1/temp_ordenes/cliente/{licenseKey}/{folio}": {
+      "put": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Asignar un cliente a una cuenta abierta",
+        "description": "Vincula un cliente del punto de venta a una cuenta abierta y, si el cliente tiene un descuento, lo aplica a la cuenta. Obtenga la clave del cliente con `GET /clientes`.\n\nEl descuento del cliente reemplaza el descuento general que tuviera la cuenta; la respuesta incluye el descuento anterior y los totales actualizados.\n\nSe rechaza si el cliente no existe (`code: CLIENT_NOT_FOUND`), está suspendido (`code: CLIENT_INACTIVE`), o tiene descuento y la sucursal no permite descuentos (`code: DISCOUNTS_DISABLED`). La cuenta debe estar abierta: no pagada, no cancelada, no en uso en una estación, y sin imprimir (una cuenta impresa solo admite cambios si fue reabierta).",
+        "operationId": "AssignOrderClient",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "folio",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignOrderClientRequest"
+              },
+              "example": {"idCliente":"000002","usuario":"02"}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignOrderClientRequest"
+              },
+              "example": {"idCliente":"000002","usuario":"02"}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignOrderClientRequest"
+              },
+              "example": {"idCliente":"000002","usuario":"02"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssignOrderClientResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
     "/api/v1/subgrupos/{licenseKey}": {
       "get": {
         "tags": [
@@ -4168,6 +4303,125 @@
         "x-fern-sdk-group-name": "pos"
       }
     },
+    "/api/v1/clientes/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar clientes",
+        "description": "Devuelve, paginados, los clientes registrados en el Punto de Venta de una sucursal. `search` busca coincidencias parciales en nombre, email, RFC y CURP; `curp` filtra por coincidencia exacta y, si se envía, `search` se ignora.",
+        "operationId": "GetClientes",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "curp",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
     "/api/v1/me/printers": {
       "get": {
         "tags": [
@@ -5382,6 +5636,70 @@
         },
         "additionalProperties": false
       },
+      "AssignOrderClientRequest": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "string",
+            "description": "Clave del cliente en el punto de venta (`idCliente` de `GET /clientes`).",
+            "nullable": true
+          },
+          "usuario": {
+            "type": "string",
+            "description": "Mesero al que se atribuye el cambio en la bitácora. Omitido = `API`.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Cliente que se vinculará a una cuenta abierta."
+      },
+      "AssignOrderClientResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "folio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idCliente": {
+            "type": "string",
+            "description": "Clave del cliente vinculado a la cuenta.",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "description": "Nombre del cliente vinculado.",
+            "nullable": true
+          },
+          "descuento": {
+            "type": "number",
+            "description": "Porcentaje de descuento del cliente aplicado a la cuenta. `0` si el cliente no tiene descuento.",
+            "format": "double"
+          },
+          "idTipoDescuento": {
+            "type": "string",
+            "description": "Tipo de descuento del cliente, si tiene uno.",
+            "nullable": true
+          },
+          "idClienteAnterior": {
+            "type": "string",
+            "description": "Cliente que tenía la cuenta antes de esta operación, o `null` si no tenía.",
+            "nullable": true
+          },
+          "descuentoAnterior": {
+            "type": "number",
+            "description": "Porcentaje de descuento general que tenía la cuenta antes de esta operación. Si era distinto\r\nde `0`, fue reemplazado por el descuento del cliente.",
+            "format": "double"
+          },
+          "totales": {
+            "$ref": "#/components/schemas/OrderDiscountTotalsDto"
+          }
+        },
+        "additionalProperties": false
+      },
       "AuthenticateMeseroRequest": {
         "type": "object",
         "properties": {
@@ -5541,6 +5859,256 @@
         },
         "additionalProperties": false,
         "description": "Resultado de cancelar productos de una cuenta abierta."
+      },
+      "ClienteDto": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "direccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoPostal": {
+            "type": "string",
+            "nullable": true
+          },
+          "poblacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "pais": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "rfc": {
+            "type": "string",
+            "nullable": true
+          },
+          "curp": {
+            "type": "string",
+            "nullable": true
+          },
+          "cumpleaños": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "limiteDeCredito": {
+            "type": "number",
+            "format": "double"
+          },
+          "limiteCreditoDiario": {
+            "type": "number",
+            "format": "double"
+          },
+          "descuento": {
+            "type": "number",
+            "format": "double"
+          },
+          "notas": {
+            "type": "string",
+            "nullable": true
+          },
+          "folioFiscal": {
+            "type": "string",
+            "nullable": true
+          },
+          "idTipoDescuento": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoFacturacion": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "procesadoWeb": {
+            "type": "boolean"
+          },
+          "noCobrarImpuestos": {
+            "type": "boolean"
+          },
+          "contacto": {
+            "type": "string",
+            "nullable": true
+          },
+          "tarjetaMonedero": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono1": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono2": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono3": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono4": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono5": {
+            "type": "string",
+            "nullable": true
+          },
+          "femexTipoCliente": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "giro": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoCredito": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idTipoCliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "idTipoMenu": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaAlta": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "retenerImpuesto": {
+            "type": "boolean"
+          },
+          "tipoCuenta": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipoClienteNcf": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dinerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "descuentoPrimeraVentaComedorEmp": {
+            "type": "number",
+            "format": "double"
+          },
+          "idPaisSAT": {
+            "type": "string",
+            "nullable": true
+          },
+          "contemplarPropina": {
+            "type": "boolean"
+          },
+          "obligTributarias": {
+            "type": "string",
+            "nullable": true
+          },
+          "tratamientoPersonal": {
+            "type": "string",
+            "nullable": true
+          },
+          "idRegimenSAT": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "diasVigenciaCredito": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "primerNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "otrosNombres": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellido": {
+            "type": "string",
+            "nullable": true
+          },
+          "segundoApellido": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClientesResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "clientes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClienteDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "CloseOpenOrderRequest": {
         "type": "object",
