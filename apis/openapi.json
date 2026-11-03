@@ -7419,6 +7419,14 @@
             "type": "number",
             "format": "double"
           },
+          "campoAdicional1": {
+            "type": "string",
+            "nullable": true
+          },
+          "campoAdicional2": {
+            "type": "string",
+            "nullable": true
+          },
           "nombreMesero": {
             "type": "string",
             "nullable": true
@@ -7920,6 +7928,14 @@
           "totalCortesiaAlimentos": {
             "type": "number",
             "format": "double"
+          },
+          "campoAdicional1": {
+            "type": "string",
+            "nullable": true
+          },
+          "campoAdicional2": {
+            "type": "string",
+            "nullable": true
           },
           "items": {
             "type": "array",
