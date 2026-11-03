@@ -1153,19 +1153,19 @@
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
               },
-              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001","mesa":"5"}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
               },
-              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001","mesa":"5"}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
               },
-              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001","mesa":"5"}
             }
           }
         },
@@ -2503,6 +2503,110 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TiposDescuentoResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "pos"
+      }
+    },
+    "/api/v1/mesas/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Endpoints"
+        ],
+        "summary": "Listar mesas",
+        "description": "Devuelve las mesas de la sucursal agrupadas por área. Cada mesa indica si está en uso y las cuentas abiertas asignadas (folio, nombre, mesero), además de su posición en el mapa actual del área cuando está colocada en él.\n\nEnvía idEmpresa para devolver solo las mesas de esa empresa.",
+        "operationId": "GetMesas",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idEmpresa",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesasResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -5525,6 +5629,45 @@
         "additionalProperties": false,
         "description": "Descuento general aplicado a toda la cuenta abierta."
       },
+      "AreaMesasDto": {
+        "type": "object",
+        "properties": {
+          "idArea": {
+            "type": "string",
+            "description": "Clave del área (`idarearestaurant`).",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "description": "Nombre del área, por ejemplo `COMEDOR`.",
+            "nullable": true
+          },
+          "activa": {
+            "type": "boolean",
+            "description": "Indica si el área está activa en el punto de venta."
+          },
+          "idMapa": {
+            "type": "string",
+            "description": "Clave del mapa actual del área, o `null` si el área no tiene mapa.",
+            "nullable": true
+          },
+          "mapa": {
+            "type": "string",
+            "description": "Nombre del mapa actual del área, o `null` si el área no tiene mapa.",
+            "nullable": true
+          },
+          "mesas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MesaDto"
+            },
+            "description": "Mesas del área.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Área del restaurante con sus mesas."
+      },
       "AsistenciaDto": {
         "type": "object",
         "properties": {
@@ -6291,6 +6434,10 @@
           "idFormaDePago": {
             "type": "string",
             "nullable": true
+          },
+          "mesa": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6823,6 +6970,148 @@
         },
         "additionalProperties": false,
         "description": "Parámetros de medio TSPL de una etiquetadora. Sólo se aplican cuando kind es \"label\";\r\nen una impresora térmica se devuelven con sus valores por defecto y se ignoran al imprimir."
+      },
+      "MesaCuentaDto": {
+        "type": "object",
+        "properties": {
+          "folio": {
+            "type": "integer",
+            "description": "Folio de la cuenta.",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "description": "Nombre de la cuenta.",
+            "nullable": true
+          },
+          "idMesero": {
+            "type": "string",
+            "description": "Clave del mesero asignado.",
+            "nullable": true
+          },
+          "orden": {
+            "type": "integer",
+            "description": "Número de orden de la cuenta.",
+            "format": "int32",
+            "nullable": true
+          },
+          "fecha": {
+            "type": "string",
+            "description": "Fecha y hora de apertura de la cuenta.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "impreso": {
+            "type": "boolean",
+            "description": "Indica si la cuenta ya se imprimió."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Cuenta abierta asignada a una mesa."
+      },
+      "MesaDto": {
+        "type": "object",
+        "properties": {
+          "idMesa": {
+            "type": "string",
+            "description": "Clave de la mesa (`idmesa`).",
+            "nullable": true
+          },
+          "personas": {
+            "type": "integer",
+            "description": "Capacidad de personas de la mesa.",
+            "format": "int32"
+          },
+          "idTipoMesa": {
+            "type": "string",
+            "description": "Clave del tipo de mesa.",
+            "nullable": true
+          },
+          "tipoMesa": {
+            "type": "string",
+            "description": "Nombre del tipo de mesa, por ejemplo `REDONDA` o `CUADRADA`.",
+            "nullable": true
+          },
+          "estatusOcupacion": {
+            "type": "integer",
+            "description": "Estatus de ocupación tal como lo guarda el punto de venta (1 = ocupada).",
+            "format": "int32"
+          },
+          "enUso": {
+            "type": "boolean",
+            "description": "`true` si la mesa tiene al menos una cuenta abierta o el punto de venta la marca como ocupada."
+          },
+          "cuentas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MesaCuentaDto"
+            },
+            "description": "Cuentas abiertas asignadas a la mesa. Vacío si la mesa está libre.",
+            "nullable": true
+          },
+          "posicion": {
+            "$ref": "#/components/schemas/MesaPosicionDto"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Una mesa, su ocupación y su posición en el mapa."
+      },
+      "MesaPosicionDto": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "y": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ancho": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "alto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rotacion": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Posición y tamaño de una mesa en el mapa, en pixeles."
+      },
+      "MesasResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalResults": {
+            "type": "integer",
+            "description": "Número total de mesas.",
+            "format": "int32"
+          },
+          "areas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AreaMesasDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "MeseroDto": {
         "type": "object",
