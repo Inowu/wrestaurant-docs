@@ -573,19 +573,19 @@
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
               },
-              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001","mesa":"5"}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
               },
-              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001","mesa":"5"}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateClosedOrderRequest"
               },
-              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001"}
+              "example": {"turnDependent":true,"estacion":"CAJA1","serie":"A","idEmpresa":"1","noPersonas":1,"productos":[{"idProducto":"01052","descripcionProducto":"Hamburguesa doble carne","idGrupo":"0007","movimiento":1,"cantidad":1,"descripcionGrupo":"Hamburguesas","clasificacion":"2","modificador":0,"productoCompuestoPrincipal":0,"nombreCorto":"Hamb. doble","imagen":"","visibleMenu":true,"idProdServSat":"50202306","comentario":"","precio":89.00,"precioSinImpuestos":76.7241,"impuesto1":16.00,"impuesto2":0,"impuesto3":0,"descuento":0,"bloqueado":false,"permitirprodcompenmodif":false}],"idFormaDePago":"001","mesa":"5"}
             }
           }
         },
@@ -1243,6 +1243,10 @@
             "nullable": true
           },
           "idFormaDePago": {
+            "type": "string",
+            "nullable": true
+          },
+          "mesa": {
             "type": "string",
             "nullable": true
           }
