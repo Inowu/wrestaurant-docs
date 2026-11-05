@@ -75,7 +75,7 @@ const client = new WrestaurantApiClient({
 
 const idempotencyKey = randomUUID(); // genérala una vez, reúsala en reintentos
 
-const venta = await client.endpoints.createClosedTempOrder({
+const venta = await client.ordenes.createClosedTempOrder({
   licenseKey: "DS5D2368HCME4O9X",
   "Idempotency-Key": idempotencyKey,
   estacion: "1",

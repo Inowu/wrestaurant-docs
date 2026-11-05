@@ -5,27 +5,27 @@ import type { ZudokuConfig } from "zudoku";
 // Zudoku derives each version's label/segment from the spec's own info.version
 // ("v0", "v1", …) and treats input[0] as the default.
 import apiVersionInputs from "./apis/versions.json";
+// "TypeScript (SDK)" code sample per operationId, generated from apis/openapi.json by
+// scripts/gen-sdk-snippets.mjs before every dev/build. It resolves the real sub-client
+// (client.<grupo>.<método>) and request shape the way Fern generates @wrestaurant/sdk.
+import sdkSnippets from "./apis/sdk-snippets.json";
 
-// Renders a @wrestaurant/sdk usage example for an operation, shown as the
-// "TypeScript (SDK)" code sample on every endpoint in the API reference. The SDK
-// method name is the camelCased operationId (e.g. GetProducts -> getProducts),
-// so this stays correct as endpoints change.
+const SDK_SNIPPETS: Record<string, string> = sdkSnippets;
+
 function sdkCodeSnippet(operation: { operationId?: string }): string {
-  const opId = operation?.operationId;
-  const method = opId ? opId.charAt(0).toLowerCase() + opId.slice(1) : null;
-  const call = method
-    ? `await client.endpoints.${method}({\n  licenseKey: "DS5D2368HCME4O9X",\n})`
-    : `// Consulta la lista de métodos en la guía del SDK`;
-  return [
-    `import { WrestaurantApiClient } from "@wrestaurant/sdk";`,
-    ``,
-    `const client = new WrestaurantApiClient({`,
-    `  apiKey: process.env.WRESTAURANT_API_KEY!, // wrst_live_...`,
-    `});`,
-    ``,
-    `const response = ${call};`,
-    `console.log(response);`,
-  ].join("\n");
+  const snippet = operation?.operationId ? SDK_SNIPPETS[operation.operationId] : undefined;
+  return (
+    snippet ??
+    [
+      `import { WrestaurantApiClient } from "@wrestaurant/sdk";`,
+      ``,
+      `const client = new WrestaurantApiClient({`,
+      `  apiKey: process.env.WRESTAURANT_API_KEY!, // wrst_live_...`,
+      `});`,
+      ``,
+      `// Consulta la lista de métodos en la guía del SDK`,
+    ].join("\n")
+  );
 }
 
 // Theme tokens lifted verbatim from wrestaurant-admin's src/styles/index.css so both

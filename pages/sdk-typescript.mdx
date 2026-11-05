@@ -35,13 +35,20 @@ const client = new WrestaurantApiClient({
 > **Consejo:** nunca incrustes tu API key en código de cliente (navegador/app).
 > Mantenla en el servidor o en variables de entorno.
 
+## Organización del cliente
+
+Los métodos están agrupados por recurso del Punto de Venta, con la forma
+`client.<grupo>.<método>`. Por ejemplo, `client.productos.getProducts` o
+`client.turnos.openShift`. Cada grupo corresponde a una sección de la
+[Referencia API](/api).
+
 ## Tu primera llamada
 
 Cada endpoint recibe la **license key** de la sucursal (16 caracteres, p. ej.
 `DS5D2368HCME4O9X`). Consulta [Sucursales](/workers) para entender las license keys.
 
 ```typescript
-const productos = await client.endpoints.getProducts({
+const productos = await client.productos.getProducts({
   licenseKey: "DS5D2368HCME4O9X",
   page: 1,
   pageSize: 100,
@@ -60,7 +67,7 @@ let page = 1;
 const all = [];
 
 while (true) {
-  const res = await client.endpoints.getProducts({
+  const res = await client.productos.getProducts({
     licenseKey: "DS5D2368HCME4O9X",
     page,
     pageSize: 100,
@@ -73,8 +80,11 @@ while (true) {
 
 ## Crear una orden
 
+Las órdenes abiertas (cuentas en curso) viven en `client.ordenes`. Las órdenes ya
+cerradas (cheques) se consultan con `client.cheques`.
+
 ```typescript
-const orden = await client.endpoints.createTempOrders({
+const orden = await client.ordenes.createTempOrders({
   licenseKey: "DS5D2368HCME4O9X",
   mesa: "12",
   noPersonas: 2,
@@ -95,7 +105,7 @@ Las respuestas con error (401, 404, 429, …) lanzan una excepción tipada
 import { WrestaurantApiClient, WrestaurantApiError } from "@wrestaurant/sdk";
 
 try {
-  await client.endpoints.getProducts({ licenseKey: "DS5D2368HCME4O9X" });
+  await client.productos.getProducts({ licenseKey: "DS5D2368HCME4O9X" });
 } catch (err) {
   if (err instanceof WrestaurantApiError) {
     console.error(err.statusCode, err.body); // p. ej. 429 -> límite excedido
@@ -110,6 +120,42 @@ de control de tasa.
 
 ## Métodos disponibles
 
-Cada endpoint de la API tiene su método equivalente bajo `client.endpoints`. La lista
-completa, con todos los parámetros y tipos de respuesta, está en la
-[Referencia API](/api) — cada endpoint incluye el ejemplo listo para copiar con el SDK.
+Cada endpoint de la API tiene su método equivalente dentro de su grupo. Todos los
+métodos reciben un solo objeto con los parámetros de ruta (como `licenseKey`), los de
+consulta y los campos del cuerpo. La lista completa, con todos los parámetros y tipos de
+respuesta, está en la [Referencia API](/api). Cada endpoint incluye el ejemplo listo
+para copiar con el SDK.
+
+| Grupo | Métodos |
+| --- | --- |
+| `client.productos` | `getProducts`, `updateProduct`, `getBestSellers` |
+| `client.grupos` | `getGrupos`, `getSubgrupos` |
+| `client.estaciones` | `getStations` |
+| `client.mesas` | `getMesas` |
+| `client.meseros` | `getMeseros`, `authenticateMesero` |
+| `client.clientes` | `getClientes` |
+| `client.empresas` | `getEmpresas` |
+| `client.turnos` | `getTurnos`, `openShift`, `closeShift` |
+| `client.asistencias` | `getAsistencias` |
+| `client.formasDePago` | `getPaymentMethods` |
+| `client.tiposDescuento` | `getTiposDescuento` |
+| `client.ordenes` | `createTempOrders`, `getTempOrders`, `getOpenOrders`, `getTempOrderDetails`, `addOrderItems`, `cancelOrderItems`, `applyOrderDiscount`, `applyItemDiscounts`, `renameOrder`, `assignOrderClient`, `printOpenOrder`, `closeOpenOrder`, `createClosedTempOrder` |
+| `client.cheques` | `getOrders`, `searchOrders`, `getOrderDetails`, `getDayOrders` |
+| `client.facturas` | `getFacturaXml` |
+| `client.impresoras` | `listPrinters`, `getPrinter`, `createPrinter`, `updatePrinter`, `deletePrinter`, `getPrinters`, `printOrder`, `printTest` |
+| `client.puntosDeVenta` | `getTicketHeader`, `updateTicketHeader` |
+
+## Migrar desde la versión 0.x
+
+A partir de la versión **1.0.0**, los métodos que estaban en `client.endpoints` se
+movieron a su grupo. Los nombres de los métodos no cambian, solo el grupo:
+
+```typescript
+// 0.x
+await client.endpoints.getTurnos({ licenseKey: "DS5D2368HCME4O9X" });
+
+// 1.0.0 o superior
+await client.turnos.getTurnos({ licenseKey: "DS5D2368HCME4O9X" });
+```
+
+Los métodos de `client.impresoras` no cambian.
