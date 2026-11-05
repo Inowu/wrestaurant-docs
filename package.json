@@ -5,8 +5,10 @@
   "private": true,
   "scripts": {
     "gen:versions": "node scripts/gen-api-versions.mjs",
-    "dev": "pnpm gen:versions && zudoku dev",
-    "build": "pnpm gen:versions && zudoku build && mkdir -p dist/apis && cp apis/openapi*.json dist/apis/",
+    "gen:snippets": "node scripts/gen-sdk-snippets.mjs",
+    "gen": "pnpm gen:versions && pnpm gen:snippets",
+    "dev": "pnpm gen && zudoku dev",
+    "build": "pnpm gen && zudoku build && mkdir -p dist/apis && cp apis/openapi*.json dist/apis/",
     "preview": "wrangler dev",
     "lint": "eslint",
     "deploy": "wrangler deploy"
