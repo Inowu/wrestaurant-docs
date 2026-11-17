@@ -1105,6 +1105,151 @@
         },
         "x-fern-sdk-group-name": "productos",
         "x-fern-sdk-method-name": "getProducts"
+      },
+      "post": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Crear productos",
+        "description": "Da de alta uno o varios productos (hasta 200 por solicitud) en una sola operación.\n\nLa clave (`idProducto`) es opcional. Si se envía, se usa tal cual y no debe existir ya. Si se omite, se genera automaticamente sin repetir ninguna clave existente. La respuesta devuelve la clave de cada producto en el mismo orden de la solicitud.\n\nSe crean todos o ninguno. Si algún producto es inválido (clave ya existente o repetida, grupo, subgrupo, área o unidad inexistentes, o un subgrupo que no pertenece al grupo) la solicitud completa se rechaza con `400` y `errors` indica cada problema por su posición, por ejemplo `Productos[2].Subgrupos`.\n\nLos impuestos son tasas en porcentaje (`16` = 16%); si se omiten se usan las tasas por defecto del Punto de Venta. El precio sin impuestos se calcula automáticamente.\n\nAdemás, la operación:\n- Registra el producto para venta a domicilio y kiosko, y su configuración de monedero (inactiva).\n- Agrega una entrada de auditoría por producto en la bitácora del sistema.\n- Marca los productos para sincronización con otros sistemas conectados.\n- Avisa a las terminales del Punto de Venta que recarguen su catálogo.\n\nSe recomienda enviar el encabezado `Idempotency-Key`: reintentar sin él crea de nuevo los productos cuya clave se generó, con claves distintas.",
+        "operationId": "CreateProducts",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductsRequest"
+              },
+              "example": {"idEmpresa":"1","productos":[{"idProducto":null,"descripcion":"AGUA DE JAMAICA 1 LT","idGrupo":"03","subgrupos":["11"],"nombreCorto":"JAMAICA 1LT","precio":55.00,"impuesto1":null,"impuesto2":null,"impuesto3":null,"idArea":"1","idUnidad":"PZA","bloqueado":false,"visibleMenu":false,"usarComedor":true,"usarDomicilio":true,"usarRapido":true},{"idProducto":"CEB001","descripcion":"CERVEZA CEBADA","idGrupo":"03","subgrupos":["13"],"nombreCorto":"","precio":150.00,"impuesto1":16,"impuesto2":8,"impuesto3":0,"idArea":"1","idUnidad":"PZA","bloqueado":false,"visibleMenu":false,"usarComedor":true,"usarDomicilio":true,"usarRapido":true}]}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductsRequest"
+              },
+              "example": {"idEmpresa":"1","productos":[{"idProducto":null,"descripcion":"AGUA DE JAMAICA 1 LT","idGrupo":"03","subgrupos":["11"],"nombreCorto":"JAMAICA 1LT","precio":55.00,"impuesto1":null,"impuesto2":null,"impuesto3":null,"idArea":"1","idUnidad":"PZA","bloqueado":false,"visibleMenu":false,"usarComedor":true,"usarDomicilio":true,"usarRapido":true},{"idProducto":"CEB001","descripcion":"CERVEZA CEBADA","idGrupo":"03","subgrupos":["13"],"nombreCorto":"","precio":150.00,"impuesto1":16,"impuesto2":8,"impuesto3":0,"idArea":"1","idUnidad":"PZA","bloqueado":false,"visibleMenu":false,"usarComedor":true,"usarDomicilio":true,"usarRapido":true}]}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductsRequest"
+              },
+              "example": {"idEmpresa":"1","productos":[{"idProducto":null,"descripcion":"AGUA DE JAMAICA 1 LT","idGrupo":"03","subgrupos":["11"],"nombreCorto":"JAMAICA 1LT","precio":55.00,"impuesto1":null,"impuesto2":null,"impuesto3":null,"idArea":"1","idUnidad":"PZA","bloqueado":false,"visibleMenu":false,"usarComedor":true,"usarDomicilio":true,"usarRapido":true},{"idProducto":"CEB001","descripcion":"CERVEZA CEBADA","idGrupo":"03","subgrupos":["13"],"nombreCorto":"","precio":150.00,"impuesto1":16,"impuesto2":8,"impuesto3":0,"idArea":"1","idUnidad":"PZA","bloqueado":false,"visibleMenu":false,"usarComedor":true,"usarDomicilio":true,"usarRapido":true}]}
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProductsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "productos",
+        "x-fern-sdk-method-name": "createProducts"
       }
     },
     "/api/v1/productos/{licenseKey}/{idProducto}": {
@@ -1113,7 +1258,7 @@
           "Productos"
         ],
         "summary": "Actualizar un producto",
-        "description": "Actualiza los datos principales de un producto existente: descripción, grupo, nombre corto, precio, impuestos, bloqueo, visibilidad en menú electrónico y si permite producto compuesto en modificador.\n\nEs una actualización de reemplazo completo: se deben enviar todos los campos en cada solicitud (los valores omitidos no se conservan). El producto debe existir previamente — este endpoint no crea productos nuevos.\n\nAdemás del cambio en sí, la operación aplica automáticamente estos efectos:\n- Si el precio cambió, se registra en el historial de cambios de precio.\n- Si el producto también está registrado como modificador de sí mismo, su precio se sincroniza.\n- Se agrega una entrada de auditoría en la bitácora del sistema.\n- Se marca el producto para sincronización con otros sistemas conectados.\n\nNo modifica grupos de modificadores, paquetes, costos, comentarios, asignaciones de estación/almacén ni configuración de monedero del producto — esa configuración, si existe, se conserva sin cambios.",
+        "description": "Actualiza los datos principales de un producto existente: descripción, grupo, nombre corto, precio, impuestos, bloqueo, visibilidad en menú electrónico y si permite producto compuesto en modificador.\n\nEs una actualización de reemplazo completo: se deben enviar todos los campos en cada solicitud (los valores omitidos no se conservan). El producto debe existir previamente — este endpoint no crea productos nuevos.\n\nAdemás del cambio en sí, la operación aplica automáticamente estos efectos:\n- Si el precio cambió, se registra en el historial de cambios de precio.\n- Si el producto también está registrado como modificador de sí mismo, su precio se sincroniza.\n- Se agrega una entrada de auditoría en la bitácora del sistema.\n- Se marca el producto para sincronización con otros sistemas conectados.\n- Avisa a las terminales del Punto de Venta que recarguen su catálogo.\n\nNo modifica grupos de modificadores, paquetes, costos, comentarios, asignaciones de estación/almacén ni configuración de monedero del producto — esa configuración, si existe, se conserva sin cambios.",
         "operationId": "UpdateProduct",
         "parameters": [
           {
@@ -6732,6 +6877,66 @@
         "additionalProperties": false,
         "description": "Cuerpo para registrar una nueva impresora en un punto de venta del usuario."
       },
+      "CreateProductsRequest": {
+        "required": [
+          "idEmpresa",
+          "productos"
+        ],
+        "type": "object",
+        "properties": {
+          "idEmpresa": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Id de la empresa a la que se le dan de alta los precios. Debe existir."
+          },
+          "productos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NewProductDto"
+            },
+            "description": "Productos a crear (de 1 a 200). Se crean todos o ninguno: si alguno es inválido la solicitud\r\nse rechaza completa y `errors` indica cuál, por su posición (`Productos[2].IdGrupo`)."
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateProductsResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreatedProductDto"
+            },
+            "description": "Productos creados, en el mismo orden en que se enviaron.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatedProductDto": {
+        "type": "object",
+        "properties": {
+          "indice": {
+            "type": "integer",
+            "description": "Posición del producto en la solicitud (empieza en 0).",
+            "format": "int32"
+          },
+          "idProducto": {
+            "type": "string",
+            "description": "Clave generada para el producto.",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "EmpresaDto": {
         "type": "object",
         "properties": {
@@ -7507,6 +7712,101 @@
             "type": "number",
             "description": "Precio del modificador. Se guarda para futuras plantillas de recibo; no se imprime en la comanda.",
             "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "NewProductDto": {
+        "required": [
+          "descripcion",
+          "idGrupo"
+        ],
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "string",
+            "description": "Clave del producto (máximo 15 caracteres). Opcional: si se omite se genera continuando la serie\r\ndel grupo (grupo `03` cuyo último producto es `03085` → `03086`). Si se envía, no\r\ndebe existir ya en el Punto de Venta ni repetirse dentro de la solicitud.",
+            "nullable": true
+          },
+          "descripcion": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Nombre del producto (máximo 60 caracteres)."
+          },
+          "idGrupo": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Grupo al que pertenece. La clave del producto se genera a partir de la serie de este grupo."
+          },
+          "subgrupos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Subgrupos en los que se clasifica. Cada uno debe pertenecer a `idGrupo`.",
+            "nullable": true
+          },
+          "nombreCorto": {
+            "type": "string",
+            "description": "Nombre corto (máximo 20 caracteres).",
+            "nullable": true
+          },
+          "precio": {
+            "type": "number",
+            "description": "Precio de venta CON impuestos incluidos.",
+            "format": "double"
+          },
+          "impuesto1": {
+            "type": "number",
+            "description": "TASA del impuesto en porcentaje — `16` significa 16%. Si se omite se usa la tasa\r\nconfigurada por defecto en el Punto de Venta.",
+            "format": "double",
+            "nullable": true
+          },
+          "impuesto2": {
+            "type": "number",
+            "description": "Tasa del segundo impuesto en porcentaje. Si se omite se usa la tasa por defecto.",
+            "format": "double",
+            "nullable": true
+          },
+          "impuesto3": {
+            "type": "number",
+            "description": "Tasa del tercer impuesto en porcentaje. Si se omite se usa la tasa por defecto.",
+            "format": "double",
+            "nullable": true
+          },
+          "idArea": {
+            "type": "string",
+            "description": "Área de producción (por ejemplo barra o cocina) a la que se envía el producto al comandarlo.\r\nSi se omite, el producto no se envía a ninguna área.",
+            "nullable": true
+          },
+          "idUnidad": {
+            "type": "string",
+            "description": "Unidad de medida. Por defecto `PZA`.",
+            "default": "PZA",
+            "nullable": true
+          },
+          "bloqueado": {
+            "type": "boolean",
+            "description": "Si el producto se crea bloqueado para la venta."
+          },
+          "visibleMenu": {
+            "type": "boolean",
+            "description": "Si el producto se muestra en el menú electrónico."
+          },
+          "usarComedor": {
+            "type": "boolean",
+            "description": "Disponible para venta en comedor.",
+            "default": true
+          },
+          "usarDomicilio": {
+            "type": "boolean",
+            "description": "Disponible para venta a domicilio.",
+            "default": true
+          },
+          "usarRapido": {
+            "type": "boolean",
+            "description": "Disponible para venta rápida.",
+            "default": true
           }
         },
         "additionalProperties": false
