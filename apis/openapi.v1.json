@@ -6170,6 +6170,119 @@
         "x-fern-sdk-group-name": "clientes",
         "x-fern-sdk-method-name": "getClientes"
       }
+    },
+    "/api/v1/almacenes/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Almacenes"
+        ],
+        "summary": "Listar almacenes",
+        "description": "Lista el catálogo de almacenes configurados en el punto de venta.",
+        "operationId": "GetAlmacenes",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlmacenesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "almacenes",
+        "x-fern-sdk-method-name": "getAlmacenes"
+      }
     }
   },
   "components": {
@@ -6225,6 +6338,81 @@
         },
         "additionalProperties": false,
         "description": "Resultado de agregar productos a una cuenta abierta."
+      },
+      "AlmacenDto": {
+        "type": "object",
+        "properties": {
+          "idAlmacen": {
+            "type": "string",
+            "description": "Id del almacén en el Punto de Venta.",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "ultimoFolio": {
+            "type": "integer",
+            "description": "Último folio de movimiento de inventario emitido por este almacén.",
+            "format": "int32"
+          },
+          "idEmpresa": {
+            "type": "string",
+            "description": "Empresa a la que pertenece el almacén.",
+            "nullable": true
+          },
+          "tipo": {
+            "type": "integer",
+            "description": "Tipo de almacén tal como lo guarda el Punto de Venta.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AlmacenesResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "almacenes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlmacenDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "ApplyDiscountResponse": {
         "type": "object",
@@ -11009,6 +11197,9 @@
     },
     {
       "name": "Insumos"
+    },
+    {
+      "name": "Almacenes"
     },
     {
       "name": "Estaciones"
