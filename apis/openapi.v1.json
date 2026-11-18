@@ -1633,6 +1633,405 @@
         "x-fern-sdk-method-name": "getGrupos"
       }
     },
+    "/api/v1/insumos/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Insumos"
+        ],
+        "summary": "Listar insumos",
+        "description": "Devuelve el catálogo de insumos (materia prima) de una sucursal, ordenado por descripción, con paginación, búsqueda y filtros opcionales por grupo, empresa y estatus. Cada insumo incluye su unidad de medida, grupo, costo, costo promedio, costo con impuestos, tasas de impuesto (en porcentaje), merma y configuración de inventario.\n\nSolo se incluyen insumos simples: los insumos elaborados (recetas) no forman parte de este listado.",
+        "operationId": "GetInsumos",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "description": "License key (16 caracteres) del punto de venta del que se consultan los insumos.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página a devolver, empezando en 1.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Cantidad de insumos por página. Máximo 1000; valores mayores se recortan a 1000.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Texto libre para filtrar por id, descripción del insumo o descripción de su grupo. Coincidencia parcial en cualquier posición del texto.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idGrupo",
+            "in": "query",
+            "description": "Devuelve solo los insumos de este grupo de insumos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idEmpresa",
+            "in": "query",
+            "description": "Devuelve solo el detalle de esta empresa. Si se omite, se devuelve un registro por cada empresa en la que exista el insumo.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "activo",
+            "in": "query",
+            "description": "`true` devuelve solo los insumos activos; `false` solo los inactivos. Si se omite, se devuelven ambos.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InsumosQueryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "insumos",
+        "x-fern-sdk-method-name": "getInsumos"
+      }
+    },
+    "/api/v1/insumos/grupos/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Insumos"
+        ],
+        "summary": "Listar grupos de insumos",
+        "description": "Devuelve los grupos de insumos configurados en una sucursal, ordenados por descripción, con paginación y búsqueda opcional. Cada grupo incluye su clasificación (alimentos, bebidas u otros), su cuenta contable y su tipo de pedido, con id y descripción.\n\nEl `idGrupo` de cada grupo es el valor que aceptan `GET /insumos` y `GET /insumos/elaborados` para filtrar por grupo.",
+        "operationId": "GetInsumoGrupos",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "description": "License key (16 caracteres) del punto de venta del que se consultan los grupos de insumos.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página a devolver, empezando en 1.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Cantidad de grupos por página. Máximo 1000; valores mayores se recortan a 1000.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Texto libre para filtrar por id o descripción del grupo. Coincidencia parcial en cualquier posición del texto.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InsumoGruposQueryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "insumos",
+        "x-fern-sdk-method-name": "getInsumoGrupos"
+      }
+    },
+    "/api/v1/insumos/elaborados/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Insumos"
+        ],
+        "summary": "Listar insumos elaborados",
+        "description": "Devuelve los insumos elaborados (recetas o preparaciones que a su vez se usan como insumo) de una sucursal, ordenados por descripción, con paginación, búsqueda y filtros opcionales por grupo, empresa y estatus. Cada insumo incluye su unidad de medida, rendimiento, tiempos de preparación y de alerta, área de producción, costo, costo promedio, costo con impuestos, tasas de impuesto (en porcentaje) y merma.\n\nLos insumos simples (materia prima) se consultan con `GET /insumos`.",
+        "operationId": "GetInsumosElaborados",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "description": "License key (16 caracteres) del punto de venta del que se consultan los insumos elaborados.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página a devolver, empezando en 1.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Cantidad de insumos por página. Máximo 1000; valores mayores se recortan a 1000.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Texto libre para filtrar por id, descripción del insumo o descripción de su grupo. Coincidencia parcial en cualquier posición del texto.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idGrupo",
+            "in": "query",
+            "description": "Devuelve solo los insumos elaborados de este grupo de insumos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idEmpresa",
+            "in": "query",
+            "description": "Devuelve solo el detalle de esta empresa. Si se omite, se devuelve un registro por cada empresa en la que exista el insumo.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "activo",
+            "in": "query",
+            "description": "`true` devuelve solo los insumos activos; `false` solo los inactivos. Si se omite, se devuelven ambos.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InsumosElaboradosQueryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "insumos",
+        "x-fern-sdk-method-name": "getInsumosElaborados"
+      }
+    },
     "/api/v1/turnos/{licenseKey}": {
       "get": {
         "tags": [
@@ -7293,6 +7692,361 @@
         },
         "additionalProperties": false
       },
+      "InsumoDto": {
+        "type": "object",
+        "properties": {
+          "idInsumo": {
+            "type": "string",
+            "description": "Id del insumo en el Punto de Venta.",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idGrupo": {
+            "type": "string",
+            "description": "Id del grupo de insumos (`gruposi`).",
+            "nullable": true
+          },
+          "descripcionGrupo": {
+            "type": "string",
+            "nullable": true
+          },
+          "unidad": {
+            "type": "string",
+            "description": "Unidad de medida (p. ej. `KGS`, `PZA`, `LTS`).",
+            "nullable": true
+          },
+          "idEmpresa": {
+            "type": "string",
+            "description": "Empresa a la que pertenece el detalle (costos, impuestos, estatus) de este insumo.",
+            "nullable": true
+          },
+          "inventariable": {
+            "type": "boolean"
+          },
+          "costo": {
+            "type": "number",
+            "format": "double"
+          },
+          "costoPromedio": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto1": {
+            "type": "number",
+            "description": "Tasa del impuesto 1 en porcentaje (`16.00` = 16%), no un monto.",
+            "format": "double"
+          },
+          "impuesto2": {
+            "type": "number",
+            "description": "Tasa del impuesto 2 en porcentaje, no un monto.",
+            "format": "double"
+          },
+          "impuesto3": {
+            "type": "number",
+            "description": "Tasa del impuesto 3 en porcentaje, no un monto.",
+            "format": "double"
+          },
+          "costoConImpuestos": {
+            "type": "number",
+            "format": "double"
+          },
+          "merma": {
+            "type": "number",
+            "description": "Porcentaje de merma.",
+            "format": "double"
+          },
+          "usarBasculaInv": {
+            "type": "boolean"
+          },
+          "alertaExistencias": {
+            "type": "boolean"
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InsumoElaboradoDto": {
+        "type": "object",
+        "properties": {
+          "idInsumo": {
+            "type": "string",
+            "description": "Id del insumo elaborado en el Punto de Venta.",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idGrupo": {
+            "type": "string",
+            "description": "Id del grupo de insumos (`gruposi`).",
+            "nullable": true
+          },
+          "descripcionGrupo": {
+            "type": "string",
+            "nullable": true
+          },
+          "unidad": {
+            "type": "string",
+            "description": "Unidad de medida (p. ej. `KGS`, `PZA`, `LTS`).",
+            "nullable": true
+          },
+          "rendimiento": {
+            "type": "number",
+            "description": "Cantidad (en `unidad`) que rinde una preparación de la receta.",
+            "format": "double",
+            "nullable": true
+          },
+          "minutosPreparacion": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "minutosAlerta": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "idEmpresa": {
+            "type": "string",
+            "description": "Empresa a la que pertenece el detalle (costos, impuestos, área, estatus) de este insumo.",
+            "nullable": true
+          },
+          "idArea": {
+            "type": "string",
+            "description": "Área de producción donde se elabora (p. ej. BARRA, COCINA). Vacío si no tiene.",
+            "nullable": true
+          },
+          "nombreArea": {
+            "type": "string",
+            "nullable": true
+          },
+          "inventariable": {
+            "type": "boolean"
+          },
+          "costo": {
+            "type": "number",
+            "format": "double"
+          },
+          "costoPromedio": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto1": {
+            "type": "number",
+            "description": "Tasa del impuesto 1 en porcentaje (`16.00` = 16%), no un monto.",
+            "format": "double"
+          },
+          "impuesto2": {
+            "type": "number",
+            "description": "Tasa del impuesto 2 en porcentaje, no un monto.",
+            "format": "double"
+          },
+          "impuesto3": {
+            "type": "number",
+            "description": "Tasa del impuesto 3 en porcentaje, no un monto.",
+            "format": "double"
+          },
+          "costoConImpuestos": {
+            "type": "number",
+            "format": "double"
+          },
+          "merma": {
+            "type": "number",
+            "description": "Porcentaje de merma.",
+            "format": "double"
+          },
+          "alertaExistencias": {
+            "type": "boolean"
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InsumoGrupoDto": {
+        "type": "object",
+        "properties": {
+          "idGrupo": {
+            "type": "string",
+            "description": "Id del grupo de insumos; es el valor que acepta `idGrupo` al listar insumos.",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idClasificacion": {
+            "type": "string",
+            "description": "Id de la clasificación del grupo (p. ej. `1` = ALIMENTOS, `2` = BEBIDAS, `3` = OTROS).",
+            "nullable": true
+          },
+          "descripcionClasificacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idCuentaContable": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcionCuentaContable": {
+            "type": "string",
+            "nullable": true
+          },
+          "idTipoPedido": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcionTipoPedido": {
+            "type": "string",
+            "nullable": true
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InsumoGruposQueryResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "grupos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InsumoGrupoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InsumosElaboradosQueryResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "insumos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InsumoElaboradoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InsumosQueryResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "insumos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InsumoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "LabelSettingsDto": {
         "type": "object",
         "properties": {
@@ -10252,6 +11006,9 @@
     },
     {
       "name": "Grupos"
+    },
+    {
+      "name": "Insumos"
     },
     {
       "name": "Estaciones"
