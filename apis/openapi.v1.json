@@ -6283,6 +6283,112 @@
         "x-fern-sdk-group-name": "almacenes",
         "x-fern-sdk-method-name": "getAlmacenes"
       }
+    },
+    "/api/v1/inventario/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Inventario"
+        ],
+        "summary": "Listar inventarios físicos",
+        "description": "Lista los inventarios físicos capturados en el punto de venta, del folio más reciente al más antiguo. Cada inventario compara la existencia teórica contra la física en hasta dos almacenes.",
+        "operationId": "GetInventariosFisicos",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventariosFisicosResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "inventario",
+        "x-fern-sdk-method-name": "getInventariosFisicos"
+      }
     }
   },
   "components": {
@@ -8229,6 +8335,113 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/InsumoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InventarioFisicoAlmacenDto": {
+        "type": "object",
+        "properties": {
+          "idAlmacen": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "inventarioTeorico": {
+            "type": "number",
+            "description": "Valor del inventario teórico (según movimientos) del almacén.",
+            "format": "double"
+          },
+          "inventarioFisico": {
+            "type": "number",
+            "description": "Valor del inventario físico contado en el almacén.",
+            "format": "double"
+          },
+          "diferencia": {
+            "type": "number",
+            "description": "Diferencia entre el inventario físico y el teórico.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InventarioFisicoDto": {
+        "type": "object",
+        "properties": {
+          "folio": {
+            "type": "integer",
+            "description": "Folio del inventario físico.",
+            "format": "int64"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "idEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "almacen1": {
+            "$ref": "#/components/schemas/InventarioFisicoAlmacenDto"
+          },
+          "almacen2": {
+            "$ref": "#/components/schemas/InventarioFisicoAlmacenDto"
+          },
+          "cancelado": {
+            "type": "boolean"
+          },
+          "usuarioCancelo": {
+            "type": "string",
+            "description": "Usuario que canceló el inventario, si fue cancelado.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InventariosFisicosResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "inventarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InventarioFisicoDto"
             },
             "nullable": true
           }
@@ -11200,6 +11413,9 @@
     },
     {
       "name": "Almacenes"
+    },
+    {
+      "name": "Inventario"
     },
     {
       "name": "Estaciones"
