@@ -6485,6 +6485,140 @@
         "x-fern-sdk-group-name": "productos",
         "x-fern-sdk-method-name": "getRecetas"
       }
+    },
+    "/api/v1/insumos/presentaciones/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Insumos"
+        ],
+        "summary": "Listar presentaciones de insumos",
+        "description": "Devuelve el catálogo de presentaciones de insumos (la forma en que se compra un insumo, p. ej. una caja de 12 piezas), ordenado por descripción, con paginación, búsqueda y filtros opcionales por grupo, insumo y estatus. Cada presentación incluye su rendimiento en unidades del insumo y, por empresa, su costo, proveedor, tasas de impuesto (en porcentaje) y stock mínimo y máximo.",
+        "operationId": "GetInsumoPresentaciones",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idGrupo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idInsumo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "activo",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InsumoPresentacionesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "insumos",
+        "x-fern-sdk-method-name": "getInsumoPresentaciones"
+      }
     }
   },
   "components": {
@@ -8343,6 +8477,152 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/InsumoGrupoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InsumoPresentacionDto": {
+        "type": "object",
+        "properties": {
+          "idPresentacion": {
+            "type": "string",
+            "description": "Id de la presentación en el Punto de Venta.",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idInsumo": {
+            "type": "string",
+            "description": "Insumo al que corresponde la presentación.",
+            "nullable": true
+          },
+          "descripcionInsumo": {
+            "type": "string",
+            "nullable": true
+          },
+          "unidadInsumo": {
+            "type": "string",
+            "description": "Unidad de medida del insumo (p. ej. `KGS`, `PZA`, `LTS`).",
+            "nullable": true
+          },
+          "idGrupo": {
+            "type": "string",
+            "description": "Id del grupo de insumos (`gruposi`).",
+            "nullable": true
+          },
+          "descripcionGrupo": {
+            "type": "string",
+            "nullable": true
+          },
+          "rendimiento": {
+            "type": "number",
+            "description": "Cantidad del insumo, en su unidad, que contiene una presentación.",
+            "format": "double"
+          },
+          "unidad": {
+            "type": "string",
+            "description": "Unidad de la presentación, si se capturó.",
+            "nullable": true
+          },
+          "idEmpresa": {
+            "type": "string",
+            "description": "Empresa a la que pertenece el detalle (costos, proveedor, stock, estatus) de esta presentación.",
+            "nullable": true
+          },
+          "costo": {
+            "type": "number",
+            "format": "double"
+          },
+          "costoPromedio": {
+            "type": "number",
+            "format": "double"
+          },
+          "idProveedor": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreProveedor": {
+            "type": "string",
+            "nullable": true
+          },
+          "impuesto1": {
+            "type": "number",
+            "description": "Tasa del impuesto 1 en porcentaje (`16.00` = 16%), no un monto.",
+            "format": "double"
+          },
+          "impuesto2": {
+            "type": "number",
+            "description": "Tasa del impuesto 2 en porcentaje, no un monto.",
+            "format": "double"
+          },
+          "impuesto3": {
+            "type": "number",
+            "description": "Tasa del impuesto 3 en porcentaje, no un monto.",
+            "format": "double"
+          },
+          "stockMinimo": {
+            "type": "number",
+            "format": "double"
+          },
+          "stockMaximo": {
+            "type": "number",
+            "format": "double"
+          },
+          "ubicacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "usarBasculaInv": {
+            "type": "boolean"
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InsumoPresentacionesResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "presentaciones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InsumoPresentacionDto"
             },
             "nullable": true
           }
