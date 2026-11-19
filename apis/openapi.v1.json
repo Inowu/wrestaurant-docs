@@ -6389,6 +6389,102 @@
         "x-fern-sdk-group-name": "inventario",
         "x-fern-sdk-method-name": "getInventariosFisicos"
       }
+    },
+    "/api/v1/productos/{licenseKey}/{idProducto}/recetas": {
+      "get": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Obtener la receta de un producto",
+        "description": "Devuelve los insumos que componen la receta de un producto, con la cantidad que descuenta cada venta, sus costos por empresa y el almacén del que se descuenta en cada área del restaurante. Un producto sin receta responde con la lista de insumos vacía.",
+        "operationId": "GetRecetas",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idProducto",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecetaResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "productos",
+        "x-fern-sdk-method-name": "getRecetas"
+      }
     }
   },
   "components": {
@@ -10782,6 +10878,123 @@
             "items": {
               "$ref": "#/components/schemas/ProductDto"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RecetaAlmacenAreaDto": {
+        "type": "object",
+        "properties": {
+          "idAreaRestaurant": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcionArea": {
+            "type": "string",
+            "nullable": true
+          },
+          "idAlmacen": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreAlmacen": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RecetaInsumoDto": {
+        "type": "object",
+        "properties": {
+          "idInsumo": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "unidad": {
+            "type": "string",
+            "description": "Unidad de medida del insumo (p. ej. `KGS`, `PZA`, `LTS`).",
+            "nullable": true
+          },
+          "cantidad": {
+            "type": "number",
+            "description": "Cantidad del insumo que descuenta cada unidad vendida del producto, en la unidad del insumo.",
+            "format": "double"
+          },
+          "idEmpresa": {
+            "type": "string",
+            "description": "Empresa a la que pertenece esta línea de la receta y sus costos.",
+            "nullable": true
+          },
+          "costo": {
+            "type": "number",
+            "description": "Último costo del insumo.",
+            "format": "double"
+          },
+          "costoPromedio": {
+            "type": "number",
+            "format": "double"
+          },
+          "merma": {
+            "type": "number",
+            "description": "Porcentaje de merma.",
+            "format": "double"
+          },
+          "elaborado": {
+            "type": "boolean",
+            "description": "Indica si el insumo es elaborado (se produce a partir de otros insumos)."
+          },
+          "rendimientoElaborado": {
+            "type": "number",
+            "description": "Rendimiento del insumo elaborado.",
+            "format": "double",
+            "nullable": true
+          },
+          "almacenesPorArea": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecetaAlmacenAreaDto"
+            },
+            "description": "Almacén del que se descuenta el insumo en cada área del restaurante.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RecetaResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "idProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "insumos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecetaInsumoDto"
+            },
+            "description": "Insumos de la receta. Vacía si el producto no tiene receta.",
             "nullable": true
           }
         },
