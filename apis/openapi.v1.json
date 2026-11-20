@@ -6619,6 +6619,198 @@
         "x-fern-sdk-group-name": "insumos",
         "x-fern-sdk-method-name": "getInsumoPresentaciones"
       }
+    },
+    "/api/v1/monitores/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Monitores"
+        ],
+        "summary": "Listar monitores de cocina",
+        "description": "Devuelve el catálogo de monitores de cocina (KDS) configurados en el punto de venta. La clave idMonitor de cada elemento es la que asocia los productos con los monitores en que se visualizan.",
+        "operationId": "GetMonitores",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitoresResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "monitores",
+        "x-fern-sdk-method-name": "getMonitores"
+      }
+    },
+    "/api/v1/monitores/{licenseKey}/{idMonitor}/ordenes": {
+      "get": {
+        "tags": [
+          "Monitores"
+        ],
+        "summary": "Listar órdenes de un monitor de cocina",
+        "description": "Devuelve la cola de un monitor de cocina (KDS): las cuentas no canceladas con productos enviados a ese monitor, agrupadas por folio y ordenadas por hora de captura. estadoMonitor filtra por el estado del producto en el monitor, tal como lo guarda SoftRestaurant (0 = en cola).",
+        "operationId": "GetMonitorOrdenes",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idMonitor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "estadoMonitor",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitorOrdenesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "monitores",
+        "x-fern-sdk-method-name": "getMonitorOrdenes"
+      }
     }
   },
   "components": {
@@ -9243,6 +9435,235 @@
             "type": "number",
             "description": "Precio del modificador. Se guarda para futuras plantillas de recibo; no se imprime en la comanda.",
             "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MonitorDto": {
+        "type": "object",
+        "properties": {
+          "idMonitor": {
+            "type": "string",
+            "description": "Clave del monitor. Es la que asocia cada producto con los monitores en que se visualiza.",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "ipAddress": {
+            "type": "string",
+            "description": "Dirección IP del monitor, si se configuró.",
+            "nullable": true
+          },
+          "puerto": {
+            "type": "string",
+            "description": "Puerto del monitor, si se configuró.",
+            "nullable": true
+          },
+          "numMonitor": {
+            "type": "string",
+            "description": "Número de monitor, si se configuró.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Un monitor de cocina (KDS) configurado en el punto de venta."
+      },
+      "MonitorItemDto": {
+        "type": "object",
+        "properties": {
+          "movimiento": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "cantidad": {
+            "type": "number",
+            "format": "double"
+          },
+          "comentario": {
+            "type": "string",
+            "nullable": true
+          },
+          "tiempo": {
+            "type": "string",
+            "nullable": true
+          },
+          "hora": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "esModificador": {
+            "type": "boolean"
+          },
+          "idProductoCompuesto": {
+            "type": "string",
+            "nullable": true
+          },
+          "esPrincipal": {
+            "type": "boolean"
+          },
+          "estadoMonitor": {
+            "type": "integer",
+            "description": "Estado del producto en el monitor, tal como lo guarda SoftRestaurant (0 = en cola).",
+            "format": "int32"
+          },
+          "horaProduccion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "minutosPreparacion": {
+            "type": "number",
+            "format": "double"
+          },
+          "minutosAlerta": {
+            "type": "number",
+            "format": "double"
+          },
+          "cancelado": {
+            "type": "boolean"
+          },
+          "recall": {
+            "type": "boolean"
+          },
+          "horaRecall": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "idEstacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "prioridad": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Un producto en la cola de un monitor de cocina."
+      },
+      "MonitorOrdenesResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "idMonitor": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalTickets": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tickets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MonitorTicketDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MonitorTicketDto": {
+        "type": "object",
+        "properties": {
+          "folio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mesa": {
+            "type": "string",
+            "nullable": true
+          },
+          "orden": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipoServicio": {
+            "type": "integer",
+            "description": "Tipo de servicio de la cuenta, como lo guarda el punto de venta.",
+            "format": "int32",
+            "nullable": true
+          },
+          "idMesero": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreMesero": {
+            "type": "string",
+            "nullable": true
+          },
+          "impreso": {
+            "type": "boolean"
+          },
+          "pagado": {
+            "type": "boolean"
+          },
+          "hora": {
+            "type": "string",
+            "description": "Hora de captura del primer producto de la cuenta en este monitor.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MonitorItemDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Una cuenta (folio) en la cola de un monitor de cocina, con sus productos en producción."
+      },
+      "MonitoresResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "monitores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MonitorDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -11945,6 +12366,9 @@
     },
     {
       "name": "Facturas"
+    },
+    {
+      "name": "Monitores"
     },
     {
       "name": "Impresoras"
