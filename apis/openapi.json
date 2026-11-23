@@ -6811,6 +6811,207 @@
         "x-fern-sdk-group-name": "monitores",
         "x-fern-sdk-method-name": "getMonitorOrdenes"
       }
+    },
+    "/api/v1/proveedores/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Proveedores"
+        ],
+        "summary": "Listar proveedores",
+        "description": "Lista el catálogo de proveedores configurados en el punto de venta, ordenado por nombre. search filtra por clave, nombre, razón social o RFC.",
+        "operationId": "GetProveedores",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProveedoresResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "proveedores",
+        "x-fern-sdk-method-name": "getProveedores"
+      }
+    },
+    "/api/v1/insumos/unidades/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Insumos"
+        ],
+        "summary": "Listar unidades de medida",
+        "description": "Devuelve el catálogo de unidades de medida configuradas en el punto de venta, ordenado por clave. idUnidad es el valor que guardan los insumos en su campo unidad; idUnidadMedidaSat es la clave de unidad del SAT.",
+        "operationId": "GetUnidadesMedida",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnidadesMedidaResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "insumos",
+        "x-fern-sdk-method-name": "getUnidadesMedida"
+      }
     }
   },
   "components": {
@@ -11584,6 +11785,140 @@
         },
         "additionalProperties": false
       },
+      "ProveedorDto": {
+        "type": "object",
+        "properties": {
+          "idProveedor": {
+            "type": "string",
+            "description": "Clave del proveedor en el Punto de Venta.",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "razonSocial": {
+            "type": "string",
+            "nullable": true
+          },
+          "direccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoPostal": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "fax": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "rfc": {
+            "type": "string",
+            "nullable": true
+          },
+          "credito": {
+            "type": "number",
+            "description": "Crédito del proveedor tal como lo guarda el Punto de Venta.",
+            "format": "double"
+          },
+          "usarCostosAsignados": {
+            "type": "boolean"
+          },
+          "usarEnPoliza": {
+            "type": "boolean"
+          },
+          "idTipoProveedor": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoProveedor": {
+            "type": "string",
+            "description": "Descripción del tipo de proveedor.",
+            "nullable": true
+          },
+          "idCuentaContable": {
+            "type": "string",
+            "nullable": true
+          },
+          "cuentaContable": {
+            "type": "string",
+            "description": "Descripción de la cuenta contable asociada.",
+            "nullable": true
+          },
+          "nombreBanco": {
+            "type": "string",
+            "nullable": true
+          },
+          "noCuenta": {
+            "type": "string",
+            "nullable": true
+          },
+          "cuentaClave": {
+            "type": "string",
+            "nullable": true
+          },
+          "estatus": {
+            "type": "integer",
+            "description": "Estatus del proveedor tal como lo guarda el Punto de Venta.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProveedoresResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "proveedores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProveedorDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "RecetaAlmacenAreaDto": {
         "type": "object",
         "properties": {
@@ -12173,6 +12508,51 @@
         },
         "additionalProperties": false
       },
+      "UnidadMedidaDto": {
+        "type": "object",
+        "properties": {
+          "idUnidad": {
+            "type": "string",
+            "description": "Clave de la unidad en el Punto de Venta (p. ej. KGS, LTS, PZA); es el valor que guardan los insumos en su campo unidad.",
+            "nullable": true
+          },
+          "idUnidadMedidaSat": {
+            "type": "string",
+            "description": "Clave de unidad de medida del SAT (p. ej. KGM, LTR, H87).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UnidadesMedidaResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unidades": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UnidadMedidaDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdatePrinterRequest": {
         "required": [
           "printerIp",
@@ -12330,6 +12710,9 @@
     },
     {
       "name": "Inventario"
+    },
+    {
+      "name": "Proveedores"
     },
     {
       "name": "Estaciones"
