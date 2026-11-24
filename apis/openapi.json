@@ -7012,6 +7012,246 @@
         "x-fern-sdk-group-name": "insumos",
         "x-fern-sdk-method-name": "getUnidadesMedida"
       }
+    },
+    "/api/v1/compras/{licenseKey}": {
+      "get": {
+        "tags": [
+          "Compras"
+        ],
+        "summary": "Listar compras",
+        "description": "Lista las compras a proveedores registradas en el punto de venta, de la más reciente a la más antigua por folio. idEmpresa limita el resultado a una empresa; search filtra por folio, folio de factura, nombre del proveedor o referencia; fechaStart/fechaEnd (inclusivos, ISO 8601) filtran por fecha de aplicación; cancelado filtra por estado de cancelación. Los impuestos del encabezado son importes. Para las partidas de una compra usa GET /compras/{licenseKey}/{idCompra}.",
+        "operationId": "GetCompras",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idEmpresa",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fechaStart",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fechaEnd",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "cancelado",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComprasResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "compras",
+        "x-fern-sdk-method-name": "getCompras"
+      }
+    },
+    "/api/v1/compras/{licenseKey}/{idCompra}": {
+      "get": {
+        "tags": [
+          "Compras"
+        ],
+        "summary": "Obtener una compra",
+        "description": "Devuelve el encabezado de una compra y sus partidas: presentación de insumo, almacén de entrada, cantidad, costo e impuestos. En las partidas, impuesto1..3 son tasas en porcentaje (16 = 16%) e impuestoNImporte son los importes. Responde 404 si la compra no existe.",
+        "operationId": "GetCompra",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "description": "API key secreta de tu cuenta. Se envía en cada solicitud.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ejemplo": {
+                "value": "TU_API_KEY"
+              }
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idCompra",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompraDetalleResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency — el worker no pudo ejecutar la operación (error del POS) o no respondió a tiempo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-fern-sdk-group-name": "compras",
+        "x-fern-sdk-method-name": "getCompra"
+      }
     }
   },
   "components": {
@@ -8012,6 +8252,263 @@
           },
           "descripcion": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompraDetalleResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "compra": {
+            "$ref": "#/components/schemas/CompraDto"
+          },
+          "movimientos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompraMovimientoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompraDto": {
+        "type": "object",
+        "properties": {
+          "idCompra": {
+            "type": "integer",
+            "description": "Id interno de la compra; es la clave para consultar su detalle.",
+            "format": "int64"
+          },
+          "idEmpresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "folio": {
+            "type": "string",
+            "description": "Folio de la compra, consecutivo por empresa.",
+            "nullable": true
+          },
+          "fechaAplicacion": {
+            "type": "string",
+            "description": "Fecha en que se aplicó la compra al inventario.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "idProveedor": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreProveedor": {
+            "type": "string",
+            "description": "Nombre del proveedor; null si el proveedor ya no existe en el catálogo.",
+            "nullable": true
+          },
+          "folioFactura": {
+            "type": "string",
+            "description": "Folio de la factura del proveedor.",
+            "nullable": true
+          },
+          "fechaFactura": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "fechaVencimiento": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "usuario": {
+            "type": "string",
+            "description": "Usuario del Punto de Venta que registró la compra.",
+            "nullable": true
+          },
+          "referencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "cancelado": {
+            "type": "boolean"
+          },
+          "usuarioCancelo": {
+            "type": "string",
+            "nullable": true
+          },
+          "descuento": {
+            "type": "number",
+            "description": "Descuento de la compra tal como lo guarda el Punto de Venta.",
+            "format": "double"
+          },
+          "subtotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto1": {
+            "type": "number",
+            "description": "Importe del impuesto 1 de la compra (monto, no tasa).",
+            "format": "double"
+          },
+          "impuesto2": {
+            "type": "number",
+            "description": "Importe del impuesto 2 de la compra (monto, no tasa).",
+            "format": "double"
+          },
+          "impuesto3": {
+            "type": "number",
+            "description": "Importe del impuesto 3 de la compra (monto, no tasa).",
+            "format": "double"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompraMovimientoDto": {
+        "type": "object",
+        "properties": {
+          "idPresentacion": {
+            "type": "string",
+            "description": "Presentación de insumo comprada.",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "description": "Descripción de la presentación; null si ya no existe en el catálogo.",
+            "nullable": true
+          },
+          "idInsumo": {
+            "type": "string",
+            "description": "Insumo al que pertenece la presentación.",
+            "nullable": true
+          },
+          "idAlmacen": {
+            "type": "string",
+            "description": "Almacén al que entró la mercancía.",
+            "nullable": true
+          },
+          "nombreAlmacen": {
+            "type": "string",
+            "nullable": true
+          },
+          "cantidad": {
+            "type": "number",
+            "format": "double"
+          },
+          "costo": {
+            "type": "number",
+            "description": "Costo unitario sin impuestos.",
+            "format": "double"
+          },
+          "costoConImpuesto": {
+            "type": "number",
+            "description": "Costo unitario con el impuesto 1 aplicado, como lo calcula el Punto de Venta.",
+            "format": "double"
+          },
+          "descuento": {
+            "type": "number",
+            "description": "Descuento de la partida tal como lo guarda el Punto de Venta.",
+            "format": "double"
+          },
+          "impuesto1": {
+            "type": "number",
+            "description": "Tasa del impuesto 1 en porcentaje (16 = 16%).",
+            "format": "double"
+          },
+          "impuesto1Importe": {
+            "type": "number",
+            "description": "Importe del impuesto 1 de la partida.",
+            "format": "double"
+          },
+          "impuesto2": {
+            "type": "number",
+            "description": "Tasa del impuesto 2 en porcentaje.",
+            "format": "double"
+          },
+          "impuesto2Importe": {
+            "type": "number",
+            "format": "double"
+          },
+          "impuesto3": {
+            "type": "number",
+            "description": "Tasa del impuesto 3 en porcentaje.",
+            "format": "double"
+          },
+          "impuesto3Importe": {
+            "type": "number",
+            "format": "double"
+          },
+          "importeSinImpuestos": {
+            "type": "number",
+            "format": "double"
+          },
+          "importeConImpuestos": {
+            "type": "number",
+            "format": "double"
+          },
+          "idOrdenCompra": {
+            "type": "integer",
+            "description": "Id de la orden de compra de la que proviene la partida; null si no proviene de una.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ComprasResponse": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dispatchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "compras": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompraDto"
+            },
             "nullable": true
           }
         },
@@ -12713,6 +13210,9 @@
     },
     {
       "name": "Proveedores"
+    },
+    {
+      "name": "Compras"
     },
     {
       "name": "Estaciones"
