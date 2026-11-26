@@ -1415,7 +1415,9 @@
           },
           "contrasenaControl": {
             "type": "string",
-            "nullable": true
+            "description": "Obsoleto: siempre vacío. La contraseña ya no sale del punto de venta. Este campo se eliminará en una versión futura.",
+            "nullable": true,
+            "deprecated": true
           },
           "idHardware": {
             "type": "string",
@@ -1483,7 +1485,9 @@
           },
           "passwordEmpresa": {
             "type": "string",
-            "nullable": true
+            "description": "Obsoleto: siempre vacío. La contraseña ya no sale del punto de venta. Este campo se eliminará en una versión futura.",
+            "nullable": true,
+            "deprecated": true
           }
         },
         "additionalProperties": false
@@ -1593,7 +1597,9 @@
           },
           "contrasena": {
             "type": "string",
-            "nullable": true
+            "description": "Obsoleto: siempre vacío. El NIP del mesero ya no sale del punto de venta; para validarlo use `POST /meseros/login/{licenseKey}`. Este campo se eliminará en una versión futura.",
+            "nullable": true,
+            "deprecated": true
           },
           "tipo": {
             "type": "integer",
