@@ -5793,19 +5793,19 @@
               "schema": {
                 "$ref": "#/components/schemas/PrintOpenOrderRequest"
               },
-              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05","includeOrderComments":true}
+              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05","includeOrderComments":true,"includeCaptureTimes":true}
             },
             "text/json": {
               "schema": {
                 "$ref": "#/components/schemas/PrintOpenOrderRequest"
               },
-              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05","includeOrderComments":true}
+              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05","includeOrderComments":true,"includeCaptureTimes":true}
             },
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/PrintOpenOrderRequest"
               },
-              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05","includeOrderComments":true}
+              "example": {"imprimirTicket":true,"printerId":null,"usuario":"05","includeOrderComments":true,"includeCaptureTimes":true}
             }
           }
         },
@@ -11819,6 +11819,10 @@
           "includeOrderComments": {
             "type": "boolean",
             "description": "Si el ticket incluye el comentario de cada producto, impreso debajo del renglón al que\r\npertenece. Por omisión `false`, para no cambiar el ticket de quien ya consume este\r\nendpoint.\r\n            \r\nEl comentario se lee de `tempcheqdet.comentario` de la propia cuenta — el que el punto\r\nde venta tiene guardado, no uno enviado en esta llamada — así que refleja cualquier cambio\r\nhecho desde SoftRestaurant. Un producto sin comentario no imprime renglón extra."
+          },
+          "includeCaptureTimes": {
+            "type": "boolean",
+            "description": "Si el ticket incluye la hora en que se capturó cada producto (`Capturado HH:mm`),\r\nimpresa al cierre del renglón del producto, después de sus modificadores. Por omisión\r\n`false`, para no cambiar el ticket de quien ya consume este endpoint.\r\n            \r\nLa hora se lee de `tempcheqdet.hora` de la propia cuenta, en la hora local del punto\r\nde venta, tal como SoftRestaurant la guardó. Un renglón sin hora no imprime renglón extra."
           }
         },
         "additionalProperties": false,
